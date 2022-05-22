@@ -10,13 +10,14 @@ import com.ssafy.vue.dto.RegionDto;
 public interface InterestMapMapper {
 	
 	// 공지 등록
-	void insertInterest(RegionDto interestDto) throws Exception;
+	int insertInterest(RegionDto interestDto) throws Exception;
 
 	// 공지삭제
-	void deleteInterest(int InterestID) throws Exception;
+	int deleteInterest(int InterestId) throws Exception;
 	
 	// 리스트
-	public List<RegionDto> searchByUserID(String userid) throws Exception;
+	public List<RegionDto> searchByUserID(String userId) throws Exception;
+
 
 
 }
