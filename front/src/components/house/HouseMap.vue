@@ -77,6 +77,10 @@ export default {
       // if (this.markers.length > 0) {
       //   this.markers.forEach((marker) => marker.setMap(null));
       // }
+      var markers = this.markers;
+      for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
 
       const positions = markerPositions.map((position) => {
         return new kakao.maps.LatLng(...position);

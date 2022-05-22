@@ -70,6 +70,12 @@
               주변상권조회</router-link
             ></b-nav-item
           >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'interestregion' }" class="link"
+              ><b-icon icon="calendar-check" font-scale="1.5"></b-icon>
+              관심지역조회</router-link
+            ></b-nav-item
+          >
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto" v-if="userInfo">
