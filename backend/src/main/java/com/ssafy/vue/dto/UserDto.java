@@ -15,6 +15,7 @@ public class UserDto {
 
 	private String userId;
 	private String userPwd;
+	private String preUserPwd;
 	private String userEmail;
 	private String userName;
 	private String userBirth;
@@ -106,6 +107,16 @@ public class UserDto {
 	
 	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
+	}
+
+
+	public String getPreUserPwd() {
+		return preUserPwd;
+	}
+
+
+	public void setPreUserPwd(String preUserPwd) {
+		this.preUserPwd = preUserPwd;
 	}
 
 

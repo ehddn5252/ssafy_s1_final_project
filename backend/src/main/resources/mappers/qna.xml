@@ -32,9 +32,9 @@
 	
 	
    <select id="selectQnaByName" parameterType="map" resultType="QnaDto">
-      select q.qnano, q.subject, q.userid, q.content, q.hit, q.regtime, m.username
-      from qna q, ssafy_member m
-      where q.userid = m.userid
+      select q.qnano, q.subject, q.userid, q.content, q.hit, q.regtime, m.userName
+      from qna q, user m
+      where q.userid = m.userId
       <include refid="search"></include>
       order by q.qnano desc
       limit #{start}, #{spp}

@@ -25,14 +25,16 @@
               v-model="userInfo.userId"
               type="text"
               required
+              @keyup="idCheck"
               placeholder="아이디 입력..."
             ></b-form-input>
             <b-form-invalid-feedback :state="validation">
-              Your user ID must be 5-12 characters long.
+              5-12자의 아이디를 입력해주세요.
             </b-form-invalid-feedback>
-            <b-form-valid-feedback :state="validation">
-              Looks Good.
+            <b-form-valid-feedback :state="!idcheck && validation">
+              가능한 아이디 입니다.
             </b-form-valid-feedback>
+            <div :v-if="idcheck">중복된 아이디가 있습니다.</div>
           </b-form-group>
           <b-form-group
             id="userPhone-group"
@@ -138,6 +140,7 @@ export default {
         userBirth: "",
       },
       type: "",
+      idcheck: false,
     };
   },
 
@@ -213,19 +216,12 @@ export default {
     registUserInfo() {
       console.log("in registerUserInfo");
       http
-        .post(`/user/register`, {
-          userId: this.userInfo.userId,
-          userName: this.userInfo.userName,
-          phoneNum: this.userInfo.phoneNum,
-          userEmail: this.userInfo.userEmail,
-          userPwd: this.userInfo.userPwd,
-          userGender: this.userInfo.userGender,
-          userBirth: this.userInfo.userBirth,
-        })
+        .post(`/user/register`, this.userInfo)
         .then(({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
-          if (data === "success") {
+          if (data === 1) {
             msg = "등록이 완료되었습니다.";
+            this.$router.push({ name: "home" });
           }
           alert(msg);
         })
@@ -235,6 +231,18 @@ export default {
     },
     moveList() {
       this.$router.push({ name: "signUp" });
+    },
+    idCheck() {
+      // 중복되면 idcheck true
+      console.log(this.userInfo.userId);
+      console.log(this.idcheck);
+      http
+        .get(`/user/idcheck?ckid=${this.userInfo.userId}`)
+        .then(({ data }) => {
+          if (data.idcount == 1) {
+            this.idcheck = true;
+          }
+        });
     },
   },
 };

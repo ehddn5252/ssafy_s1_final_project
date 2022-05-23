@@ -117,6 +117,9 @@ export default new Vuex.Store({
       state.avgs = avgs;
     },
 
+    SET_ARTICLENO(state, articleno) {
+      state.articleno = articleno;
+    },
     SET_QNANO(state, qnano) {
       state.qnano = qnano;
     },

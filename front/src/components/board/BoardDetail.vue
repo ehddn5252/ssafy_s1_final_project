@@ -44,18 +44,41 @@
         </b-card>
       </b-col>
     </b-row>
+
+    <!-- 댓글 -->
+    <b-col v-if="article.articleno">
+      <b-row>
+        <b-col>
+          <comments-input></comments-input>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <comments-list
+            v-bind="{ articleno: article.articleno }"
+            ref="CommentsList"
+          ></comments-list>
+        </b-col>
+      </b-row>
+    </b-col>
   </b-container>
 </template>
 
 <script>
 // import moment from "moment";
 import http from "@/api/http";
+import CommentsList from "@/components/board/CommentsList";
+import CommentsInput from "@/components/board/CommentsInput";
 
 import { mapState } from "vuex";
 const memberStore = "memberStore";
 
 export default {
   name: "BoardDetail",
+  components: {
+    CommentsInput,
+    CommentsList,
+  },
   data() {
     return {
       article: {},
@@ -71,6 +94,8 @@ export default {
     },
   },
   created() {
+    this.$store.commit("SET_ARTICLENO", this.$route.params.articleno);
+
     http.put(`/board/hit/${this.$route.params.articleno}`).then(() => {
       http
         .get(`/board/${this.$route.params.articleno}/${this.userInfo.userId}`)

@@ -24,6 +24,9 @@
 			<if test="userEmail != null">userEmail = #{userEmail},</if>
 		</trim>
 		where userId = #{userId}
+		<trim prefix=" and ">
+			<if test="preUserPwd != null">userPwd = #{preUserPwd}</if>
+		</trim>
 	</update>
 	
 	<delete id="deleteUser" parameterType="string">
@@ -38,10 +41,10 @@
 		where userId = #{userId}
 	</select>
 	
-	<select id="searchPwdById" parameterType="string" resultType="String">
+	<select id="searchPwdById" parameterType="Map" resultType="String">
 		select userPwd		
 		from user
-		where userId = #{userId}
+		where userEmail = #{userEmail} and phoneNum = #{phoneNum}
 	</select>
 	
 	<select id="login" parameterType="UserDto" resultType="UserDto">

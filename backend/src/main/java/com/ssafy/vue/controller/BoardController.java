@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.util.PageNavigation;
 import com.ssafy.vue.dto.Board;
+import com.ssafy.vue.dto.QnaDto;
 import com.ssafy.vue.service.BoardService;
 
 import io.swagger.annotations.ApiOperation;
@@ -36,12 +39,34 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
+//	public ResponseEntity<List<Board>> retrieveBoard() throws Exception {
+//		logger.debug("retrieveBoard - 호출");
+//		return new ResponseEntity<List<Board>>(boardService.retrieveBoard(), HttpStatus.OK);
+//	}
+    
     @ApiOperation(value = "모든 게시글의 정보를 반환한다.", response = List.class)
-	@GetMapping
-	public ResponseEntity<List<Board>> retrieveBoard() throws Exception {
-		logger.debug("retrieveBoard - 호출");
-		return new ResponseEntity<List<Board>>(boardService.retrieveBoard(), HttpStatus.OK);
-	}
+    @GetMapping
+    public ResponseEntity<?> list(@RequestParam Map<String, String> map) throws Exception {
+    	logger.debug("list - 호출");
+    	System.out.println(map.toString());
+       String spp = map.get("spp"); // size per page (페이지당 글갯수)
+       map.put("spp", spp != null ? spp : "10");
+       List<Board> list = boardService.selectBoardByName(map);
+       PageNavigation pageNavigation = boardService.makePageNavigation(map);
+       System.out.println("pageNavigation");
+       System.out.println(pageNavigation.getNavigator());
+       
+       Map<String,Object> retMap = new HashMap<String,Object>(); 
+       retMap.put("boardlist", list);
+       retMap.put("navigation", pageNavigation);
+//       System.out.println(list.get(0).toString());
+       
+       if (list != null && !list.isEmpty()) {
+          return new ResponseEntity<Map>(retMap, HttpStatus.OK);
+       } else {
+          return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+       }
+    }
     
     @ApiOperation(value = "게시물을 보면 조회수가 올라간다.", response = String.class)
     @PutMapping("/hit/{articleno}")

@@ -6,26 +6,26 @@
 
 	
 	<!-- 해당 qna에 대한 댓글 조회 -->
-	<select id="selectCommentByQna" parameterType="int" resultType="CommentsDto">
-		select commentsno, userid, qnano, content, regtime
+	<select id="selectCommentByBoard" parameterType="int" resultType="CommentsDto">
+		select commentsno, userid, articleno, content, regtime
 		from comments
-		where qnano=#{qnano}
+		where articleno=#{articleno}
 	</select>
 	
 
 	<!-- 댓글 등록 -->
 	<insert id="insertComments" parameterType="CommentsDto">
 		insert into comments(
-			userid, qnano, content
+			userid, articleno, content
 		) values (
-			#{userid}, #{qnano}, #{content}
+			#{userid}, #{articleno}, #{content}
 		)
 	</insert>
 	
 	<!-- 댓글 수정 -->
 	<update id="updateComments" parameterType="CommentsDto">
 		update comments
-		   set qnano = #{qnano}, 
+		   set articleno = #{articleno}, 
 		   	   userid = #{userid}, 
 		   	   content = #{content}
 		 where commentsno = #{commentsno}
