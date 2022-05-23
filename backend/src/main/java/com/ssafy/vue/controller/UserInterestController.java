@@ -1,6 +1,5 @@
 package com.ssafy.vue.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,50 +11,84 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.vue.service.HouseMapService;
 import com.ssafy.vue.service.InterestMapService;
-import com.ssafy.vue.dto.HouseInfoDto;
+
+import io.swagger.annotations.ApiOperation;
+
 import com.ssafy.vue.dto.RegionDto;
-import com.ssafy.vue.dto.SidoGugunCodeDto;
 
 
 // CrossOrigin("localhost:8080") 은 해당 사용자만 사용할 수 있게 한다.
-@RestController
-@RequestMapping("")
 @CrossOrigin("*")
+@RestController
+@RequestMapping("/interest")
 public class UserInterestController {
 	
 	private final Logger logger = LoggerFactory.getLogger(UserInterestController.class);
 
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+	
+
+	
 	@Autowired
 	private InterestMapService interestService;
+	
+//	@GetMapping("/list")
+//	public String interest(){
+//		return "interest";
+//	}
+	
+	@GetMapping("/list")
+	public ResponseEntity<List<RegionDto>> interestList(@RequestParam("userId") String userId) throws Exception {
+		System.out.println("select list 들어와짐");
 
-	/*
-	 * @GetMapping("/interest") public ResponseEntity<List<RegionDto>>
-	 * searchByUserID(@RequestParam("userid") String userid) throws SQLException{
-	 * return new
-	 * ResponseEntity<List<RegionDto>>(interestService.searchByUserID(userid),
-	 * HttpStatus.OK); }
-	 */
-
-	@PostMapping("/interest/insert")
-	public void insertInterest(@RequestBody RegionDto r) throws Exception{
-		System.out.println("in UserInterestController");
-		logger.debug(r.getUserId()+" "+r.getSidoCode()+" "+r.getSigugunCode()+" "+r.getDongCode());
-
-		interestService.insertInterest(r);
+		return new ResponseEntity<List<RegionDto>>(interestService.searchByUserID(userId),HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/list")
+	public ResponseEntity<String> interestDelete(@RequestParam("interestId") int interestId) throws Exception {
+		System.out.println("delete list 들어와짐");
+		if (interestService.deleteInterest(interestId)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	/*
-	 * @DeleteMapping("/interest") public void deleteInterest(int interestID) throws
-	 * Exception{ logger.debug("delete:{}",interestID);
-	 * interestService.deleteInterest(interestID); }
-	 */
+	
+	@PostMapping("/insert")
+	public ResponseEntity<String> insertInterest(@RequestBody RegionDto r) throws Exception{
+		System.out.println("in UserInterestController");
+		System.out.println(r.getUserId());
+		System.out.println(r.getSigugunCode());
+		System.out.println(r.getDongCode());
+		System.out.println(r.getAreaName());
+		System.out.println("==============");
+		logger.debug(r.getUserId()+" "+r.getSidoCode()+" "+r.getSigugunCode()+" "+r.getDongCode());
+		if(interestService.insertInterest(r)){
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+//    @ApiOperation(value = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+//	@PostMapping
+//	public ResponseEntity<String> writeBoard(@RequestBody RegionDto r) throws Exception {
+//		logger.debug("writeBoard - 호출");
+//		if (interestService.insertInterest(r)) {
+//			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+//	}
+
+
 }

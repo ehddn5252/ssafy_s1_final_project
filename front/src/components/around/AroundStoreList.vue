@@ -6,9 +6,12 @@
     <around-store-list-item
       v-for="(aroundStore, index) in aroundStores"
       :key="index"
+      :page="index"
+      :maxPage="maxPage"
       :aroundStore="aroundStore"
     >
     </around-store-list-item>
+    <b-button @click="morePages">더보기</b-button>
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
     <b-row>
@@ -27,13 +30,20 @@ export default {
     AroundStoreListItem,
   },
   data() {
-    return {};
+    return {
+      maxPage: 5,
+    };
   },
   computed: {
     ...mapState(["aroundStores"]),
     // houses() {
     //   return this.$store.state.houses;
     // },
+  },
+  methods: {
+    morePages() {
+      this.maxPage += 5;
+    },
   },
 };
 </script>

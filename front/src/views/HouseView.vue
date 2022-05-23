@@ -14,12 +14,14 @@
       </b-col>
 
       <b-col>
-        <b-row>
-          <house-map></house-map>
-        </b-row>
-        <b-row>
-          <house-detail></house-detail>
-        </b-row>
+        <div style="position: fixed">
+          <b-row>
+            <house-map></house-map>
+          </b-row>
+          <b-row>
+            <house-detail></house-detail>
+          </b-row>
+        </div>
       </b-col>
     </b-row>
   </b-container>

@@ -105,6 +105,7 @@ export default {
       this.map.relayout();
     },
     displayMarker(markerPositions) {
+
       // 기존에 있던 원 없앰
       var circles = this.circles;
       for (var i = 0; i < circles.length; i++) {
@@ -117,6 +118,7 @@ export default {
           markers[i].setMap(null);
         }
         this.markers = [];
+
       }
 
       // console.log("markerPositions");

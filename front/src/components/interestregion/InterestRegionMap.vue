@@ -1,5 +1,5 @@
 <template>
-  <div class="map_wrap">
+  <div class="map_wrap" style="position: fixed">
     <div
       id="map"
       style="width: 500px; height: 500px; position: relative; overflow: hidden"
@@ -15,7 +15,7 @@
 import { mapActions } from "vuex";
 
 export default {
-  name: "AroundStoreMap",
+  name: "InterestRegionMap",
   data() {
     return {
       markers: [],
@@ -23,12 +23,18 @@ export default {
     };
   },
   watch: {
-    aroundStoreLatLon: function (val) {
+    userInterestHouseLatLon: function (val) {
+      this.displayMarker(val);
+    },
+    userInterestAroundStoreLatLon: function (val) {
       this.displayMarker(val);
     },
   },
   computed: {
-    aroundStoreLatLon() {
+    userInterestHouseLatLon() {
+      return this.$store.getters.houseLatLng;
+    },
+    userInterestAroundStoreLatLon() {
       return this.$store.getters.aroundStoreLatLon;
     },
   },
@@ -68,17 +74,15 @@ export default {
       this.map.relayout();
     },
     displayMarker(markerPositions) {
-      // this.markers = this.$store.state.mapList;
       console.log("markerPositions");
       console.log(markerPositions);
-      // if (this.markers.length > 0) {
-      //   this.markers.forEach((marker) => marker.setMap(null));
-      // }
+
       var markers = this.markers;
       for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
       }
       this.markers = [];
+
       const positions = markerPositions.map((position) => {
         return new kakao.maps.LatLng(...position);
       });
@@ -88,9 +92,9 @@ export default {
           return new kakao.maps.Marker({ map: this.map, position });
         });
         console.log("positions");
-        // for (let i = 0; i < positions.length; ++i) {
-        //   console.log(positions[i]);
-        // }
+        for (let i = 0; i < positions.length; ++i) {
+          console.log(positions[i]);
+        }
         var bounds = new kakao.maps.LatLngBounds();
         for (let i = 0; i < positions.length; i++) {
           bounds.extend(positions[i]);
@@ -123,43 +127,6 @@ export default {
       document.head.appendChild(script);
     }
   },
-
-  //   const script = document.createElement("script");
-  //   // script.type = "text/javascript";
-  //   script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_KAKAO_API_KEY}&libraries=services&autoload=false`;
-  //   document.head.appendChild(script);
-  //   const positions = this.$store.state.aroundStore;
-
-  //   var mapContainer = document.getElementById("map"), // 지도를 표시할 div
-  //     mapOption = {
-  //       center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-  //       level: 5, // 지도의 확대 레벨
-  //     };
-
-  //   var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-  //   // 마커 이미지의 이미지 주소입니다
-  //   var imageSrc =
-  //     "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
-  //   for (var i = 0; i < positions.length; i++) {
-  //     // 마커 이미지의 이미지 크기 입니다
-  //     var imageSize = new kakao.maps.Size(24, 35);
-
-  //     // 마커 이미지를 생성합니다
-  //     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-  //     // 마커를 생성합니다
-  //     var marker = new kakao.maps.Marker({
-  //       map: map, // 마커를 표시할 지도
-  //       position: new kakao.maps.LatLng(positions[i].lat, positions[i].lng), //positions[i].latlng, // 마커를 표시할 위치
-  //       title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-  //       image: markerImage, // 마커 이미지
-  //     });
-  //     console.log(marker);
-  //   }
-  //   map.setCenter(positions[0].latlng);
-  // },
 };
 </script>
 

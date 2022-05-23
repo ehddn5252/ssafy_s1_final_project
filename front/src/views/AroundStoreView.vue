@@ -12,15 +12,16 @@
       <b-col cols="6" align="left">
         <around-store-list />
       </b-col>
-
-      <b-col>
-        <b-row>
-          <around-store-map></around-store-map>
-        </b-row>
-        <b-row>
-          <around-store-detail></around-store-detail>
-        </b-row>
-      </b-col>
+      <div style="postion: fixed">
+        <b-col>
+          <b-row>
+            <around-store-map></around-store-map>
+          </b-row>
+          <b-row>
+            <around-store-detail></around-store-detail>
+          </b-row>
+        </b-col>
+      </div>
     </b-row>
     <!-- <router-view></router-view> -->
   </b-container>
