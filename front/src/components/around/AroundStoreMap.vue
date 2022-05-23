@@ -88,9 +88,9 @@ export default {
           return new kakao.maps.Marker({ map: this.map, position });
         });
         console.log("positions");
-        for (let i = 0; i < positions.length; ++i) {
-          console.log(positions[i]);
-        }
+        // for (let i = 0; i < positions.length; ++i) {
+        //   console.log(positions[i]);
+        // }
         var bounds = new kakao.maps.LatLngBounds();
         for (let i = 0; i < positions.length; i++) {
           bounds.extend(positions[i]);

@@ -234,7 +234,6 @@ export default new Vuex.Store({
       http
         .get(`/map/sido`)
         .then(({ data }) => {
-          console.log(data);
           commit("SET_SIDO_LIST", data);
         })
         .catch((error) => {
@@ -286,8 +285,7 @@ export default new Vuex.Store({
       //const params = { sido: sidoCode, sigugun: gugunCode, dong: dongCode };
       // const ctprvnCd = datas.sidoCode;
       const signguCd = datas.gugunCode;
-      const adongCd = datas.dongCode;
-      console.log(adongCd);
+      // const adongCd = datas.dongCode;
       // const SERVICE_KEY ="yOYPxjA2Luqpjh8gS0r0pw69WoBHUn5HXJzTznjhCK78Aab2ZiFJ5pAGNq%2FLoVzbI1pCfMG10RPiGyk%2BqfFAIQ%3D%3D"; //process.env.VUE_APP_APT_DEAL_API_KEY;
       const DECODE_SERVICE_KEY =
         "yOYPxjA2Luqpjh8gS0r0pw69WoBHUn5HXJzTznjhCK78Aab2ZiFJ5pAGNq/LoVzbI1pCfMG10RPiGyk+qfFAIQ==";
@@ -308,10 +306,7 @@ export default new Vuex.Store({
       http
         .get(SERVICE_URL, { params })
         .then(({ data }) => {
-          // console.log("data.body.items");
-          // console.log(data.body.items);
           commit("SET_AROUND_STORE_LIST", data.body.items);
-          //commit("SET_AROUND_STORE_LIST", data.body.items);
         })
         .catch((error) => {
           console.log(error);
@@ -346,7 +341,6 @@ export default new Vuex.Store({
         .get(`/map/apt2`, { params })
         .then(({ data }) => {
           console.log("commit, data");
-          console.log(data);
           commit("CLEAR_AROUND_STORES_LIST");
           commit("SET_HOUSE_LIST", data);
         })

@@ -37,7 +37,7 @@ export default {
   created() {
     console.log("created");
     const params = {
-      userId: "ssafy", //this.userInfo.userId,
+      userId: this.userInfo.userId, // 로그인 안하고 할 때 "ssafy",
     };
     http
       .get(`/interest/list`, { params })
