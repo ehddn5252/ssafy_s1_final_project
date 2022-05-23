@@ -7,6 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.vue.dto.SidoGugunCodeDto;
 import com.ssafy.vue.dto.HouseInfoDto;
+import com.ssafy.vue.dto.HouseDealDto;
+
+
+
 @Mapper
 public interface HouseMapMapper {
 
@@ -25,4 +29,7 @@ public interface HouseMapMapper {
 	//	------ 지도 평균값을 위한 함수------
 	List<HouseInfoDto> getDongList(String gugun) throws SQLException;
 	List<HouseInfoDto> getLngLat(String dongName) throws SQLException;
+	
+	// 2022.05.23 house deal 부분 리턴하기 위해서 추가
+	List<HouseDealDto> getHouseDealInApt(String dongCode, String aptCode);
 }

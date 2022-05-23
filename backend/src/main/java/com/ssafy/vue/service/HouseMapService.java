@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ssafy.vue.dto.SidoGugunCodeDto;
 import com.ssafy.vue.dto.HouseInfoDto;
+import com.ssafy.vue.dto.HouseDealDto;
 
 public interface HouseMapService {
 
@@ -24,5 +25,6 @@ public interface HouseMapService {
 	  List<HouseInfoDto> getLngLat(String dongName) throws SQLException;
 
 // ------------------------------
-	
+	// 05.23 모달house deal 추가
+	  List<HouseDealDto> getHouseDealInApt(String dongCode, String aptCode);
 }
