@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import http from "@/api/http";
 // import tmap from "@/api/tmap";
 import memberStore from "@/store/modules/memberStore.js";
-import { findApt } from "@/api/findApt";
+// import { findApt } from "@/api/findApt";
 
 // import axios from "axios";
 
@@ -148,18 +148,11 @@ export default new Vuex.Store({
     SET_HOUSE_LIST(state, houses) {
       console.log("SET_HOUSE_LIST 처음", houses);
       state.houses = [];
-      console.log("house", houses[0]);
-      console.log("apartmentName", houses[0]["apartmentName"]);
-      console.log("aroundStr", houses[0]["aroundStr"]);
-      for (let house of houses) {
-        var h = {};
-        for (let key in house) {
-          h[key] = house[key];
-        }
-        console.log("h", h);
-        state.houses.push(h);
-      }
-      // state.houses = JSON.parse(JSON.stringify(houses));
+      // console.log("house", houses[0]);
+      // console.log("apartmentName", houses[0]["apartmentName"]);
+      // console.log("aroundStr", houses[0]["aroundStr"]);
+
+      state.houses = JSON.parse(JSON.stringify(houses));
       state.houseMapList = JSON.parse(JSON.stringify(houses));
       console.log("SET_HOUSE_LIST 끝", state.houses);
     },
@@ -345,7 +338,6 @@ export default new Vuex.Store({
         });
     },
 
-
     getUserInterestList({ commit }, data) {
       const params = {
         id: data.id,
@@ -376,18 +368,17 @@ export default new Vuex.Store({
           console.log("3. result 출력");
 
           // 조건에 맞는 아파트들 간추리기
-          return findApt(data, this.state.aptConditions);
-        })
-        .then((result) => {
-          console.log("4. 아파트 리스트", result);
-          console.log("4. 아파트 리스트 aroundStr", result[0]["aroundStr"]);
+          //   return findApt(data, this.state.aptConditions);
+          // })
+          // .then((result) => {
+          console.log("4. 아파트 리스트", data);
+          console.log("4. 아파트 리스트 aroundStr", data[0]["aroundStr"]);
 
-          commit("SET_HOUSE_LIST", result);
+          commit("SET_HOUSE_LIST", data);
 
           //console.log("commit, data");
           //commit("CLEAR_AROUND_STORES_LIST");
           //commit("SET_HOUSE_LIST", data);
-
         })
         .catch((error) => {
           console.log("error");

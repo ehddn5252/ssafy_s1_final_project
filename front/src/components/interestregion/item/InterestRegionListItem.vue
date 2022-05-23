@@ -79,7 +79,6 @@
       <b-form
         @mouseover="colorChange(true)"
         @mouseout="colorChange(false)"
-        @submit.stop.prevent
         @submit="deleteUserInterest"
       >
         <b-button type="submit" variant="danger" class="m-1">삭제</b-button>
@@ -110,6 +109,8 @@ export default {
     userInterest: Object,
     propIndex: Number,
   },
+
+  computed: {},
   methods: {
     ...mapActions([
       "detailAroundStore",
