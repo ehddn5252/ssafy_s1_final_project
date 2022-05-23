@@ -32,6 +32,26 @@ export default {
     //   return this.$store.state.houses;
     // },
   },
+  // methods:{
+  //   ...mapActions([
+  //     "getSidoHouseMap",
+  //     "getSido",
+  //     "getGugun",
+  //     "getHouseList",
+  //     "getDong",
+  //     "getHouse",
+  //   ]),
+  //   ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST", "CLEAR_DONG_LIST"]),
+  //   searchApt() {
+  //     const datas = {
+  //       sidoCode: this.sidoCode,
+  //       gugunCode: this.gugunCode,
+  //       dongCode: this.dongCode,
+  //     };
+
+  //     if (this.dongCode) this.getHouseList(datas);
+  //   },
+  // }
 };
 </script>
 

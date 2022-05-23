@@ -67,4 +67,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.unlikeBoard(map);
 	}
 
+	@Override
+	public List<Board> popularBoard() {
+		// TODO Auto-generated method stub
+		return boardMapper.popularBoard();
+	}
+
 }

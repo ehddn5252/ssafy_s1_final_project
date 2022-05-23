@@ -77,5 +77,14 @@
 		where articleno = #{articleno}
 	</delete>
 
+	<!-- 인기글 -->
+	<select id="popularBoard" resultType="board">
+		select articleno, userid, subject, content, hit, (SELECT count(*) from boardLike
+	    where articleno = b.articleno) as likeNum, regtime
+		from board b 
+		order by (SELECT count(*) from boardLike
+	    where articleno = b.articleno) desc limit 3
+	</select>
+
 </mapper>
 

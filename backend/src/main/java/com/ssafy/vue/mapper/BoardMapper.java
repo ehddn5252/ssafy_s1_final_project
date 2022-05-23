@@ -18,4 +18,5 @@ public interface BoardMapper {
 	public int likecheck(Map<String, Object> map);
 	public int likeBoard(Map<String, Object> map);
 	public int unlikeBoard(Map<String, Object> map);
+	public List<Board> popularBoard();
 }
