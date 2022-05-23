@@ -73,7 +73,6 @@ export default {
   data() {
     return {
       qna: {},
-      renderComponent: true,
     };
   },
   computed: {

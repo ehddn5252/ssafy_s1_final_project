@@ -10,7 +10,7 @@ public class CommentsDto {
 	@ApiModelProperty(value = "작성자아이디")
 	private String userid;
 	@ApiModelProperty(value = "질문글번호")
-	private int qnano;
+	private int articleno;
 	@ApiModelProperty(value = "내용")
 	private String content;
 	@ApiModelProperty(value = "작성일")
@@ -27,11 +27,11 @@ public class CommentsDto {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	public int getQnano() {
-		return qnano;
+	public int getArticleno() {
+		return articleno;
 	}
-	public void setQnano(int qnano) {
-		this.qnano = qnano;
+	public void setArticleno(int articleno) {
+		this.articleno = articleno;
 	}
 	public String getContent() {
 		return content;
@@ -47,7 +47,7 @@ public class CommentsDto {
 	}
 	@Override
 	public String toString() {
-		return "CommentsDto [commentsno=" + commentsno + ", userid=" + userid + ", qnano=" + qnano + ", content="
+		return "CommentsDto [commentsno=" + commentsno + ", userid=" + userid + ", articleno=" + articleno + ", content="
 				+ content + ", regtime=" + regtime + "]";
 	}
 

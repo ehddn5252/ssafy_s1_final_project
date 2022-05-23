@@ -14,7 +14,21 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col v-if="articles.length">
+      <div class="m-3 row justify-content-end">
+        <form id="searchform" class="form-inline" method="get">
+          <!-- <input type="hidden" name="pg" value="1" /> -->
+
+          <b-form-select v-model="key" :options="options"></b-form-select>
+          <b-form-input
+            v-model.trim="word"
+            @keypress.enter="searchArticle"
+          ></b-form-input>
+          <b-button variant="primary" @click="searchArticle"> 검색 </b-button>
+        </form>
+      </div>
+    </b-row>
+    <b-row>
+      <b-col v-if="articles && articles.length">
         <b-table-simple hover responsive>
           <b-thead head-variant="dark">
             <b-tr>
@@ -36,8 +50,15 @@
           </tbody>
         </b-table-simple>
       </b-col>
+      <b-col v-else> 작성된 게시물이 없습니다. </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
+
+    <div
+      class="m-3 row justify-content-center"
+      @click="clickPage"
+      v-html="`${navigator}`"
+    ></div>
   </b-container>
 </template>
 
@@ -55,16 +76,57 @@ export default {
   data() {
     return {
       articles: [],
+      word: "",
+      pg: 1,
+      key: "userid",
+      options: [
+        { value: "userid", text: "아이디" },
+        { value: "articleno", text: "글번호" },
+        { value: "subject", text: "제목" },
+      ],
+      navigator: "",
     };
   },
   created() {
-    http.get(`/board`).then(({ data }) => {
-      this.articles = data;
+    http.get(`/board?pg=1&key=&word=`).then(({ data }) => {
+      console.log("data", data);
+      this.articles = data.boardlist;
+      this.navigator = data.navigation.navigator;
     });
   },
   methods: {
     moveWrite() {
       this.$router.push({ name: "boardRegister" });
+    },
+
+    // 검색 버튼 눌렸을 때
+    searchArticle(event) {
+      event.preventDefault();
+      if (this.word == "") {
+        alert("모든 목록 조회!!!");
+      }
+      http
+        .get(`/board?pg=1&key=${this.key}&word=${this.word}`)
+        .then(({ data }) => {
+          this.articles = data.boardlist;
+          this.navigator = data.navigation.navigator;
+        });
+    },
+
+    clickPage(e) {
+      if (e.target.classList.contains("page-link")) {
+        this.pg = e.target.name;
+        http
+          .get(`/board?pg=${this.pg}&key=${this.key}&word=${this.word}`)
+          .then(({ data }) => {
+            this.articles = data.boardlist;
+            this.navigator = data.navigation.navigator;
+          });
+      }
+    },
+
+    linkGen(pageNum) {
+      return pageNum === 1 ? "?" : `?page=${pageNum}`;
     },
   },
 };

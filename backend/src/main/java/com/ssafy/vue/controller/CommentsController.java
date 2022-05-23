@@ -34,11 +34,11 @@ public class CommentsController {
 	@Autowired
 	private CommentsService commentsService;
 
-    @ApiOperation(value = "qnano에 맞는 댓글 정보를 반환한다.", response = List.class)
-	@GetMapping("{qnano}")
-	public ResponseEntity<List<CommentsDto>> selectCommentByQna(@PathVariable int qnano) throws Exception {
+    @ApiOperation(value = "articleno에 맞는 댓글 정보를 반환한다.", response = List.class)
+	@GetMapping("{articleno}")
+	public ResponseEntity<List<CommentsDto>> selectCommentByBoard(@PathVariable int articleno) throws Exception {
 		logger.debug("retrieveComments - 호출");
-		return new ResponseEntity<List<CommentsDto>>(commentsService.selectCommentByQna(qnano), HttpStatus.OK);
+		return new ResponseEntity<List<CommentsDto>>(commentsService.selectCommentByBoard(articleno), HttpStatus.OK);
 	}
 
 //    @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 반환한다.", response = Comments.class)    

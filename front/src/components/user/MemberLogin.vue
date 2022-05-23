@@ -47,6 +47,13 @@
               >회원가입</b-button
             >
           </b-form>
+          <b-button
+            type="button"
+            variant="primary"
+            class="m-1"
+            @click="moveFindPwd"
+            >비밀번호 찾기</b-button
+          >
           <kakao-login></kakao-login>
         </b-card>
       </b-col>
@@ -89,6 +96,9 @@ export default {
     },
     movePage() {
       this.$router.push({ name: "signUp" });
+    },
+    moveFindPwd() {
+      this.$router.push({ name: "findpwd" });
     },
   },
 };

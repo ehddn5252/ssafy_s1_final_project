@@ -19,8 +19,8 @@ public class CommentsServiceImpl implements CommentsService{
 
 
     @Override
-	public List<CommentsDto> selectCommentByQna(int qnano) {
-		return commentsMapper.selectCommentByQna(qnano);
+	public List<CommentsDto> selectCommentByBoard(int boardno) {
+		return commentsMapper.selectCommentByBoard(boardno);
 	}
     
   	@Override

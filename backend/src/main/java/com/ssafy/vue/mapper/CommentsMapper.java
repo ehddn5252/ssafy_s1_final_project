@@ -9,7 +9,7 @@ import com.ssafy.vue.dto.CommentsDto;
 public interface CommentsMapper {
 	
 	// 댓글 전체 조회
-	public List<CommentsDto> selectCommentByQna(int qnano);
+	public List<CommentsDto> selectCommentByBoard(int boardno);
 	// 댓글 추가
 	public int insertComments(CommentsDto commentsDto);
 	// 댓글 수정

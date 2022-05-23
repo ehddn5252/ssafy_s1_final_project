@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.vue.dto.Board;
+import com.ssafy.vue.dto.QnaDto;
 @Mapper
 public interface BoardMapper {
 	public List<Board> selectBoard();
@@ -19,4 +20,6 @@ public interface BoardMapper {
 	public int likeBoard(Map<String, Object> map);
 	public int unlikeBoard(Map<String, Object> map);
 	public List<Board> popularBoard();
+	public List<Board> selectBoardByName(Map<String, Object> param);
+	public int getTotalCount(Map<String, String> map);
 }

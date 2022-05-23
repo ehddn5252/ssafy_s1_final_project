@@ -36,6 +36,16 @@ const routes = [
     component: () => import("@/views/MemberView.vue"),
     children: [
       {
+        path: "modifypwd",
+        name: "modifypwd",
+        component: () => import("@/components/user/MemberModifyPwd.vue"),
+      },
+      {
+        path: "findpwd",
+        name: "findpwd",
+        component: () => import("@/components/user/MemberFindPwd.vue"),
+      },
+      {
         path: "singin",
         name: "signIn",
         component: () => import("@/components/user/MemberLogin.vue"),

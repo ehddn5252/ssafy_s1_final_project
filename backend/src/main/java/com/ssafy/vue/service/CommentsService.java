@@ -5,7 +5,7 @@ import com.ssafy.vue.dto.CommentsDto;
 
 public interface CommentsService {
 	// 댓글 전체 조회
-	public List<CommentsDto> selectCommentByQna(int qnano);
+	public List<CommentsDto> selectCommentByBoard(int articleno);
 	// 댓글 추가
 	public boolean insertComments(CommentsDto commentsDto);
 	// 댓글 수정

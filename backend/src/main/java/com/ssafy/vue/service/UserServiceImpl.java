@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void register(UserDto userDto) throws Exception {
-		userMapper.register(userDto);
+	public int register(UserDto userDto) throws Exception {
+		return userMapper.register(userDto);
 	}
 
 	@Override
@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(UserDto userDto) throws Exception {
-		userMapper.updateUser(userDto);
+	public int updateUser(UserDto userDto) throws Exception {
+		return userMapper.updateUser(userDto);
 	}
 	
 
@@ -48,9 +48,11 @@ public class UserServiceImpl implements UserService {
 	 }
 	 
 	
+
 	@Override
-	public String searchPwdById(String id) throws Exception {
-		return userMapper.searchPwdById(id);
+	public String searchPwdById(UserDto userDto) throws Exception {
+		// TODO Auto-generated method stub
+		return userMapper.searchPwdById(userDto);
 	}
 
 

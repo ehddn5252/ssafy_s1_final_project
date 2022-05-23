@@ -49,17 +49,17 @@ public class userMain  {
 	private UserService userService;
 	
 	@PostMapping("/register")
-	public String register(UserDto userDto, Model model) throws Exception {
+	public int register(@RequestBody UserDto userDto) throws Exception {
 		userDto.setManager("user");
 		userDto.setRegistDate(LocalDate.now().toString());
 		logger.debug("userDto info : {}", userDto);
-		userService.register(userDto);
-		return "redirect:/";
+		return userService.register(userDto);
 	}
 	
 	@GetMapping("/idcheck")
 	public @ResponseBody String idCheck(@RequestParam("ckid") String checkId) throws Exception {
 		int idCount = userService.idCheck(checkId);
+		System.out.println(idCount);
 		JSONObject json = new JSONObject();
 		json.put("idcount", idCount);
 		return json.toString();
@@ -167,27 +167,35 @@ public class userMain  {
 	public String userModify(@RequestBody UserDto userDto, HttpSession session) throws Exception {
 		System.out.println("수정");
 		logger.debug("[modify] userDto info : {}", userDto.toString());
-		userService.updateUser(userDto);
-		
-		if (userDto.getUserPwd()==null) {
-			session.setAttribute("userInfo", userDto);
-		}
+		int result = userService.updateUser(userDto);
+		System.out.println(result);
 		
 		JSONObject json = new JSONObject();
-		json.put("status", "성공적으로 변경했습니다");
+		if (result==0) {
+			if(userDto.getPreUserPwd()==null) {
+				json.put("statusCode", 0);
+				json.put("status", "변경 중 문제가 발생했습니다.");
+			} else{
+				json.put("statusCode", 0);
+				json.put("status", "비밀번호가 일치하지 않습니다.");
+			}
+		} else{
+			json.put("statusCode", 1);
+			json.put("status", "성공적으로 변경했습니다");
+		}
+		
 		System.out.println("변경성공");
 		return json.toString();
 	}
+
 	
-	@PostMapping(value = "/findpwd/{userId}")
-	public String searchPwdById(@PathVariable String userId) throws Exception {
-		logger.debug("[delete] userId info : {}", userId);
-		String userPwd=userService.searchPwdById(userId);
+	@PostMapping(value = "/findpwd")
+	public String searchPwdById(@RequestBody UserDto userDto) throws Exception {
+		logger.debug("[findpwd] userId info : {}", userDto);
+		String userPwd=userService.searchPwdById(userDto);
 		JSONObject json = new JSONObject();
-		if (userPwd==null) {
-			json.put("msg", "해당 회원이 존재하지 않습니다.");
-		} else {
-			json.put("msg", userId+"님의 비밀번호는 "+userPwd+"입니다.");
+		if (userPwd!=null) {
+			json.put("msg", "비밀번호는 "+userPwd+"입니다.");
 		}
 		return json.toString();
 	}
