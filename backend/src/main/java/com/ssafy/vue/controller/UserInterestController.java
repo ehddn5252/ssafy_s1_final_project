@@ -68,6 +68,11 @@ public class UserInterestController {
 	@PostMapping("/insert")
 	public ResponseEntity<String> insertInterest(@RequestBody RegionDto r) throws Exception{
 		System.out.println("in UserInterestController");
+		System.out.println(r.getUserId());
+		System.out.println(r.getSigugunCode());
+		System.out.println(r.getDongCode());
+		System.out.println(r.getAreaName());
+		System.out.println("==============");
 		logger.debug(r.getUserId()+" "+r.getSidoCode()+" "+r.getSigugunCode()+" "+r.getDongCode());
 		if(interestService.insertInterest(r)){
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
