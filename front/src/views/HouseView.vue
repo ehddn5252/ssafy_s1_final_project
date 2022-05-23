@@ -31,7 +31,7 @@ import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseList from "@/components/house/HouseList.vue";
 import HouseDetail from "@/components/house/HouseDetail.vue";
 import HouseMap from "@/components/house/HouseMap.vue";
-
+import { mapMutations } from "vuex";
 export default {
   name: "HouseView",
   components: {
@@ -39,6 +39,21 @@ export default {
     HouseList,
     HouseDetail,
     HouseMap,
+  },
+  methods: {
+    ...mapMutations([
+      "CLEAR_AROUND_STORES_LIST",
+      "this.CLEAR_AROUND_STORES_LIST",
+      "CLEAR_MAP_LIST",
+      "CLEAR_HOUSE_MAP_LIST",
+    ]),
+  },
+  created() {
+    console.log("created");
+    this.$store.commit("CLEAR_HOUSES_LIST");
+    this.$store.commit("CLEAR_AROUND_STORES_LIST");
+    this.$store.commit("CLEAR_MAP_LIST");
+    this.$store.commit("CLEAR_HOUSE_MAP_LIST");
   },
 };
 </script>

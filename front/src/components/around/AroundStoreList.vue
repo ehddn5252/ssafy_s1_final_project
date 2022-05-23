@@ -23,12 +23,12 @@
 <script>
 import AroundStoreListItem from "@/components/around/item/AroundStoreListItem.vue";
 import { mapState } from "vuex";
-
 export default {
   name: "AroundStoreList",
   components: {
     AroundStoreListItem,
   },
+
   data() {
     return {
       maxPage: 5,
@@ -40,6 +40,7 @@ export default {
     //   return this.$store.state.houses;
     // },
   },
+
   methods: {
     morePages() {
       this.maxPage += 5;

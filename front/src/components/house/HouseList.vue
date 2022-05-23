@@ -4,6 +4,7 @@
       v-for="(house, index) in houses"
       :key="index"
       :house="house"
+      :propIndex="index"
     />
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
@@ -16,7 +17,6 @@
 <script>
 import HouseListItem from "@/components/house/HouseListItem.vue";
 import { mapState } from "vuex";
-
 export default {
   name: "HouseList",
   components: {
@@ -52,6 +52,11 @@ export default {
   //     if (this.dongCode) this.getHouseList(datas);
   //   },
   // }
+  methods: {
+    morePages() {
+      this.maxPage += 5;
+    },
+  },
 };
 </script>
 

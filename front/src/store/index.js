@@ -31,8 +31,8 @@ export default new Vuex.Store({
     circles: [],
     aroundStore: null,
     aroundStores: [],
-    checkedStore: null,
-    checkedStoreList: [],
+    // checkedStore: null,
+    // checkedStoreList: [],
     environs: [],
     environ: null,
     mapList: [],
@@ -48,8 +48,8 @@ export default new Vuex.Store({
     qnano: null,
     // house map
     houseMapList: [],
-    checkedHouse: [],
-    checkodMapList: [],
+    // checkedHouse: [],
+    // checkodMapList: [],
     // 아파트 조건 (도보 몇 분 이내 ...)
     aptConditions: [],
   },
@@ -157,12 +157,29 @@ export default new Vuex.Store({
       console.log("SET_HOUSE_LIST 끝", state.houses);
     },
 
+    CLEAR_ENVIRON_LIST(state) {
+      state.environs = [];
+    },
+    CLEAR_ENVIRON(state) {
+      state.environ = null;
+    },
+
     CLEAR_AROUND_STORES_LIST(state) {
+      console.log("CLEAR_AROUND_STORES_LIST", state.aroundStores);
       state.aroundStores = [];
     },
 
     CLEAR_HOUSES_LIST(state) {
+      console.log("CLEAR_HOUSES_LIST", state.houses);
       state.houses = [];
+    },
+
+    CLEAR_MAP_LIST(state) {
+      state.mapList = [];
+    },
+
+    CLEAR_HOUSE_MAP_LIST(state) {
+      state.houseMapList = [];
     },
 
     CLEAR_SIDO_LIST(state) {
@@ -371,8 +388,6 @@ export default new Vuex.Store({
           //   return findApt(data, this.state.aptConditions);
           // })
           // .then((result) => {
-          console.log("4. 아파트 리스트", data);
-          console.log("4. 아파트 리스트 aroundStr", data[0]["aroundStr"]);
 
           commit("SET_HOUSE_LIST", data);
 

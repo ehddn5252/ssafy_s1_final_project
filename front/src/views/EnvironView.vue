@@ -23,13 +23,22 @@
 import EnvironSearchBar from "@/components/environ/EnvironSearchBar.vue";
 import EnvironList from "@/components/environ/EnvironList.vue";
 import EnvironDetail from "@/components/environ/EnvironDetail.vue";
-
+import { mapMutations } from "vuex";
 export default {
   name: "EnvironView",
   components: {
     EnvironSearchBar,
     EnvironList,
     EnvironDetail,
+  },
+
+  methods: {
+    ...mapMutations(["CLEAR_ENVIRON_LIST", "CLEAR_ENVIRON"]),
+  },
+  created() {
+    console.log("created");
+    this.$store.commit("CLEAR_ENVIRON_LIST");
+    this.$store.commit("CLEAR_ENVIRON");
   },
 };
 </script>
