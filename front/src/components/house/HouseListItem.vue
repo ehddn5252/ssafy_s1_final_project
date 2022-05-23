@@ -5,7 +5,7 @@
       scrollable
       v-b-modal="`modal-house-${this.propIndex}`"
       variant="primary"
-      @click="selectHouse"
+      @click="selectHouse0"
       @mouseover="colorChange(true)"
       @mouseout="colorChange(false)"
       :class="{ 'mouse-over-bgcolor': isColor }"
@@ -31,13 +31,14 @@
         <b-row>
           <b-col>
             <house-detail
-              v-for="(houseDeal, index) in houseDeals"
+              v-for="(houseDeal, index) in deals"
               :key="index"
               :houseDeal="houseDeal"
               :propIndex="index"
             />
           </b-col>
         </b-row>
+        <b-button @click="selectHouse5">더보기</b-button>
       </b-container>
     </b-modal>
   </div>
@@ -45,7 +46,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import http from "@/api/http";
+import { mapState, mapMutations } from "vuex";
 import HouseDetail from "@/components/house/HouseDetail";
 export default {
   name: "HouseListItem",
@@ -55,48 +56,45 @@ export default {
 
   data() {
     return {
+      deals: null,
       isColor: false,
-      houseDeals: null,
     };
+  },
+
+  watch: {
+    houses: function () {
+      this.deals = this.houseDeals;
+    },
+  },
+  computed: {
+    ...mapState(["houseDeals"]),
+    houses() {
+      return this.houseDeals;
+    },
   },
   props: {
     house: Object,
     propIndex: Number,
   },
   methods: {
-    ...mapActions(["detailHouse"]),
-    selectHouse() {
-      console.log("listRow : ", this.house);
-      // this.$store.dispatch("getHouse", this.house);
-      console.log("333333");
+    ...mapActions(["detailHouse", "getDealList"]),
+    ...mapMutations(["ADD_DEAL_COUNT"]),
 
+    selectHouse0() {
+      this.$store.commit("ADD_DEAL_COUNT", 0);
       this.$store.state.houseMapList = [this.house];
-      console.log("44444");
-
-      this.detailHouse(this.house);
-      console.log("aptCode");
+      console.log("this.house.aptCode");
       console.log(this.house.aptCode);
-      console.log("aptCode");
-      const params = {
-        dongCode: this.house.dongCode,
-        aptCode: this.house.aptCode,
-      };
-      http
-        .get(`/map/aptDeal`, { params })
-        .then(({ data }) => {
-          console.log("3. result 출력");
-          console.log("datas");
-          console.log(data);
-          this.houseDeals = data;
-          //commit("CLEAR_AROUND_STORES_LIST");
-          //commit("SET_HOUSE_LIST", data);
-        })
-        .catch((error) => {
-          console.log("error");
-          console.log(error);
-        });
+      this.getDealList(this.house.aptCode);
     },
 
+    selectHouse5() {
+      this.$store.state.houseMapList = [this.house];
+      this.$store.commit("ADD_DEAL_COUNT", 5);
+      console.log("this.house.aptCode");
+      console.log(this.house.aptCode);
+      this.getDealList(this.house.aptCode);
+    },
     colorChange(flag) {
       this.isColor = flag;
     },

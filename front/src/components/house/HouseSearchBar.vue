@@ -95,11 +95,6 @@ export default {
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
     searchApt() {
-      console.log("codes");
-      console.log(this.sidoCode);
-      console.log(this.gugunCode);
-      console.log(this.dongCode);
-      console.log("=============");
       const datas = {
         sidoCode: this.sidoCode,
         gugunCode: this.gugunCode,
