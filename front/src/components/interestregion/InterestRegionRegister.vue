@@ -40,7 +40,7 @@ export default {
       if (this.dongCode != null) {
         http
           .post(`/interest/insert`, {
-            userId: "ssafy", //this.userInfo.userId
+            userId: this.userInfo.userId,
             sidoCode: this.sidoCode,
             sigugunCode: this.sigugunCode,
             dongCode: this.dongCode,
