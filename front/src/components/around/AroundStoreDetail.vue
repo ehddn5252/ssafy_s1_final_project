@@ -1,18 +1,20 @@
 <template>
-  <b-container v-if="aroundStore" class="bv-example-row">
-    <b-row>
-      <b-col
-        ><h3>{{ aroundStore.bizesNm }}</h3></b-col
-      >
-    </b-row>
-    <b-row>
-      <b-col>
-        <b-alert show variant="warning"
-          >주소 : {{ aroundStore.rdnmAdr }}</b-alert
+  <div>
+    <b-container v-if="aroundStore" class="bv-example-row">
+      <b-row>
+        <b-col
+          ><h3>{{ aroundStore.bizesNm }}</h3></b-col
         >
-      </b-col>
-    </b-row>
-  </b-container>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-alert show variant="warning"
+            >주소 : {{ aroundStore.rdnmAdr }}</b-alert
+          >
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>

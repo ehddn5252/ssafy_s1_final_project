@@ -8,12 +8,11 @@ import com.ssafy.vue.dto.RegionDto;
 public interface InterestMapService {
 	
 	// 관심지역 등록
-	void insertInterest(RegionDto interestDto) throws Exception;
-	
-	// 관심지역 삭제
-	void deleteInterest(int interestID) throws Exception;
-	
-	public List<RegionDto> searchByUserID(String userid) throws Exception;
+	boolean insertInterest(RegionDto interestDto) throws Exception;
 
+	// 관심지역 삭제
+	boolean deleteInterest(int interestId) throws Exception;
+	
+	List<RegionDto> searchByUserID(String userId) throws Exception;
 	
 }

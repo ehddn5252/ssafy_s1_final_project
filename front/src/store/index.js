@@ -32,6 +32,9 @@ export default new Vuex.Store({
     environs: [],
     environ: null,
     mapList: [],
+    userInterest: null,
+    userInterests: [],
+    userInterestMapList: [],
 
     todos: [
       // { title: '할 일1', completed: false },
@@ -49,6 +52,18 @@ export default new Vuex.Store({
       var arr = new Array(state.mapList.length);
       for (var i = 0; i < arr.length; ++i) {
         var latlon = [state.mapList[i].lat, state.mapList[i].lon];
+        arr[i] = latlon;
+      }
+      return arr;
+    },
+
+    userInterestLatLon(state) {
+      var arr = new Array(state.userInterestMapList.length);
+      for (var i = 0; i < arr.length; ++i) {
+        var latlon = [
+          state.userInterestMapList[i].lat,
+          state.userInterestMapList[i].lon,
+        ];
         arr[i] = latlon;
       }
       return arr;
@@ -105,16 +120,27 @@ export default new Vuex.Store({
     },
 
     SET_AROUND_STORE_LIST(state, aroundStores) {
-      console.log(" in SET_AROUND_STORE_LIST");
       state.aroundStores = JSON.parse(JSON.stringify(aroundStores));
       state.mapList = JSON.parse(JSON.stringify(aroundStores));
-      console.log(state.mapList);
+    },
+
+    SET_USER_INTEREST_LIST(state, userInterests) {
+      state.userInterests = JSON.parse(JSON.stringify(userInterests));
+      state.userInterestsMapList = JSON.parse(JSON.stringify(userInterests));
     },
 
     SET_HOUSE_LIST(state, houses) {
       console.log(" in House_LIST");
       state.houses = JSON.parse(JSON.stringify(houses));
       state.houseMapList = JSON.parse(JSON.stringify(houses));
+    },
+
+    CLEAR_AROUND_STORES_LIST(state) {
+      state.aroundStores = [];
+    },
+
+    CLEAR_HOUSES_LIST(state) {
+      state.houses = [];
     },
 
     CLEAR_SIDO_LIST(state) {
@@ -133,6 +159,9 @@ export default new Vuex.Store({
     },
     SET_DETAIL_AROUND_STORE(state, aroundStore) {
       state.aroundStore = aroundStore;
+    },
+    SET_DETAIL_USER_INTEREST(state, userInterest) {
+      state.userInterest = userInterest;
     },
     /////////////////////////////// House end /////////////////////////////////////
 
@@ -205,7 +234,6 @@ export default new Vuex.Store({
       http
         .get(`/map/sido`)
         .then(({ data }) => {
-          console.log(data);
           commit("SET_SIDO_LIST", data);
         })
         .catch((error) => {
@@ -257,8 +285,7 @@ export default new Vuex.Store({
       //const params = { sido: sidoCode, sigugun: gugunCode, dong: dongCode };
       // const ctprvnCd = datas.sidoCode;
       const signguCd = datas.gugunCode;
-      const adongCd = datas.dongCode;
-      console.log(adongCd);
+      // const adongCd = datas.dongCode;
       // const SERVICE_KEY ="yOYPxjA2Luqpjh8gS0r0pw69WoBHUn5HXJzTznjhCK78Aab2ZiFJ5pAGNq%2FLoVzbI1pCfMG10RPiGyk%2BqfFAIQ%3D%3D"; //process.env.VUE_APP_APT_DEAL_API_KEY;
       const DECODE_SERVICE_KEY =
         "yOYPxjA2Luqpjh8gS0r0pw69WoBHUn5HXJzTznjhCK78Aab2ZiFJ5pAGNq/LoVzbI1pCfMG10RPiGyk+qfFAIQ==";
@@ -279,12 +306,27 @@ export default new Vuex.Store({
       http
         .get(SERVICE_URL, { params })
         .then(({ data }) => {
-          console.log("data.body.items");
-          console.log(data.body.items);
           commit("SET_AROUND_STORE_LIST", data.body.items);
-          //commit("SET_AROUND_STORE_LIST", data.body.items);
         })
         .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getUserInterestList({ commit }, data) {
+      const params = {
+        id: data.id,
+      };
+      http
+        .get(`/interest`, { params })
+        .then(({ data }) => {
+          console.log("commit, data");
+          console.log(data);
+
+          commit("SET_USER_INTEREST_LIST", data);
+        })
+        .catch((error) => {
+          console.log("error");
           console.log(error);
         });
     },
@@ -299,8 +341,7 @@ export default new Vuex.Store({
         .get(`/map/apt2`, { params })
         .then(({ data }) => {
           console.log("commit, data");
-          console.log(data);
-
+          commit("CLEAR_AROUND_STORES_LIST");
           commit("SET_HOUSE_LIST", data);
         })
         .catch((error) => {
@@ -336,6 +377,12 @@ export default new Vuex.Store({
       // 나중에 house.일련번호를 이용하여 API 호출
       // console.log(commit, house);
       commit("SET_DETAIL_HOUSE", house);
+    },
+
+    detailUserInterest({ commit }, userInterest) {
+      // 나중에 house.일련번호를 이용하여 API 호출
+      // console.log(commit, house);
+      commit("SET_DETAIL_USER_INTEREST", userInterest);
     },
 
     /////////////////////////////// House end /////////////////////////////////////

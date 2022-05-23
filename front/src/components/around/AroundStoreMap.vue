@@ -74,7 +74,11 @@ export default {
       // if (this.markers.length > 0) {
       //   this.markers.forEach((marker) => marker.setMap(null));
       // }
-
+      var markers = this.markers;
+      for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      this.markers = [];
       const positions = markerPositions.map((position) => {
         return new kakao.maps.LatLng(...position);
       });
@@ -84,9 +88,9 @@ export default {
           return new kakao.maps.Marker({ map: this.map, position });
         });
         console.log("positions");
-        for (let i = 0; i < positions.length; ++i) {
-          console.log(positions[i]);
-        }
+        // for (let i = 0; i < positions.length; ++i) {
+        //   console.log(positions[i]);
+        // }
         var bounds = new kakao.maps.LatLngBounds();
         for (let i = 0; i < positions.length; i++) {
           bounds.extend(positions[i]);

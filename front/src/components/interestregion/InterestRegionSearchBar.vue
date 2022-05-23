@@ -4,7 +4,6 @@
       <b-row class="mt-4 mb-4 text-center">
         <b-col class="sm-3">
           <b-form-select
-            ref="targetSido"
             v-model="sidoCode"
             :options="sidos"
             @change="gugunList"
@@ -12,7 +11,6 @@
         </b-col>
         <b-col class="sm-3">
           <b-form-select
-            ref="targetGugun"
             v-model="gugunCode"
             :options="guguns"
             @change="dongList"
@@ -20,53 +18,37 @@
         </b-col>
         <b-col class="sm-3">
           <b-form-select
-            ref="targetDong"
             v-model="dongCode"
             :options="dongs"
-            @change="searchAroundStore"
+            @change="searchInterestRegion"
           ></b-form-select>
         </b-col>
       </b-row>
-      <interest-region-register
-        :sidoCode="sidoCode"
-        :sigugunCode="gugunCode"
-        :dongCode="dongCode"
-        :areaName="areaName"
-      ></interest-region-register>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
-import InterestRegionRegister from "@/components/interestregion/InterestRegionRegister.vue";
 
 export default {
-  components: { InterestRegionRegister },
-  name: "AroundStoreSearchBar",
+  name: "InterestRegionSearchBar",
   data() {
     return {
-      mySidos: { sidoName: null, sidoCode: null },
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
-      areaName: null,
     };
   },
   computed: {
     ...mapState(["sidos", "guguns", "dongs"]),
-    sidoValue() {
-      return this.sidos.find((option) => option.value == this.sidoCode);
-    },
-    sigugunValue() {
-      return this.guguns.find((option) => option.value == this.gugunCode);
-    },
-    dongValue() {
-      return this.dongs.find((option) => option.value == this.dongCode);
-    },
+    // sidos() {
+    //   return this.$store.state.sidos;
+    // },
   },
-
   created() {
+    // this.$store.dispatch("getSido");
+    // this.sidoList();
     this.CLEAR_SIDO_LIST();
     this.getSido();
   },
@@ -80,6 +62,12 @@ export default {
       "getAroundStoreList",
     ]),
     ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST", "CLEAR_DONG_LIST"]),
+    // sidoList() {
+    //   this.getSido();
+    // },
+    // getSidoAround() {
+    //   if (this.sidoCode) this.getGugun(this.sidoCode);
+    // },
     gugunList() {
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
@@ -89,20 +77,18 @@ export default {
       this.CLEAR_DONG_LIST();
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
-    searchAroundStore() {
-      this.areaName =
-        this.sidoValue.text +
-        " " +
-        this.sigugunValue.text +
-        " " +
-        this.dongValue.text;
-
+    searchInterestRegion() {
+      console.log("codes");
+      console.log(this.sidoCode);
+      console.log(this.gugunCode);
+      console.log(this.dongCode);
+      console.log("=============");
       const datas = {
         sidoCode: this.sidoCode,
         gugunCode: this.gugunCode,
         dongCode: this.dongCode,
       };
-      if (this.dongCode) this.getAroundStoreList(datas);
+      if (this.dongCode) this.getInterestList(datas);
     },
   },
 };

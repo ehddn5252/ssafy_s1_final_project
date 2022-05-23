@@ -58,7 +58,7 @@ const routes = [
     name: "board",
     component: () => import("@/views/BoardView.vue"),
     redirect: "/board/list",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     children: [
       {
         path: "list",
@@ -88,12 +88,20 @@ const routes = [
     ],
   },
 
-  // {
-  //   path: "/interestinfo",
-  //   name: "interestinfo",
-  //   redirect: "/interestinfo/store",
-  //   component: () => import("@/views/AroundStoreView.vue"),
-  // },
+  {
+    path: "/interestregion",
+    name: "interestregion",
+    redirect: "/interestregion/list",
+    component: () => import("@/views/InterestRegionView.vue"),
+    children: [
+      {
+        path: "list",
+        name: "list",
+        component: () =>
+          import("@/components/interestregion/InterestRegionList.vue"),
+      },
+    ],
+  },
 
   {
     path: "/interestinfo",
