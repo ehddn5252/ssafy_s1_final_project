@@ -4,6 +4,7 @@
       v-for="(house, index) in houses"
       :key="index"
       :house="house"
+      :propIndex="index"
     />
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
@@ -16,7 +17,6 @@
 <script>
 import HouseListItem from "@/components/house/HouseListItem.vue";
 import { mapState } from "vuex";
-
 export default {
   name: "HouseList",
   components: {
@@ -32,26 +32,12 @@ export default {
     //   return this.$store.state.houses;
     // },
   },
-  // methods:{
-  //   ...mapActions([
-  //     "getSidoHouseMap",
-  //     "getSido",
-  //     "getGugun",
-  //     "getHouseList",
-  //     "getDong",
-  //     "getHouse",
-  //   ]),
-  //   ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST", "CLEAR_DONG_LIST"]),
-  //   searchApt() {
-  //     const datas = {
-  //       sidoCode: this.sidoCode,
-  //       gugunCode: this.gugunCode,
-  //       dongCode: this.dongCode,
-  //     };
 
-  //     if (this.dongCode) this.getHouseList(datas);
-  //   },
-  // }
+  methods: {
+    morePages() {
+      this.maxPage += 5;
+    },
+  },
 };
 </script>
 

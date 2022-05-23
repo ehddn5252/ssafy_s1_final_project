@@ -1,34 +1,37 @@
 <template>
-  <b-container v-if="houseDeal" class="bv-example-row">
+  <b-container v-if="house" class="bv-example-row">
     <b-row>
       <b-col
-        ><h3>no: {{ houseDeal.no }}</h3></b-col
+        ><h3>{{ house.아파트 }}</h3></b-col
       >
     </b-row>
     <b-row>
       <b-col>
         <b-alert show variant="secondary"
-          >dealAmount : {{ houseDeal.dealAmount }}</b-alert
+          >일련번호 : {{ house.aptCode }}</b-alert
         >
       </b-col>
     </b-row>
     <b-row>
       <b-col>
         <b-alert show variant="primary"
-          >dealYear: {{ houseDeal.dealYear }}
+          >아파트 이름 : {{ house.apartmentName }}
         </b-alert>
       </b-col>
     </b-row>
     <b-row>
       <b-col>
-        <b-alert show variant="info">floor : {{ houseDeal.floor }} </b-alert>
+        <b-alert show variant="info">법정동 : {{ house.dong }} </b-alert>
       </b-col>
     </b-row>
     <b-row>
       <b-col>
-        <b-alert show variant="info"
-          >aptCode : {{ houseDeal.aptCode }}
-        </b-alert>
+        <b-alert show variant="danger"
+          >거래금액 :
+          {{
+            (parseInt(house.recentPrice.replace(",", "")) * 10000) | price
+          }}원</b-alert
+        >
       </b-col>
     </b-row>
   </b-container>
@@ -45,9 +48,11 @@ export default {
     //   return this.$store.state.house;
     // },
   },
-  props: {
-    houseDeal: Object,
-    propIndex: Number,
+  filters: {
+    price(value) {
+      if (!value) return value;
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
   },
 };
 </script>

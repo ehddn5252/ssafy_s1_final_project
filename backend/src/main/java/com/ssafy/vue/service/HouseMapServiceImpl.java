@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.vue.dto.SidoGugunCodeDto;
 //import com.ssafy.vue.service.HouseMapServiceImpl.TmpDto;
 import com.ssafy.util.Calculate;
+import com.ssafy.vue.dto.HouseDealDto;
 import com.ssafy.vue.dto.HouseInfoDto;
 import com.ssafy.vue.mapper.HouseMapMapper;
 
@@ -20,6 +21,11 @@ public class HouseMapServiceImpl implements HouseMapService {
 	@Autowired
 	private HouseMapMapper houseMapMapper;
 
+
+	
+	
+	
+	
 	@Override
 	public List<SidoGugunCodeDto> getSido() throws Exception {
 		return houseMapMapper.getSido();
@@ -46,7 +52,14 @@ public class HouseMapServiceImpl implements HouseMapService {
 	}
 
 	
-	
+	//========================2022.05.23 추가
+
+
+	@Override
+	public List<HouseDealDto> getHouseDealInApt(String dongCode, String aptCode) {
+		// TODO Auto-generated method stub
+		return houseMapMapper.getHouseDealInApt(dongCode,aptCode);
+	}
 	//======================================= 2022.05.18 11:52 추가된 부분
 	
 	@Override
@@ -202,5 +215,6 @@ public class HouseMapServiceImpl implements HouseMapService {
 			}
 		}
 	}
+
 	
 }

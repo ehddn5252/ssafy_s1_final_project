@@ -33,20 +33,20 @@
         ></b-form-select>
       </b-col>
     </b-row>
-    <b-row>
+    <!-- <b-row>
       <house-search-condition></house-search-condition>
-    </b-row>
+    </b-row> -->
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
-import HouseSearchCondition from "@/components/house/HouseSearchCondition.vue";
+// import HouseSearchCondition from "@/components/house/HouseSearchCondition.vue";
 
 export default {
   name: "HouseSearchBar",
   components: {
-    HouseSearchCondition,
+    // HouseSearchCondition,
   },
   data() {
     return {
@@ -95,11 +95,6 @@ export default {
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
     searchApt() {
-      console.log("codes");
-      console.log(this.sidoCode);
-      console.log(this.gugunCode);
-      console.log(this.dongCode);
-      console.log("=============");
       const datas = {
         sidoCode: this.sidoCode,
         gugunCode: this.gugunCode,

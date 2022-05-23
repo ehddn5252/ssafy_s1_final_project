@@ -34,9 +34,6 @@ export default {
   },
   computed: {
     isShow() {
-      console.log("this.maxPage >= this.page");
-      console.log(this.maxPage);
-      console.log(this.page);
       if (this.maxPage >= this.page) {
         return true;
       } else {

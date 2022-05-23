@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.vue.dto.SidoGugunCodeDto;
 import com.ssafy.vue.dto.HouseInfoDto;
 import com.ssafy.vue.service.HouseMapService;
+import com.ssafy.vue.dto.HouseDealDto;
 
 @RestController
 @RequestMapping("/map")
@@ -56,6 +57,15 @@ public class HouseMapController {
 		System.out.println(gugunCode);
 		System.out.println(dongCode);
 		return new ResponseEntity<List<HouseInfoDto>>(haHouseMapService.getAptInDong2(dongCode), HttpStatus.OK);
+	}
+	
+	// 0523 추가 모달에 아파트 deal 띄우기
+	@GetMapping("/aptDeal")
+	public ResponseEntity<List<HouseDealDto>> getHouseDealInApt(@RequestParam("dongCode") String dongCode, @RequestParam("aptCode") String aptCode) throws Exception {
+		
+		System.out.println("in aptDeal");
+		System.out.println(dongCode);
+		return new ResponseEntity<List<HouseDealDto>>(haHouseMapService.getHouseDealInApt(dongCode,aptCode), HttpStatus.OK);
 	}
 
 	// 아파트 이름으로 찾기

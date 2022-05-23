@@ -29,13 +29,28 @@
 import InterestRegionList from "@/components/interestregion/InterestRegionList.vue";
 // import InterestRegionMap from "@/components/interestregion/InterestRegionMap.vue";
 import InterestRegionDetail from "@/components/interestregion/InterestRegionDetail.vue";
-
+import { mapMutations } from "vuex";
 export default {
   name: "InterestRegionView",
   components: {
     InterestRegionList,
     // InterestRegionMap,
     InterestRegionDetail,
+  },
+  methods: {
+    ...mapMutations([
+      "CLEAR_AROUND_STORES_LIST",
+      "this.CLEAR_AROUND_STORES_LIST",
+      "CLEAR_MAP_LIST",
+      "CLEAR_HOUSE_MAP_LIST",
+    ]),
+  },
+  created() {
+    console.log("created");
+    this.$store.commit("CLEAR_HOUSES_LIST");
+    this.$store.commit("CLEAR_AROUND_STORES_LIST");
+    this.$store.commit("CLEAR_MAP_LIST");
+    this.$store.commit("CLEAR_HOUSE_MAP_LIST");
   },
 };
 </script>

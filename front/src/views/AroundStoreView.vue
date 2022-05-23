@@ -32,7 +32,7 @@ import AroundStoreSearchBar from "@/components/around/AroundStoreSearchBar.vue";
 import AroundStoreDetail from "@/components/around/AroundStoreDetail.vue";
 import AroundStoreList from "@/components/around/AroundStoreList.vue";
 import AroundStoreMap from "@/components/around/AroundStoreMap.vue";
-
+import { mapMutations } from "vuex";
 export default {
   name: "AroundStoreView",
   components: {
@@ -40,6 +40,21 @@ export default {
     AroundStoreDetail,
     AroundStoreList,
     AroundStoreMap,
+  },
+  methods: {
+    ...mapMutations([
+      "CLEAR_AROUND_STORES_LIST",
+      "this.CLEAR_AROUND_STORES_LIST",
+      "CLEAR_MAP_LIST",
+      "CLEAR_HOUSE_MAP_LIST",
+    ]),
+  },
+  created() {
+    console.log("created");
+    this.$store.commit("CLEAR_HOUSES_LIST");
+    this.$store.commit("CLEAR_AROUND_STORES_LIST");
+    this.$store.commit("CLEAR_MAP_LIST");
+    this.$store.commit("CLEAR_HOUSE_MAP_LIST");
   },
 };
 </script>

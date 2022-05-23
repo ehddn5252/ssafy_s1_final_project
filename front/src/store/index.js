@@ -31,15 +31,15 @@ export default new Vuex.Store({
     circles: [],
     aroundStore: null,
     aroundStores: [],
-    checkedStore: null,
-    checkedStoreList: [],
+    // checkedStore: null,
+    // checkedStoreList: [],
     environs: [],
     environ: null,
     mapList: [],
     userInterest: null,
     userInterests: [],
     userInterestMapList: [],
-
+    dealCount: 5,
     todos: [
       // { title: '할 일1', completed: false },
       // { title: '할 일2', completed: false },
@@ -48,12 +48,18 @@ export default new Vuex.Store({
     qnano: null,
     // house map
     houseMapList: [],
-    checkedHouse: [],
-    checkodMapList: [],
+    // checkedHouse: [],
+    // checkodMapList: [],
     // 아파트 조건 (도보 몇 분 이내 ...)
     aptConditions: [],
+
+    //0523 housedeal
+    houseDeals: null,
   },
   getters: {
+    getdealCount(state) {
+      return state.dealCount;
+    },
     aroundStoreLatLon(state) {
       var arr = new Array(state.mapList.length);
       for (var i = 0; i < arr.length; ++i) {
@@ -114,6 +120,11 @@ export default new Vuex.Store({
     SET_QNANO(state, qnano) {
       state.qnano = qnano;
     },
+
+    ADD_DEAL_COUNT(state, num) {
+      state.dealCount += num;
+    },
+
     // 댓글 초기화
     SET_COMMENTS(state, comments) {
       state.comments = JSON.parse(JSON.stringify(comments));
@@ -157,12 +168,33 @@ export default new Vuex.Store({
       console.log("SET_HOUSE_LIST 끝", state.houses);
     },
 
+    SET_HOUSE_DEALS(state, housedeals) {
+      state.housedeals = housedeals;
+    },
+
+    CLEAR_ENVIRON_LIST(state) {
+      state.environs = [];
+    },
+    CLEAR_ENVIRON(state) {
+      state.environ = null;
+    },
+
     CLEAR_AROUND_STORES_LIST(state) {
+      console.log("CLEAR_AROUND_STORES_LIST", state.aroundStores);
       state.aroundStores = [];
     },
 
     CLEAR_HOUSES_LIST(state) {
+      console.log("CLEAR_HOUSES_LIST", state.houses);
       state.houses = [];
+    },
+
+    CLEAR_MAP_LIST(state) {
+      state.mapList = [];
+    },
+
+    CLEAR_HOUSE_MAP_LIST(state) {
+      state.houseMapList = [];
     },
 
     CLEAR_SIDO_LIST(state) {
@@ -356,12 +388,37 @@ export default new Vuex.Store({
         });
     },
 
+    ////////////////////////////////////////////////////여기하는중
+    getDealList({ commit }, aptCode) {
+      const params = {
+        aptCode: aptCode,
+        dealCount: this.state.dealCount,
+      };
+      console.log("this.state.dealcoun");
+      console.log(this.state.dealCount);
+      http
+        .get(`/map/aptDeal`, { params })
+        .then(({ data }) => {
+          // this.state.houseDeals = data;
+          console.log("datas");
+          console.log(data);
+          commit("SET_HOUSE_DEALS", data);
+          //commit("CLEAR_AROUND_STORES_LIST");
+          //commit("SET_HOUSE_LIST", data);
+        })
+        .catch((error) => {
+          console.log("error");
+          console.log(error);
+        });
+    },
+
     getHouseList({ commit }, data) {
       const params = {
         sidoCode: data.sidoCode,
         gugunCode: data.gugunCode,
         dongCode: data.dongCode,
       };
+
       http
         .get(`/map/apt2`, { params })
         .then(({ data }) => {
@@ -371,8 +428,6 @@ export default new Vuex.Store({
           //   return findApt(data, this.state.aptConditions);
           // })
           // .then((result) => {
-          console.log("4. 아파트 리스트", data);
-          console.log("4. 아파트 리스트 aroundStr", data[0]["aroundStr"]);
 
           commit("SET_HOUSE_LIST", data);
 
