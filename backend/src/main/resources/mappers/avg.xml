@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.vue.mapper.HouseAvgMapper">
+	
+	<select id="getSidoAvg" resultType="HouseAvgDto">
+		select a.sidocode, avg ,lat,lng, b.sidoName as name
+		from AVGsido a join sidocode b
+        on left(b.sidocode,2) = a.sidocode
+	</select>
+	
+	<select id="getGugunAvg" resultType="HouseAvgDto">
+		select a.sigungucode, avg ,lat,lng, b.gugunName as name
+		from AVGgugun a join guguncode b
+        on left(b.guguncode,5) = a.sigungucode
+	</select>
+	
+	<select id="getDongAvg" resultType="HouseAvgDto">
+		select a.dongcode, avg ,lat,lng, b.dongName as name
+		from AVGdong a join dongcode b
+        on b.dongcode = a.dongcode
+	</select>
+	
+
+</mapper>

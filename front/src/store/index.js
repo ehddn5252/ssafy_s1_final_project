@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import http from "@/api/http";
+// import tmap from "@/api/tmap";
 import memberStore from "@/store/modules/memberStore.js";
+import { findApt } from "@/api/findApt";
 
 // import axios from "axios";
 
@@ -25,6 +27,8 @@ export default new Vuex.Store({
     dongs: [{ value: null, text: "동 선택" }],
     houses: [],
     house: null,
+    avgs: [],
+    circles: [],
     aroundStore: null,
     aroundStores: [],
     checkedStore: null,
@@ -43,6 +47,8 @@ export default new Vuex.Store({
     houseMapList: [],
     checkedHouse: [],
     checkodMapList: [],
+    // 아파트 조건 (도보 몇 분 이내 ...)
+    aptConditions: [],
   },
   getters: {
     aroundStoreLatLon(state) {
@@ -79,8 +85,18 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SET_CONDITIONS(state, conditions) {
+      state.aptConditions = JSON.parse(JSON.stringify(conditions));
+    },
+    SET_CIRCLES(state, circles) {
+      state.circles = JSON.parse(JSON.stringify(circles));
+    },
+
+    SET_AVG(state, avgs) {
+      state.avgs = avgs;
+    },
+
     SET_QNANO(state, qnano) {
-      console.log(state.qnano);
       state.qnano = qnano;
     },
     // 댓글 초기화
@@ -112,9 +128,22 @@ export default new Vuex.Store({
     },
 
     SET_HOUSE_LIST(state, houses) {
-      console.log(" in House_LIST");
-      state.houses = JSON.parse(JSON.stringify(houses));
+      console.log("SET_HOUSE_LIST 처음", houses);
+      state.houses = [];
+      console.log("house", houses[0]);
+      console.log("apartmentName", houses[0]["apartmentName"]);
+      console.log("aroundStr", houses[0]["aroundStr"]);
+      for (let house of houses) {
+        var h = {};
+        for (let key in house) {
+          h[key] = house[key];
+        }
+        console.log("h", h);
+        state.houses.push(h);
+      }
+      // state.houses = JSON.parse(JSON.stringify(houses));
       state.houseMapList = JSON.parse(JSON.stringify(houses));
+      console.log("SET_HOUSE_LIST 끝", state.houses);
     },
 
     CLEAR_SIDO_LIST(state) {
@@ -128,7 +157,6 @@ export default new Vuex.Store({
     },
 
     SET_DETAIL_HOUSE(state, house) {
-      console.log("Mutations", house);
       state.house = house;
     },
     SET_DETAIL_AROUND_STORE(state, aroundStore) {
@@ -141,7 +169,6 @@ export default new Vuex.Store({
       state.environs = environs;
     },
     SET_DETAIL_ENVIRON(state, environ) {
-      console.log("Mutations", environ);
       state.environ = environ;
     },
     /////////////////////////////// Environ end /////////////////////////////////////
@@ -168,10 +195,15 @@ export default new Vuex.Store({
     //////////////////////////// Todo List end //////////////////////////////////
   },
   actions: {
+    // 평균시세 (positionMode:sido,gugun,dong)
+    getAvg({ commit }, positionMode) {
+      http.get(`/avg/${positionMode}`).then(({ data }) => {
+        commit("SET_AVG", data);
+      });
+    },
     // 코멘트
     getComments({ commit }, qnano) {
       http.get(`/comments/${qnano}`).then(({ data }) => {
-        console.log(data);
         commit("SET_COMMENTS", data);
       });
     },
@@ -289,7 +321,7 @@ export default new Vuex.Store({
         });
     },
 
-    getHouseList({ commit }, data) {
+    async getHouseList({ commit }, data) {
       const params = {
         sidoCode: data.sidoCode,
         gugunCode: data.gugunCode,
@@ -298,40 +330,22 @@ export default new Vuex.Store({
       http
         .get(`/map/apt2`, { params })
         .then(({ data }) => {
-          console.log("commit, data");
-          console.log(data);
+          console.log("3. result 출력");
 
-          commit("SET_HOUSE_LIST", data);
+          // 조건에 맞는 아파트들 간추리기
+          return findApt(data, this.state.aptConditions);
+        })
+        .then((result) => {
+          console.log("4. 아파트 리스트", result);
+          console.log("4. 아파트 리스트 aroundStr", result[0]["aroundStr"]);
+
+          commit("SET_HOUSE_LIST", result);
         })
         .catch((error) => {
           console.log("error");
           console.log(error);
         });
     },
-    // getHouseList({ commit }, gugunCode) {
-    //   // vue cli enviroment variables 검색
-    //   //.env.local file 생성.
-    //   // 반드시 VUE_APP으로 시작해야 한다.
-    //   const SERVICE_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
-    //   // const SERVICE_KEY =
-    //   //   "9Xo0vlglWcOBGUDxH8PPbuKnlBwbWU6aO7%2Bk3FV4baF9GXok1yxIEF%2BIwr2%2B%2F%2F4oVLT8bekKU%2Bk9ztkJO0wsBw%3D%3D";
-    //   const SERVICE_URL =
-    //     "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
-    //   const params = {
-    //     LAWD_CD: gugunCode,
-    //     DEAL_YMD: "202203",
-    //     serviceKey: decodeURIComponent(SERVICE_KEY),
-    //   };
-    //   http
-    //     .get(SERVICE_URL, { params })
-    //     .then(({ data }) => {
-    //       // console.log(commit, data);
-    //       commit("SET_HOUSE_LIST", data.response.body.items.item);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
     detailHouse({ commit }, house) {
       // 나중에 house.일련번호를 이용하여 API 호출
       // console.log(commit, house);

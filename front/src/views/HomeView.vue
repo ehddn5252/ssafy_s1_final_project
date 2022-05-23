@@ -2,6 +2,7 @@
   <div>
     <section id="hero">
       <div class="hero-container" data-aos="fade-up">
+        <!-- <news-view></news-view> -->
         <h1>
           <span class="log">당신의 집을 찾아라</span>
         </h1>
@@ -11,7 +12,13 @@
           <v-row>
             <v-col class="m-auto" cols="12" sm="6">
               <v-row align-content="center" justify="center">
-                <v-text-field
+                <b-input-group prepend="Username" class="mt-3">
+                  <b-form-input></b-form-input>
+                  <b-input-group-append>
+                    <b-button variant="outline-success">Button</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+                <!-- <v-text-field
                   v-model="search"
                   solo
                   label="Solo"
@@ -19,7 +26,7 @@
                 ></v-text-field>
                 <v-btn depressed color="#d9dea6 " class="white--text m-1">
                   검색
-                </v-btn>
+                </v-btn> -->
               </v-row>
             </v-col>
           </v-row></v-container
@@ -224,8 +231,12 @@
 </template>
 
 <script>
+// import NewsView from "@/components/news/App.vue";
 export default {
   name: "HomeView",
+  // components: {
+  //   NewsView,
+  // },
   data() {
     return {
       search: "",

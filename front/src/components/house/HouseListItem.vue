@@ -15,6 +15,7 @@
     </b-col>
     <b-col cols="10" class="align-self-center">
       [가격:{{ house.recentPrice }}(만원)] {{ house.apartmentName }}
+      <div>{{ house.aroundStr }}</div>
     </b-col>
   </b-row>
 </template>

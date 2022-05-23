@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ssafy.vue.service.InterestService;
 import com.ssafy.vue.dto.RegionDto;
+import com.ssafy.vue.service.InterestService;
 
 @Controller
 @CrossOrigin("*")

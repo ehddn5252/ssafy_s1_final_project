@@ -67,6 +67,10 @@ export default {
   computed: {
     ...mapState(memberStore, ["userInfo"]),
   },
+  // methods: {
+  // ...mapActions([
+  //   "",
+  // ]),
 };
 </script>
 

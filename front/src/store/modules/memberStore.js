@@ -62,6 +62,8 @@ const memberStore = {
         },
       );
     },
+    // modifyUserInfo({ commit }, token) {},
+    // deleteUserInfo({ commit }, token) {},
   },
 };
 

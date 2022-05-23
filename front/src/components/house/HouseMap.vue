@@ -1,5 +1,6 @@
 <template>
   <div class="map_wrap">
+    <v-btn @click="clickAvg">시세보기</v-btn>
     <div
       id="map"
       style="width: 500px; height: 500px; position: relative; overflow: hidden"
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
@@ -20,6 +22,7 @@ export default {
     return {
       markers: [],
       infowindow: null,
+      circles: [],
     };
   },
   watch: {
@@ -29,20 +32,23 @@ export default {
       console.log(val);
       this.displayMarker(val);
     },
+    avgs: function () {
+      this.displayCircles(this.avgs);
+    },
   },
   computed: {
+    ...mapState(["houses", "avgs"]),
     houseLatLng() {
       return this.$store.getters.houseLatLng;
     },
   },
-
-  created() {
-    // this.$store.dispatch("getSido");
-    // this.sidoList();
-    // this.CLEAR_SIDO_LIST();
-  },
   methods: {
-    ...mapActions(["getSido"]),
+    ...mapActions(["getSido", "getAvg"]),
+    clickAvg() {
+      console.log("시세보기");
+      this.$store.commit("SET_HOUSE_LIST", []);
+      this.changeAvg();
+    },
     // sidoList() {
     //   this.getSido();
     // },
@@ -56,14 +62,42 @@ export default {
     initMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 5,
+        center: new kakao.maps.LatLng(37.526744, 127.19479),
+        level: 8,
       };
 
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+      var zoomControl = new kakao.maps.ZoomControl();
+      this.map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+      this.changeAvg();
+      // 지도가 확대 또는 축소되면 특정 레벨마다 시세 출력 변경set_avg
+      kakao.maps.event.addListener(this.map, "zoom_changed", this.changeAvg);
     },
+    changeAvg() {
+      // 지도의 현재 레벨을 얻어옵니다
+      var level = this.map.getLevel();
+      console.log("현재 지도 레벨은 " + level + " 입니다");
+
+      // 동이 선택되지 않아서 아무 아파트 리스트가 매핑 되지 않을 때만 동작
+      if (!(this.houses && this.houses.length != 0)) {
+        if (level >= 10) {
+          // 시도 시세 출력
+          this.getAvg("sido");
+        } else if (level >= 8) {
+          // 시도 구군 출력
+          this.getAvg("gugun");
+        } else if (level >= 2) {
+          // 시도 동 출력
+          this.getAvg("dong");
+        } else {
+          this.$store.commit("SET_AVG", []);
+        }
+      }
+    },
+
     changeSize(size) {
       const container = document.getElementById("map");
       container.style.width = `${size}px`;
@@ -71,13 +105,22 @@ export default {
       this.map.relayout();
     },
     displayMarker(markerPositions) {
-      // this.markers = this.$store.state.mapList;
-      console.log("markerPositions");
-      console.log(markerPositions);
-      // if (this.markers.length > 0) {
-      //   this.markers.forEach((marker) => marker.setMap(null));
-      // }
+      // 기존에 있던 원 없앰
+      var circles = this.circles;
+      for (var i = 0; i < circles.length; i++) {
+        circles[i].setMap(null);
+      }
+      // 기존에 있던 마커 제거
+      if (this.markers) {
+        var markers = this.markers;
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        this.markers = [];
+      }
 
+      // console.log("markerPositions");
+      // console.log(markerPositions);
       const positions = markerPositions.map((position) => {
         return new kakao.maps.LatLng(...position);
       });
@@ -86,27 +129,58 @@ export default {
         this.markers = positions.map((position) => {
           return new kakao.maps.Marker({ map: this.map, position });
         });
-        console.log("positions");
-        for (let i = 0; i < positions.length; ++i) {
-          console.log(positions[i]);
-        }
+
         var bounds = new kakao.maps.LatLngBounds();
         for (let i = 0; i < positions.length; i++) {
           bounds.extend(positions[i]);
         }
-        //=========
-
-        // const bounds = positions.reduce((bounds, latlng) => {
-        //   console.log("bounds");
-        //   console.log(bounds);
-        //   console.log(latlng);
-
-        //   bounds.extend(latlng);
-        // }, new kakao.maps.LatLngBounds());
-
         this.map.setBounds(bounds);
       }
     },
+    displayCircles(places) {
+      // 기존에 시세 마커 없애기
+      if (this.circles) {
+        var circles = this.circles;
+        for (let i = 0; i < circles.length; i++) {
+          circles[i].setMap(null);
+        }
+        this.circles = [];
+      }
+
+      // 기존에 있던 마커 제거
+      if (this.markers) {
+        var markers = this.markers;
+        for (let i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        this.markers = [];
+      }
+
+      for (let i = 0; i < places.length; i++) {
+        // 시세 정보 넣기
+        var content = `<div class ="label" style="background-color : lightpink;
+  border-radius: 10px;padding: 5px"><div class="left">${
+    places[i].name
+  }</div><div class="center">${places[i].avg.toLocaleString(
+          "ko-KR",
+        )} 만원</div></div>`;
+
+        // 커스텀 오버레이가 표시될 위치입니다
+        var position = new kakao.maps.LatLng(places[i].lat, places[i].lng);
+
+        // 커스텀 오버레이를 생성합니다
+        var customOverlay = new kakao.maps.CustomOverlay({
+          position: position,
+          content: content,
+        });
+
+        this.circles.push(customOverlay);
+
+        // 커스텀 오버레이를 지도에 표시합니다
+        customOverlay.setMap(this.map);
+      }
+    },
+    //
   },
 
   mounted() {
