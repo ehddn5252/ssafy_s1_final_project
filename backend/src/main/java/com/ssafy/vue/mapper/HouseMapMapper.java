@@ -9,11 +9,13 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.vue.dto.SidoGugunCodeDto;
 import com.ssafy.vue.dto.HouseInfoDto;
 import com.ssafy.vue.dto.HouseDealDto;
+import com.ssafy.vue.dto.BaseAddressDto;
 
 
 
 @Mapper
 public interface HouseMapMapper {
+
 
    List<SidoGugunCodeDto> getSido() throws SQLException;
    List<SidoGugunCodeDto> getGugunInSido(String sido) throws SQLException;
@@ -37,4 +39,8 @@ public interface HouseMapMapper {
    // 페이징 기능을 위한 것
 	List<HouseInfoDto> selectAptByName(Map<String, Object> param);
 	int getTotalCount(Map<String, String> map);
+  
+  	List<BaseAddressDto> getSidoLatLon(String sido);
+	List<BaseAddressDto> getGugunLatLon(String gugun);
 }
+

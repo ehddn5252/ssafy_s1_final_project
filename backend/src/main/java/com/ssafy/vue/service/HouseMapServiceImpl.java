@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service;
 import com.ssafy.vue.dto.SidoGugunCodeDto;
 //import com.ssafy.vue.service.HouseMapServiceImpl.TmpDto;
 import com.ssafy.util.Calculate;
+
 import com.ssafy.util.PageNavigation;
+
+import com.ssafy.vue.dto.BaseAddressDto;
+
 import com.ssafy.vue.dto.HouseDealDto;
 import com.ssafy.vue.dto.HouseInfoDto;
 import com.ssafy.vue.mapper.HouseMapMapper;
@@ -23,6 +27,7 @@ public class HouseMapServiceImpl implements HouseMapService {
    
    @Autowired
    private HouseMapMapper houseMapMapper;
+
 
    
    @Override
@@ -34,6 +39,19 @@ public class HouseMapServiceImpl implements HouseMapService {
    public List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception {
       return houseMapMapper.getGugunInSido(sido);
    }
+  
+  	@Override
+	public List<BaseAddressDto> getGugunLatLon(String gugun) {
+		
+		return houseMapMapper.getGugunLatLon(gugun);
+	}
+  
+  	@Override
+	public List<BaseAddressDto> getSidoLatLon(String sido) {
+		
+		return houseMapMapper.getSidoLatLon(sido);
+	}
+
 
    @Override
    public List<HouseInfoDto> getDongInGugun(String gugun) throws Exception {
@@ -73,11 +91,31 @@ public class HouseMapServiceImpl implements HouseMapService {
       return houseMapMapper.getDongList(gugun);
    }
 
-   @Override
+	@Override
+	public List<HouseDealDto> getHouseDealInApt(int dealCount, String aptCode) {
+		// TODO Auto-generated method stub
+		return houseMapMapper.getHouseDealInApt(dealCount,aptCode);
+	}
+	//======================================= 2022.05.18 11:52 추가된 부분
+	
+	@Override
+	public List<HouseInfoDto> getAptInName(String aptName, String dong) throws Exception {
+		return houseMapMapper.getAptInName(aptName, dong);
+	}
+	
+	
+	@Override
+	public List<HouseInfoDto> getDongList(String gugun) throws SQLException {
+		
+		return houseMapMapper.getDongList(gugun);
+	}
+  
+     @Override
    public List<HouseInfoDto> getLngLat(String dongName) throws SQLException {
       // TODO Auto-generated method stub
       return houseMapMapper.getLngLat(dongName);
    }
+
 
    @Override
    public List<HouseInfoDto> getRecommendList(String dong, String price_, String buildYear_) throws Exception {
@@ -255,5 +293,9 @@ public class HouseMapServiceImpl implements HouseMapService {
 	      return pageNavigation;
 	}
 
-   
+
+	
+
+	
 }
+
