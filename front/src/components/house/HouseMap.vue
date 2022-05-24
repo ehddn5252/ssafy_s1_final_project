@@ -169,7 +169,7 @@ export default {
       for (let i = 0; i < places.length; i++) {
         // 시세 정보 넣기
         var content = `<div class ="label" style="background-color : lightpink;
-        border-radius: 10px;padding: 5px"><div class="left">+"                    "
+        border-radius: 10px;padding: 5px"><div class="left">
         ${places[i].name}</div><div class="center">${places[
           i
         ].avg.toLocaleString("ko-KR")} 만원</div></div>`;

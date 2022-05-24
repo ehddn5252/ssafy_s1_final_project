@@ -62,10 +62,9 @@ export default new Vuex.Store({
     navigator: "",
     page: 1,
     dongCode: null,
-      centerLatLng: [],
+    centerLatLng: [],
     centerLatLngs: [],
     centerMapList: [],
-
   },
   getters: {
     getdealCount(state) {
@@ -202,7 +201,6 @@ export default new Vuex.Store({
       state.centerMapList = centers; //JSON.parse(JSON.stringify(centers));
       console.log("centerMapList");
       console.log(state.centerMapList);
-
     },
 
     SET_HOUSE_LIST(state, houses) {
@@ -217,10 +215,8 @@ export default new Vuex.Store({
       // console.log("SET_HOUSE_LIST 끝", state.houses);
     },
 
-
     SET_HOUSE_DEALS(state, housedeals) {
       state.houseDeals = housedeals;
-
     },
 
     CLEAR_ENVIRON_LIST(state) {
@@ -303,6 +299,7 @@ export default new Vuex.Store({
   },
   actions: {
     getSidoCenter({ commit }, params) {
+      console.log("getSidoCenter", params);
       http
         .get(`/map/sido/base`, { params })
         .then(({ data }) => {
@@ -486,7 +483,6 @@ export default new Vuex.Store({
           console.log(data);
           commit("SET_HOUSE_DEALS", data);
           //commit("CLEAR_AROUND_STORES_LIST");
-          commit("SET_HOUSE_LIST", data);
         })
         .catch((error) => {
           console.log("error");
