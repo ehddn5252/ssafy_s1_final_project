@@ -21,6 +21,9 @@
           <interest-region-detail></interest-region-detail>
         </b-row>
       </b-col>
+      <b-col>
+        <interest-region-popular-list />
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -29,6 +32,7 @@
 import InterestRegionList from "@/components/interestregion/InterestRegionList.vue";
 // import InterestRegionMap from "@/components/interestregion/InterestRegionMap.vue";
 import InterestRegionDetail from "@/components/interestregion/InterestRegionDetail.vue";
+import InterestRegionPopularList from "@/components/interestregion/InterestRegionPopularList.vue";
 import { mapMutations } from "vuex";
 export default {
   name: "InterestRegionView",
@@ -36,6 +40,7 @@ export default {
     InterestRegionList,
     // InterestRegionMap,
     InterestRegionDetail,
+    InterestRegionPopularList,
   },
   methods: {
     ...mapMutations([
