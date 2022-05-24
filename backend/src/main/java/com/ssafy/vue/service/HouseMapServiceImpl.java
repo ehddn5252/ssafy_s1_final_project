@@ -91,24 +91,7 @@ public class HouseMapServiceImpl implements HouseMapService {
       return houseMapMapper.getDongList(gugun);
    }
 
-	@Override
-	public List<HouseDealDto> getHouseDealInApt(int dealCount, String aptCode) {
-		// TODO Auto-generated method stub
-		return houseMapMapper.getHouseDealInApt(dealCount,aptCode);
-	}
-	//======================================= 2022.05.18 11:52 추가된 부분
-	
-	@Override
-	public List<HouseInfoDto> getAptInName(String aptName, String dong) throws Exception {
-		return houseMapMapper.getAptInName(aptName, dong);
-	}
-	
-	
-	@Override
-	public List<HouseInfoDto> getDongList(String gugun) throws SQLException {
-		
-		return houseMapMapper.getDongList(gugun);
-	}
+
   
      @Override
    public List<HouseInfoDto> getLngLat(String dongName) throws SQLException {

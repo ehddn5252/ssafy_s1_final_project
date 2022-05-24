@@ -42,6 +42,7 @@
       <if test="aptName != null and aptName != ''">
             and h.apartmentName like concat('%', #{aptName}, '%')
       </if>
+      </select>
 
 
 	<select id="getSidoLatLon" resultType="baseAddressDto">
@@ -130,7 +131,7 @@
 	</select>
 	
 			<!-- 추가된 파트 여기서 매핑해줘야 한다.  -->
-		<select id="getAptInDeal" parameterType="string" resultType="houseInfoDto">
+<!-- 		<select id="getAptInDeal" parameterType="string" resultType="houseInfoDto">
 		select h.aptCode, h.aptName, h.buildyear, h.dong, h.dongName, h.jibun, h.lat, h.lng, si.sidoname, gu.gugunname,
 				(select dealAmount from housedeal where aptCode = h.aptCode and no = (select max(no) from housedeal where aptCode = h.aptCode)) recentPrice
 		from houseinfo h
@@ -141,15 +142,9 @@
 		left join dongcode dong_c
 		on left(h.dongcode,9) = left(dong_c.dongcode,9)
 		where h.aptName = #{aptName} and h.dongcode=#{dong}
-	</select>
+	</select> -->
 
 	
-	
-      <!-- select count(aptCode)
-      from houseinfo
-      <if test="aptName != null and aptName != ''">
-            and h.apartmentName like concat('%', #{aptName}, '%')
-      </if> -->
-   </select>
+
    
 </mapper>
