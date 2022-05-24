@@ -4,7 +4,7 @@
       <b-col cols="11" class="bg-light p-2 pl-5 text-left">
         <span>
           <h6>
-            <div>{{ userid }}</div>
+            <div>{{ this.userid }}</div>
             <div>{{ regtime }}</div>
           </h6></span
         >
@@ -12,7 +12,7 @@
           {{ message }}
         </div>
       </b-col>
-      <b-col class="p-2"
+      <b-col v-show="isVal" class="p-2"
         ><b-button variant="danger" @click="deleteComment">X</b-button></b-col
       >
     </b-row>
@@ -22,7 +22,8 @@
 <script>
 import http from "@/api/http";
 import moment from "moment";
-
+import { mapState } from "vuex";
+const memberStore = "memberStore";
 export default {
   name: "CommentsItem",
   props: {
@@ -31,19 +32,35 @@ export default {
     regtime: String,
     content: String,
   },
+
+  created() {
+    console.log(this.commentsno);
+    console.log("created");
+    console.log(this.userid);
+    console.log(this.userInfo.userId);
+    // console.log(this.$store.state.memberStore.userInfo.userId);
+    this.writer = this.$store.state.memberStore.userInfo.userId;
+    if (this.userid == this.$store.state.memberStore.userInfo.userId) {
+      this.isVal = true;
+    } else {
+      this.isVal = false;
+    }
+  },
+
+  datas: {
+    isVal: true,
+  },
   computed: {
     message() {
       if (this.content) return this.content.split("\n").join("<br>");
       return "";
     },
+    ...mapState(memberStore, ["userInfo"]),
   },
   filters: {
     dateFormat(regtime) {
       return moment(new Date(regtime)).format("YY.MM.DD");
     },
-  },
-  created() {
-    console.log(this.commentsno);
   },
   methods: {
     deleteComment() {
