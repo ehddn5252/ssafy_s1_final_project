@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.vue.dto.SidoGugunCodeDto;
 import com.ssafy.vue.dto.HouseInfoDto;
 import com.ssafy.vue.dto.HouseDealDto;
+import com.ssafy.vue.dto.BaseAddressDto;
 
 
 
@@ -31,5 +32,9 @@ public interface HouseMapMapper {
 	List<HouseInfoDto> getLngLat(String dongName) throws SQLException;
 	
 	// 2022.05.23 house deal 부분 리턴하기 위해서 추가
-	List<HouseDealDto> getHouseDealInApt(String dongCode, String aptCode);
+	List<HouseDealDto> getHouseDealInApt(int dealCount, String aptCode);
+	
+
+	List<BaseAddressDto> getSidoLatLon(String sido);
+	List<BaseAddressDto> getGugunLatLon(String gugun);
 }

@@ -17,6 +17,7 @@ import com.ssafy.vue.dto.SidoGugunCodeDto;
 import com.ssafy.vue.dto.HouseInfoDto;
 import com.ssafy.vue.service.HouseMapService;
 import com.ssafy.vue.dto.HouseDealDto;
+import com.ssafy.vue.dto.BaseAddressDto;
 
 @RestController
 @RequestMapping("/map")
@@ -27,6 +28,20 @@ public class HouseMapController {
 
 	@Autowired
 	private HouseMapService haHouseMapService;
+	
+	
+	
+	@GetMapping("/sido/base")
+	public ResponseEntity<List<BaseAddressDto>> getSidoLatLon(@RequestParam("sido") String sido) throws Exception {
+		System.out.println("in getSidoLatLon");
+		return new ResponseEntity<List<BaseAddressDto>>(haHouseMapService.getSidoLatLon(sido), HttpStatus.OK);
+	}
+	@GetMapping("/gugun/base")
+	public ResponseEntity<List<BaseAddressDto>> getGugunLatLon(@RequestParam("gugun") String gugun) throws Exception {
+		System.out.println("in getGugunLatLon");
+		return new ResponseEntity<List<BaseAddressDto>>(haHouseMapService.getGugunLatLon(gugun), HttpStatus.OK);
+	}
+
 	
 	@GetMapping("/sido")
 	public ResponseEntity<List<SidoGugunCodeDto>> sido() throws Exception {
@@ -61,11 +76,11 @@ public class HouseMapController {
 	
 	// 0523 추가 모달에 아파트 deal 띄우기
 	@GetMapping("/aptDeal")
-	public ResponseEntity<List<HouseDealDto>> getHouseDealInApt(@RequestParam("dongCode") String dongCode, @RequestParam("aptCode") String aptCode) throws Exception {
+	public ResponseEntity<List<HouseDealDto>> getHouseDealInApt(@RequestParam("dealCount") int dealCount, @RequestParam("aptCode") String aptCode) throws Exception {
 		
 		System.out.println("in aptDeal");
-		System.out.println(dongCode);
-		return new ResponseEntity<List<HouseDealDto>>(haHouseMapService.getHouseDealInApt(dongCode,aptCode), HttpStatus.OK);
+		System.out.println(dealCount);
+		return new ResponseEntity<List<HouseDealDto>>(haHouseMapService.getHouseDealInApt(dealCount,aptCode), HttpStatus.OK);
 	}
 
 	// 아파트 이름으로 찾기
