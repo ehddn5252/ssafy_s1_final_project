@@ -40,9 +40,8 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 // import HouseSearchCondition from "@/components/house/HouseSearchCondition.vue";
-
 export default {
   name: "HouseSearchBar",
   components: {
@@ -70,19 +69,23 @@ export default {
   },
   methods: {
     ...mapActions([
-      "getSidoHouseMap",
       "getSido",
       "getGugun",
       "getHouseList",
       "getDong",
       "getHouse",
+      "getSidoCenter",
+      "getGugunCenter",
     ]),
     ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST", "CLEAR_DONG_LIST"]),
+    ...mapGetters(["getCenterLatLng"]),
     sidoList() {
       this.getSido();
     },
     gugunList() {
-      console.log(this.sidoCode);
+      let params = { sido: this.sidoCode };
+      if (this.sidoCode) this.getSidoCenter(params);
+
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
@@ -91,6 +94,9 @@ export default {
     //   if (this.gugunCode) this.getHouseList(this.gugunCode);
     // },
     dongList() {
+      let params = { gugun: this.gugunCode };
+      if (this.gugunCode) this.getGugunCenter(params);
+
       this.CLEAR_DONG_LIST();
       if (this.gugunCode) this.getDong(this.gugunCode);
     },

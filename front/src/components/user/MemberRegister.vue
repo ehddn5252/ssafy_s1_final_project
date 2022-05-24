@@ -218,7 +218,7 @@ export default {
       http
         .post(`/user/register`, this.userInfo)
         .then(({ data }) => {
-          let msg = "등록 처리시 문제가 발생했습니다.";
+          let msg = "아이디가 중복됩니다.";
           if (data === 1) {
             msg = "등록이 완료되었습니다.";
             this.$router.push({ name: "home" });
@@ -226,7 +226,9 @@ export default {
           alert(msg);
         })
         .catch((error) => {
+          let msg = "아이디가 중복됩니다.";
           console.log(error);
+          alert(msg);
         });
     },
     moveList() {
@@ -241,6 +243,8 @@ export default {
         .then(({ data }) => {
           if (data.idcount == 1) {
             this.idcheck = true;
+          } else {
+            this.idcheck = false;
           }
         });
     },

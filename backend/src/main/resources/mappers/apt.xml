@@ -4,6 +4,23 @@
 
 <mapper namespace="com.ssafy.vue.mapper.HouseMapMapper">
 
+	<select id="getSidoLatLon" resultType="baseAddressDto">
+		select sidoName, gugunName, dongName, dongCode, lat, lng
+		from baseaddress
+		where left(dongCode,2) = #{sido}
+		order by lat, lng
+	</select>
+
+
+
+	<select id="getGugunLatLon" resultType="baseAddressDto">
+		select sidoName, gugunName, dongName, dongCode, lat, lng
+		from baseaddress
+		where left(dongCode, 5) = #{gugun}
+		order by lat, lng
+	</select>
+	
+
 	<select id="getSido" resultType="sidoGugunCodeDto">
 		select left(sidoCode,2) sidoCode, sidoName
 		from sidocode
@@ -37,11 +54,11 @@
 	</select>
 		
 		<!--  house deal 파트 -->
-		<select id="getHouseDealInApt" parameterType="string" resultType="houseDealDto">
+		<select id="getHouseDealInApt" resultType="houseDealDto">
 		select hd.no, hd.dealAmount, hd.dealYear, hd.dealMonth, hd.dealDay, hd.area, hd.floor, hd.cancelDealType, hd.aptCode
 		from houseinfo h, housedeal hd 
 		where hd.aptCode = #{aptCode}
-		limit 3
+		limit #{dealCount}
 		</select>
 	
 		<select id="getAptInDong2" parameterType="string" resultType="houseInfoDto">
