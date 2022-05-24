@@ -44,6 +44,7 @@ export default new Vuex.Store({
       // { title: '할 일1', completed: false },
       // { title: '할 일2', completed: false },
     ],
+    mapLevel: 9,
     comments: [],
     qnano: null,
     // house map
@@ -55,6 +56,10 @@ export default new Vuex.Store({
 
     //0523 housedeal
     houseDeals: null,
+
+    centerLatLng: [],
+    centerLatLngs: [],
+    centerMapList: [],
   },
   getters: {
     getdealCount(state) {
@@ -68,7 +73,19 @@ export default new Vuex.Store({
       }
       return arr;
     },
-
+    getCenterLatLng(state) {
+      var centerLength = parseInt(state.centerMapList.length / 2);
+      console.log("state.centerMapList");
+      console.log(state.centerMapList[centerLength]);
+      let latlng = [
+        state.centerMapList[centerLength].lat,
+        state.centerMapList[centerLength].lng,
+      ];
+      console.log("latlng[0]");
+      console.log(latlng[0]);
+      console.log(latlng[1]);
+      return latlng;
+    },
     userInterestLatLon(state) {
       var arr = new Array(state.userInterestMapList.length);
       for (var i = 0; i < arr.length; ++i) {
@@ -112,7 +129,9 @@ export default new Vuex.Store({
     SET_CIRCLES(state, circles) {
       state.circles = JSON.parse(JSON.stringify(circles));
     },
-
+    SET_CENTER_LAT_LNG(state, latlon) {
+      state.centerLatLng = [latlon[0], latlon[1]];
+    },
     SET_AVG(state, avgs) {
       state.avgs = avgs;
     },
@@ -156,7 +175,14 @@ export default new Vuex.Store({
 
     SET_USER_INTEREST_LIST(state, userInterests) {
       state.userInterests = JSON.parse(JSON.stringify(userInterests));
-      state.userInterestsMapList = JSON.parse(JSON.stringify(userInterests));
+      state.userInterestMapList = JSON.parse(JSON.stringify(userInterests));
+    },
+
+    SET_HOUSE_CENTER_LIST(state, centers) {
+      state.centerLatLngs = centers; //JSON.parse(JSON.stringify(centers));
+      state.centerMapList = centers; //JSON.parse(JSON.stringify(centers));
+      console.log("centerMapList");
+      console.log(state.centerMapList);
     },
 
     SET_HOUSE_LIST(state, houses) {
@@ -171,8 +197,9 @@ export default new Vuex.Store({
       console.log("SET_HOUSE_LIST 끝", state.houses);
     },
 
-    SET_HOUSE_DEALS(state, housedeals) {
-      state.housedeals = housedeals;
+    SET_HOUSE_DEALS(state, houseDeals) {
+      // state.houseDeals = JSON.parse(JSON.stringify(houseDeals));
+      state.houseDeals = houseDeals;
     },
 
     CLEAR_ENVIRON_LIST(state) {
@@ -209,7 +236,9 @@ export default new Vuex.Store({
     CLEAR_DONG_LIST(state) {
       state.dongs = [{ value: null, text: "선택하세요" }];
     },
-
+    SET_MAP_LEVEL(state, level) {
+      state.mapLevel = level;
+    },
     SET_DETAIL_HOUSE(state, house) {
       state.house = house;
     },
@@ -252,6 +281,36 @@ export default new Vuex.Store({
     //////////////////////////// Todo List end //////////////////////////////////
   },
   actions: {
+    getSidoCenter({ commit }, params) {
+      http
+        .get(`/map/sido/base`, { params })
+        .then(({ data }) => {
+          // console.log(commit, response);
+          console.log("map/sido/base data");
+          console.log(data);
+          commit("SET_MAP_LEVEL", 9);
+          commit("SET_HOUSE_CENTER_LIST", data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getGugunCenter({ commit }, params) {
+      http
+        .get(`/map/gugun/base`, { params })
+        .then(({ data }) => {
+          // console.log(commit, response);
+          console.log("gugun map/gugun/base data");
+          console.log(data);
+          commit("SET_MAP_LEVEL", 8);
+          commit("SET_HOUSE_CENTER_LIST", data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     // 평균시세 (positionMode:sido,gugun,dong)
     getAvg({ commit }, positionMode) {
       http.get(`/avg/${positionMode}`).then(({ data }) => {
@@ -407,7 +466,7 @@ export default new Vuex.Store({
           console.log(data);
           commit("SET_HOUSE_DEALS", data);
           //commit("CLEAR_AROUND_STORES_LIST");
-          //commit("SET_HOUSE_LIST", data);
+          commit("SET_HOUSE_LIST", data);
         })
         .catch((error) => {
           console.log("error");
