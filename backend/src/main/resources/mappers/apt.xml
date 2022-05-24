@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.vue.mapper.HouseMapMapper">
+
+
+   
+   
+   
+   <!-- 0524.sj.페이징 기능과 검색 기능 -->
+   <!--  게시글 조회 -->
+
+   
+      <select id="selectAptByName" parameterType="map" resultType="HouseInfoDto">
+      select h.aptCode, h.apartmentName, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, si.sidoname, gu.gugunname,
+            (select dealAmount from housedeal where aptCode = h.aptCode and no = (select max(no) from housedeal where aptCode = h.aptCode)) recentPrice
+      from houseinfo h
+      left join sidocode si
+      on left(h.dongcode,2) = left(si.sidocode,2)
+      left join guguncode gu
+      on left(h.dongcode,5) = left(gu.guguncode,5)
+      where dongCode = #{dong}
+      <if test="aptName != null and aptName != ''">
+            and h.apartmentName like concat('%', #{aptName}, '%')
+      </if>
+      order by h.apartmentName
+      limit #{start}, #{spp}
+   </select>
+
+   
+
+	<!--  페이지 이동 위한 것 -->
+	<select id="getTotalCount" parameterType="map" resultType="int">
+	select count(h.aptCode)
+      from houseinfo h
+      left join sidocode si
+      on left(h.dongcode,2) = left(si.sidocode,2)
+      left join guguncode gu
+      on left(h.dongcode,5) = left(gu.guguncode,5)
+      where dongCode = #{dong}
+      <if test="aptName != null and aptName != ''">
+            and h.apartmentName like concat('%', #{aptName}, '%')
+      </if>
+
 
 	<select id="getSidoLatLon" resultType="baseAddressDto">
 		select sidoName, gugunName, dongName, dongCode, lat, lng
@@ -102,6 +142,14 @@
 		on left(h.dongcode,9) = left(dong_c.dongcode,9)
 		where h.aptName = #{aptName} and h.dongcode=#{dong}
 	</select>
+
 	
 	
+      <!-- select count(aptCode)
+      from houseinfo
+      <if test="aptName != null and aptName != ''">
+            and h.apartmentName like concat('%', #{aptName}, '%')
+      </if> -->
+   </select>
+   
 </mapper>

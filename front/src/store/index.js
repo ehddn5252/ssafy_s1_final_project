@@ -55,11 +55,17 @@ export default new Vuex.Store({
     aptConditions: [],
 
     //0523 housedeal
-    houseDeals: null,
 
-    centerLatLng: [],
+    houseDeals: [],
+
+    // 아파트 검색
+    navigator: "",
+    page: 1,
+    dongCode: null,
+      centerLatLng: [],
     centerLatLngs: [],
     centerMapList: [],
+
   },
   getters: {
     getdealCount(state) {
@@ -123,6 +129,15 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SET_DONG(stat, dong) {
+      stat.dongCode = dong;
+    },
+    SET_NAVIGATOR(state, navigator) {
+      state.navigator = navigator;
+    },
+    SET_PAGE(state, page) {
+      state.page = page;
+    },
     SET_CONDITIONS(state, conditions) {
       state.aptConditions = JSON.parse(JSON.stringify(conditions));
     },
@@ -143,8 +158,12 @@ export default new Vuex.Store({
       state.qnano = qnano;
     },
 
-    ADD_DEAL_COUNT(state, num) {
-      state.dealCount += num;
+    ADD_DEAL_COUNT(state) {
+      console.log("ADD_DEAL_COUNT", state.dealCount);
+      state.dealCount += 5;
+    },
+    SET_DEAL_COUNT(state, dealcount) {
+      state.dealCount = dealcount;
     },
 
     // 댓글 초기화
@@ -183,10 +202,11 @@ export default new Vuex.Store({
       state.centerMapList = centers; //JSON.parse(JSON.stringify(centers));
       console.log("centerMapList");
       console.log(state.centerMapList);
+
     },
 
     SET_HOUSE_LIST(state, houses) {
-      console.log("SET_HOUSE_LIST 처음", houses);
+      // console.log("SET_HOUSE_LIST 처음", houses);
       state.houses = [];
       // console.log("house", houses[0]);
       // console.log("apartmentName", houses[0]["apartmentName"]);
@@ -194,12 +214,13 @@ export default new Vuex.Store({
 
       state.houses = JSON.parse(JSON.stringify(houses));
       state.houseMapList = JSON.parse(JSON.stringify(houses));
-      console.log("SET_HOUSE_LIST 끝", state.houses);
+      // console.log("SET_HOUSE_LIST 끝", state.houses);
     },
 
-    SET_HOUSE_DEALS(state, houseDeals) {
-      // state.houseDeals = JSON.parse(JSON.stringify(houseDeals));
-      state.houseDeals = houseDeals;
+
+    SET_HOUSE_DEALS(state, housedeals) {
+      state.houseDeals = housedeals;
+
     },
 
     CLEAR_ENVIRON_LIST(state) {
@@ -456,8 +477,7 @@ export default new Vuex.Store({
         aptCode: aptCode,
         dealCount: this.state.dealCount,
       };
-      console.log("this.state.dealcoun");
-      console.log(this.state.dealCount);
+
       http
         .get(`/map/aptDeal`, { params })
         .then(({ data }) => {
@@ -474,28 +494,17 @@ export default new Vuex.Store({
         });
     },
 
-    getHouseList({ commit }, data) {
-      const params = {
-        sidoCode: data.sidoCode,
-        gugunCode: data.gugunCode,
-        dongCode: data.dongCode,
-      };
+    getHouseList({ commit }, params) {
+      console.log(params);
 
       http
-        .get(`/map/apt2`, { params })
+        .get(`/map/list`, { params })
         .then(({ data }) => {
-          console.log("3. result 출력");
+          // console.log("3. result 출력");
+          console.log(data);
 
-          // 조건에 맞는 아파트들 간추리기
-          //   return findApt(data, this.state.aptConditions);
-          // })
-          // .then((result) => {
-
-          commit("SET_HOUSE_LIST", data);
-
-          //console.log("commit, data");
-          //commit("CLEAR_AROUND_STORES_LIST");
-          //commit("SET_HOUSE_LIST", data);
+          commit("SET_NAVIGATOR", data.navigation.navigator);
+          commit("SET_HOUSE_LIST", data.aptlist);
         })
         .catch((error) => {
           console.log("error");

@@ -33,6 +33,17 @@
         ></b-form-select>
       </b-col>
     </b-row>
+    <b-row>
+      <b-input-group class="mt-3">
+        <b-form-input
+          v-model="aptName"
+          @keydown.enter="searchApt"
+        ></b-form-input>
+        <b-input-group-append>
+          <b-button variant="info" @click="searchApt">아파트 검색</b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </b-row>
     <!-- <b-row>
       <house-search-condition></house-search-condition>
     </b-row> -->
@@ -49,6 +60,8 @@ export default {
   },
   data() {
     return {
+      aptName: "",
+      // key: "userid",
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
@@ -56,7 +69,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(["sidos", "guguns", "dongs", "houses", "page"]),
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -77,8 +90,18 @@ export default {
       "getSidoCenter",
       "getGugunCenter",
     ]),
-    ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST", "CLEAR_DONG_LIST"]),
+
+    ...mapMutations([
+      "CLEAR_SIDO_LIST",
+      "CLEAR_GUGUN_LIST",
+      "CLEAR_DONG_LIST",
+      "SET_PAGE",
+      "SET_NAVIGATOR",
+      "SET_HOUSE_LIST",
+      "SET_DONG",
+    ]),
     ...mapGetters(["getCenterLatLng"]),
+
     sidoList() {
       this.getSido();
     },
@@ -100,15 +123,45 @@ export default {
       this.CLEAR_DONG_LIST();
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
+    // searchApt() {
+    //   const datas = {
+    //     sidoCode: this.sidoCode,
+    //     gugunCode: this.gugunCode,
+    //     dongCode: this.dongCode,
+    //   };
+
+    //   if (this.dongCode) this.getHouseList(datas);
+    // },
+
+    // 검색 버튼 눌렸을 때
     searchApt() {
+      this.SET_DONG(this.dongCode);
+      this.SET_PAGE(1);
+      // event.preventDefault();
+      // if (this.aptName == "") {
+      //   alert("모든 목록 조회!!!");
+      // }
+
       const datas = {
         sidoCode: this.sidoCode,
         gugunCode: this.gugunCode,
-        dongCode: this.dongCode,
+        dong: this.dongCode,
+        aptName: this.aptName,
+        pg: this.page,
       };
 
       if (this.dongCode) this.getHouseList(datas);
+
+      // http.get(`/map/list?pg=1&aptName=${this.aptName}`).then(({ data }) => {
+      //   console.log(data);
+      //   this.SET_HOUSE_LIST(data.aptlist);
+      //   this.SET_NAVIGATOR(data.navigation.navigator);
+      // });
     },
+
+    // linkGen(pageNum) {
+    //   return pageNum === 1 ? "?" : `?page=${pageNum}`;
+    // },
   },
 };
 </script>

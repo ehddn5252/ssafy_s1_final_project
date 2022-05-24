@@ -6,6 +6,11 @@
       :house="house"
       :propIndex="index"
     />
+    <div
+      class="m-3 row justify-content-center"
+      @click="clickPage"
+      v-html="`${navigator}`"
+    ></div>
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
     <b-row>
@@ -16,7 +21,7 @@
 
 <script>
 import HouseListItem from "@/components/house/HouseListItem.vue";
-import { mapState } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "HouseList",
   components: {
@@ -27,15 +32,33 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["houses"]),
+    ...mapState(["houses", "navigator", "page", "dongCode"]),
     // houses() {
     //   return this.$store.state.houses;
     // },
   },
 
   methods: {
+    ...mapActions(["getHouseList"]),
+    ...mapMutations(["SET_PAGE"]),
     morePages() {
       this.maxPage += 5;
+    },
+    clickPage(e) {
+      if (e.target.classList.contains("page-link")) {
+        this.SET_PAGE(e.target.name);
+        console.log(this.page);
+
+        const datas = {
+          sidoCode: this.sidoCode,
+          gugunCode: this.gugunCode,
+          dong: this.dongCode,
+          aptName: this.aptName,
+          pg: this.page,
+        };
+
+        if (this.dongCode) this.getHouseList(datas);
+      }
     },
   },
 };

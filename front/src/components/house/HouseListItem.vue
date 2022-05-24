@@ -1,18 +1,17 @@
 <template>
-  <div>
+  <b-alert show variant="secondary">
     <b-row
       class="m-2"
       scrollable
       v-b-modal="`modal-house-${this.propIndex}`"
       variant="primary"
-      @click="selectHouse0"
+      @click="openModal"
       @mouseover="colorChange(true)"
       @mouseout="colorChange(false)"
       :class="{ 'mouse-over-bgcolor': isColor }"
     >
-      <b-col cols="2" class="text-center align-self-center"> </b-col>
+      <!-- <b-col cols="2" class="text-center align-self-center"> </b-col> -->
       <b-col cols="10" class="align-self-center">
-        [가격:{{ house.recentPrice }}(만원)]
         {{ house.apartmentName }}
         <div>{{ house.aroundStr }}</div>
       </b-col>
@@ -38,10 +37,10 @@
             />
           </b-col>
         </b-row>
-        <b-button @click="selectHouse5">더보기</b-button>
+        <b-button @click="increasePage">더보기</b-button>
       </b-container>
     </b-modal>
-  </div>
+  </b-alert>
 </template>
 
 <script>
@@ -63,6 +62,7 @@ export default {
 
   watch: {
     houses: function () {
+      console.log(this.houses);
       this.deals = this.houseDeals;
     },
   },
@@ -80,19 +80,16 @@ export default {
     ...mapActions(["detailHouse", "getDealList"]),
     ...mapMutations(["ADD_DEAL_COUNT"]),
 
-    selectHouse0() {
-      this.$store.commit("ADD_DEAL_COUNT", 0);
-      this.$store.state.houseMapList = [this.house];
+    increasePage() {
+      // this.$store.state.houseMapList = [this.house];
+      this.$store.commit("ADD_DEAL_COUNT", 5);
       console.log("this.house.aptCode");
       console.log(this.house.aptCode);
       this.getDealList(this.house.aptCode);
     },
-
-    selectHouse5() {
-      this.$store.state.houseMapList = [this.house];
-      this.$store.commit("ADD_DEAL_COUNT", 5);
-      console.log("this.house.aptCode");
-      console.log(this.house.aptCode);
+    openModal() {
+      // this.$store.state.houseMapList = [this.house];
+      this.$store.commit("SET_DEAL_COUNT", 5);
       this.getDealList(this.house.aptCode);
     },
     colorChange(flag) {
