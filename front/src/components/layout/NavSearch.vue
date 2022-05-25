@@ -2,31 +2,33 @@
   <div class="m-auto">
     <b-container>
       <b-row class="p-1 mx-auto">
-        <span class="flex-fill"
-          ><b-form-input
+        <span class="flex-fill">
+          <v-text-field
+            label="아파트 찾기"
+            autocomplete="off"
+            prepend-inner-icon="mdi-magnify"
+            placeholder="검색할 장소를 입력"
+            @keyup="searchQuery"
+            @keyup.enter="searchEnter"
+            v-model="query"
+            filled
+            rounded
+            dense
+            clearable
+          ></v-text-field>
+
+          <!-- <b-form-input
             autocomplete="off"
             id="search-input"
             type="search"
-            class="form-control form-control p-4"
+            class="form-control form-control"
             placeholder="검색하고 싶은 장소를 입력하세요"
             @keyup="searchQuery"
             @keyup.enter="searchEnter"
             v-model="query"
             @focus="inputFocus"
           ></b-form-input
-        ></span>
-        <span>
-          <v-btn
-            id="search-apt"
-            class="mx-3"
-            fab
-            dark
-            small
-            @click="searchEnter"
-            color="primary"
-          >
-            <v-icon black> mdi-magnify </v-icon>
-          </v-btn>
+        > -->
         </span>
       </b-row>
     </b-container>
@@ -106,16 +108,18 @@ export default {
 </script>
 
 <style scoped>
-#search-apt {
-  background-color: rgb(58, 58, 185);
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  display: none;
 }
 #search-result {
+  position: absolute;
+  top: 75px;
+  margin-left: 25px;
+  width: 250px;
   background: white;
 }
 #search-input {
-  width: 350px;
-  box-shadow: 0px 3px 3px -1px rgb(0 0 0 / 20%),
-    0px 6px 4px 0px rgb(0 0 0 / 14%), 0px 1px 9px 0px rgb(0 0 0 / 12%);
+  width: 300px;
 }
 #search-box {
   z-index: 1000;

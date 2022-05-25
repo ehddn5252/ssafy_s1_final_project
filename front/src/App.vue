@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <navi-bar />
+    <nav-bar />
     <router-view />
+    <footer-bar />
   </div>
 </template>
 
 <script>
-import NaviBar from "@/components/layout/HeaderNaviBar.vue";
+import NavBar from "@/components/layout/NavBarB.vue";
+import FooterBar from "@/components/layout/FooterBar.vue";
 export default {
   name: "App",
   components: {
-    NaviBar,
+    NavBar,
+    FooterBar,
   },
 };
 </script>
@@ -19,6 +22,7 @@ export default {
 #app > .container {
   position: relative;
   top: 100px;
+  margin-bottom: 300px;
 }
 a {
   text-decoration: none;

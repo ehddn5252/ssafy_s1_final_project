@@ -1,7 +1,7 @@
 <template>
   <b-container
     id="search-box"
-    class="m-4 p-1 position-absolute border border-light rounded shadow"
+    class="m-5 p-1 position-absolute border border-light rounded shadow"
   >
     <!-- <b-row align-v="center" class="pl-3 py-1">
       <div @click="main" class="mouseover-cursor pr-3">
@@ -15,6 +15,7 @@
     <b-row class="p-1 m-auto">
       <span class="flex-fill"
         ><b-form-input
+          autocomplete="off"
           id="search-input"
           type="search"
           class="form-control form-control"
@@ -123,7 +124,7 @@
           @click="resultClick(item)"
         >
           <b-row class="px-2">{{ item.place_name }}</b-row>
-          <b-row class="px-2" style="color: grey; font-size: 12px">{{
+          <b-row class="p-2" style="color: grey; font-size: 12px">{{
             item.address_name
           }}</b-row>
         </b-list-group-item>
@@ -192,9 +193,10 @@ export default {
 
 <style scoped>
 #search-box {
-  z-index: 1000;
+  z-index: 100;
   max-width: 370px;
   background: white;
+  top: 50px;
 }
 #search-result {
   max-height: 300px;

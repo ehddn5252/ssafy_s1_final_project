@@ -40,6 +40,9 @@
           :areaName="areaName"
         ></interest-region-register>
       </b-input-group>
+      <b-row v-show="this.noSearchApt"
+        >조건에 부합하는 아파트가 존재하지 않습니다.</b-row
+      >
     </b-row>
     <!-- <b-row>
       <house-search-condition></house-search-condition>
@@ -66,10 +69,11 @@ export default {
       gugunCode: null,
       dongCode: null,
       conditions: [],
+      areaName: "",
     };
   },
   computed: {
-    ...mapState(["sidos", "guguns", "dongs", "houses", "page"]),
+    ...mapState(["sidos", "guguns", "dongs", "houses", "page", "noSearchApt"]),
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -82,11 +86,11 @@ export default {
     dongValue() {
       return this.dongs.find((option) => option.value == this.dongCode);
     },
-
   },
   created() {
     this.CLEAR_SIDO_LIST();
     this.getSido();
+    this.$store.commit("SET_noSearchApt", false);
   },
   methods: {
     ...mapActions([
@@ -155,7 +159,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .row + .row {
   margin-top: 0px;
   padding: 0 1rem 1rem 1rem;

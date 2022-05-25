@@ -89,19 +89,19 @@ public class PageNavigation {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("		<ul class=\"pagination\"> \n");
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"1\">최신</a> \n");
+		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"1\"><<</a> \n");
 		buffer.append("			</li> \n");
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"" + (this.startRange ? 1 : (startPage - 1)) + "\">이전</a> \n");
+		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"" + (this.startRange ? 1 : (startPage - 1)) + "\"><</a> \n");
 		buffer.append("			</li> \n");
 		for(int i=startPage;i<=endPage;i++) {
 			buffer.append("			<li class=\"" + (currentPage == i ? "page-item active" : "page-item") + "\"><a href=\"#\" class=\"page-link\" + name=\"" + i + "\">" + i + "</a></li> \n");
 		}
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"" + (this.endRange ? endPage : (endPage + 1)) + "\">다음</a> \n");
+		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"" + (this.endRange ? endPage : (endPage + 1)) + "\">></a> \n");
 		buffer.append("			</li> \n");
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"" + totalPageCount + "\">마지막</a> \n");
+		buffer.append("				<a href=\"#\" class=\"page-link\" name=\"" + totalPageCount + "\">>></a> \n");
 		buffer.append("			</li> \n");
 		buffer.append("		</ul> \n");
 		this.navigator = buffer.toString();
