@@ -59,6 +59,9 @@ export default {
       circles: [],
     };
   },
+  created() {
+    this.$store.commit("SET_HOUSE_LIST", []);
+  },
 
   mounted() {
     window.kakao && window.kakao.maps ? this.initMap() : this.addMapScript();
@@ -398,7 +401,7 @@ export default {
 
 <style scoped>
 #container {
-  margin-top: 114.34px;
+  margin-top: 70px;
 }
 .map {
   width: 100%;
@@ -408,8 +411,9 @@ export default {
   position: absolute;
   background: white;
   left: 50%;
-  top: 120px;
+  top: 100px;
   width: 500px;
+  border-radius: 10px;
   z-index: 3;
   transform: translate(-50%, 0);
 }

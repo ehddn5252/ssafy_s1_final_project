@@ -55,6 +55,7 @@ export default new Vuex.Store({
     qnano: null,
     // house map
     houseMapList: [],
+    noSearchApt: false,
     // checkedHouse: [],
     // checkodMapList: [],
     // 아파트 조건 (도보 몇 분 이내 ...)
@@ -134,8 +135,12 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SET_DONG(stat, dong) {
-      stat.dongCode = dong;
+    SET_noSearchApt(state, status) {
+      console.log("SET_noSearchApt 들어옴");
+      state.noSearchApt = status;
+    },
+    SET_DONG(state, dong) {
+      state.dongCode = dong;
     },
     SET_NAVIGATOR(state, navigator) {
       state.navigator = navigator;
@@ -155,7 +160,6 @@ export default new Vuex.Store({
     SET_AVG(state, avgs) {
       state.avgs = avgs;
     },
-
     SET_ARTICLENO(state, articleno) {
       state.articleno = articleno;
     },
@@ -498,9 +502,15 @@ export default new Vuex.Store({
         .then(({ data }) => {
           // console.log("3. result 출력");
           console.log(data);
-
-          commit("SET_NAVIGATOR", data.navigation.navigator);
-          commit("SET_HOUSE_LIST", data.aptlist);
+          if (data) {
+            commit("SET_NAVIGATOR", data.navigation.navigator);
+            commit("SET_HOUSE_LIST", data.aptlist);
+            commit("SET_noSearchApt", false);
+          } else {
+            console.log("해당 아파트 존재  X");
+            commit("SET_HOUSE_LIST", []);
+            commit("SET_noSearchApt", true);
+          }
         })
         .catch((error) => {
           console.log("error");

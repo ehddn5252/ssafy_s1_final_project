@@ -1,9 +1,8 @@
 <template>
   <b-alert show variant="secondary">
+    <!-- v-b-modal="`modal-house-${this.propIndex}`" -->
     <b-row
-      class="m-2"
       scrollable
-      v-b-modal="`modal-house-${this.propIndex}`"
       variant="primary"
       @click="openModal"
       @mouseover="colorChange(true)"
@@ -11,13 +10,13 @@
       :class="{ 'mouse-over-bgcolor': isColor }"
     >
       <!-- <b-col cols="2" class="text-center align-self-center"> </b-col> -->
-      <b-col cols="10" class="align-self-center">
+      <b-col cols="10" class="align-self-center font-weight-bold">
         {{ house.apartmentName }}
-        <div>{{ house.aroundStr }}</div>
+        <!-- <div>{{ house.address }}</div> -->
       </b-col>
     </b-row>
 
-    <b-modal
+    <!-- <b-modal
       size="xl"
       :id="`modal-house-${this.propIndex}`"
       hide-backdrop
@@ -39,19 +38,19 @@
         </b-row>
         <b-button @click="increasePage">더보기</b-button>
       </b-container>
-    </b-modal>
+    </b-modal> -->
   </b-alert>
 </template>
 
 <script>
 import { mapActions } from "vuex";
 import { mapState, mapMutations } from "vuex";
-import HouseDetail from "@/components/house/HouseDetail";
+// import HouseDetail from "@/components/house/HouseDetail";
 export default {
   name: "HouseListItem",
-  components: {
-    HouseDetail,
-  },
+  // components: {
+  //   HouseDetail,
+  // },
 
   data() {
     return {
@@ -89,8 +88,16 @@ export default {
     },
     openModal() {
       // this.$store.state.houseMapList = [this.house];
-      this.$store.commit("SET_DEAL_COUNT", 5);
-      this.getDealList(this.house.aptCode);
+      console.log("house", this.house);
+      var data = [this.house.lat, this.house.lng];
+      console.log("data", data);
+      this.$store.commit("SET_MAP_LEVEL", 2);
+      this.$store.commit("SET_HOUSE_CENTER_LIST", [this.house]);
+      // this.$store.commit("SET_HOUSE_CENTER_LIST", data);
+      // this.$store.commit("SET_CENTER_LAT_LNG", data);
+
+      // this.$store.commit("SET_DEAL_COUNT", 5);
+      // this.getDealList(this.house.aptCode);
     },
     colorChange(flag) {
       this.isColor = flag;

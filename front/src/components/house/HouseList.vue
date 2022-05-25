@@ -7,7 +7,7 @@
       :propIndex="index"
     />
     <div
-      class="m-3 row justify-content-center"
+      class="mx-3 mt-3 row justify-content-center"
       @click="clickPage"
       v-html="`${navigator}`"
     ></div>

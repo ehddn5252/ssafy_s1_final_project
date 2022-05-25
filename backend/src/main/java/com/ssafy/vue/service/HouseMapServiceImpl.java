@@ -115,7 +115,7 @@ public class HouseMapServiceImpl implements HouseMapService {
 	public PageNavigation makePageNavigation(Map<String, String> map) {
 		PageNavigation pageNavigation = new PageNavigation();
 	      
-	      int naviSize = 10;
+	      int naviSize = 1;
 	      int currentPage = Integer.parseInt(map.get("pg"));
 	      int sizePerPage = Integer.parseInt(map.get("spp"));
 	      
