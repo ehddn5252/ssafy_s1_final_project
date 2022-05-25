@@ -66,6 +66,7 @@ export default {
       gugunCode: null,
       dongCode: null,
       conditions: [],
+      areaName: null,
     };
   },
   computed: {
@@ -82,7 +83,6 @@ export default {
     dongValue() {
       return this.dongs.find((option) => option.value == this.dongCode);
     },
-
   },
   created() {
     this.CLEAR_SIDO_LIST();
