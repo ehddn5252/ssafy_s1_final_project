@@ -75,6 +75,15 @@ public class QnaController {
 	}
     
     @ApiOperation(value = "게시물을 보면 조회수가 올라간다.", response = String.class)
+    @PutMapping("/comment")
+    public ResponseEntity<String> insertComment(@PathVariable QnaDto qna) {
+    	if (qnaService.insertComment(qna)) {
+    		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    	}
+    	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+    }
+    
+    @ApiOperation(value = "게시물을 보면 조회수가 올라간다.", response = String.class)
     @PutMapping("/hit/{qnano}")
     public ResponseEntity<String> updateHit(@PathVariable int qnano) {
     	if (qnaService.updateHit(qnano)) {

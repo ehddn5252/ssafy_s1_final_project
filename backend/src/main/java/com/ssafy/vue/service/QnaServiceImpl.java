@@ -34,11 +34,9 @@ public class QnaServiceImpl implements QnaService{
 		// TODO Auto-generated method stub
 		 
       Map<String, Object> param = new HashMap<String, Object>();
-      String key = map.get("key");
-      if("userid".equals(key))
-         key = "q.userid";
-      param.put("key", key == null ? "" : key);
-      param.put("word", map.get("word") == null ? "" : map.get("word"));
+
+      param.put("userid", map.get("userid") == null ? "" : map.get("userid"));
+      param.put("comment", map.get("word") == null ? "" : map.get("word"));
       int currentPage = Integer.parseInt(map.get("pg") == null ? "1" : map.get("pg"));
       int sizePerPage = Integer.parseInt(map.get("spp"));
       int start = (currentPage - 1) * sizePerPage;
@@ -93,5 +91,11 @@ public class QnaServiceImpl implements QnaService{
 	public boolean updateHit(int qnano) {
 		// TODO Auto-generated method stub
 		return qnaMapper.updateHit(qnano)==1;
+	}
+
+	@Override
+	public boolean insertComment(QnaDto qna) {
+		// TODO Auto-generated method stub
+		return qnaMapper.insertComment(qna)==1;
 	}
 }
