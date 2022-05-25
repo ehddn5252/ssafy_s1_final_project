@@ -28,6 +28,7 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import http from "@/api/http";
 import ChartExample from "@/components/chart/ChartExample.vue";
+const memberStore = "memberStore";
 export default {
   name: "HouseSearchBar",
   components: {
@@ -52,7 +53,15 @@ export default {
     };
   },
   computed: {
-    ...mapState(["sidos", "guguns", "dongs", "houses", "page"]),
+    ...mapState([
+      "sidos",
+      "guguns",
+      "dongs",
+      "houses",
+      "page",
+      memberStore,
+      ["userInfo"],
+    ]),
   },
   created() {
     this.CLEAR_SIDO_LIST();
@@ -62,6 +71,9 @@ export default {
     this.lats = new Array();
     this.lngs = new Array();
     this.info.dataKind = "sido";
+    // if (true) {
+
+    // }
 
     this.callAPI();
   },
@@ -76,15 +88,12 @@ export default {
       "SET_DONG",
     ]),
     callAPI() {
-      console.log("this.info.dataKind");
-      console.log(this.info.dataKind);
       this.avgs = new Array();
       this.names = new Array();
       this.lats = new Array();
       this.lngs = new Array();
 
       if (this.info.dataKind == "sido") {
-        console.log("this is null case");
         http
           .get(`/avg/${this.info.dataKind}`)
           .then(({ data }) => {
@@ -100,7 +109,6 @@ export default {
             console.log(e);
           });
       } else {
-        console.log("this is not null case");
         let params = {};
         let paramKey = "sido";
         if (this.info.dataKind == "dong") {
@@ -128,6 +136,10 @@ export default {
     },
 
     gugunChart() {
+      if (this.$store.state.memberStore.userInfo.manager != "VIP") {
+        alert("VIP 멤버십 가입 후 이용 가능합니다.");
+        this.$router.replace({ name: "home" });
+      }
       this.info.dataKind = "gugun";
       this.info.regionCode = this.sidoCode;
       this.CLEAR_DONG_LIST();
