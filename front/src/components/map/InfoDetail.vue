@@ -1,0 +1,149 @@
+<template>
+  <b-container class="p-0">
+    <h1 class="font-weight-bold p-4">{{ aptName }}</h1>
+    <p class="text-right pr-4">
+      <b-badge variant="info">아파트 매매</b-badge>
+      {{ infos[0].dealYear }}.{{ infos[0].dealMonth }}.{{ infos[0].dealDay }}
+    </p>
+    <b-tabs content-class="mt-3">
+      <b-tab title="최근거래" active
+        ><RecentDeal
+          :deal="deal | price"
+          :item="recentlyItem"
+          :compare="compare"
+          :compareString="Math.abs(compare) | price"
+        ></RecentDeal
+      ></b-tab>
+      <b-tab>
+        <template #title>모든거래({{ infos.length }})</template>
+        <DetailDeal
+          :items="items"
+          :avg="avg | price"
+          :cnt="infos.length"
+        ></DetailDeal>
+      </b-tab>
+      <b-tab title="인프라"
+        ><Infra
+          :no="selectedInfo.no"
+          :lat="selectedInfo.lat"
+          :lng="selectedInfo.lng"
+        ></Infra
+      ></b-tab>
+      <!-- <b-tab :title="review == 0 ? '리뷰' : `리뷰(${review})`"
+        ><Review @review-count="reviewCount" :info="selectedInfo"></Review
+      ></b-tab> -->
+    </b-tabs>
+  </b-container>
+</template>
+
+<script>
+// import Review from "./detail/ReviewDetail.vue";
+import Infra from "./detail/InfraInfo.vue";
+import RecentDeal from "./detail/RecentDeal.vue";
+import DetailDeal from "./detail/DetailDeal.vue";
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  components: { Infra, RecentDeal, DetailDeal },
+
+  props: {
+    selectedInfo: Object,
+  },
+
+  computed: {
+    ...mapGetters(["getSelectedInfosByLatlng"]),
+  },
+
+  watch: {
+    selectedInfo: function (val) {
+      this.SEARCHBYLATLNG({
+        lat: val.lat,
+        lng: val.lng,
+      });
+    },
+    getSelectedInfosByLatlng: function (val) {
+      this.update(val);
+    },
+  },
+
+  data() {
+    return {
+      aptName: "",
+      infos: [{}],
+      items: [
+        {
+          실거래가: "-",
+          층: "-",
+        },
+      ],
+      recentlyItem: [
+        {
+          층: "-",
+          법정동: "-",
+          지번: "-",
+          건축연도: "-",
+          환경정보: "-",
+          상권정보: "-",
+        },
+      ],
+      deal: 0,
+      avg: 0,
+      compare: 0,
+      review: 0,
+    };
+  },
+
+  methods: {
+    ...mapActions(["SEARCHBYLATLNG"]),
+
+    update(infos) {
+      this.aptName = infos[0].apartmentName;
+      this.deal = infos[0].dealAmount;
+      this.infos = infos;
+      this.items = [];
+      console.log(infos);
+      this.recentlyItem = [
+        {
+          층: infos[0].floor,
+          타입: `${Math.round(infos[0].area * 0.3025)}평`,
+          주소: infos[0].address,
+          건축연도: infos[0].buildyear,
+        },
+      ];
+      var sum = 0;
+      for (let i = 0; i < this.infos.length; i++) {
+        sum = sum + parseInt(this.infos[i].dealAmount.replace(",", ""));
+        this.items.push({
+          거래날짜:
+            infos[i].dealYear +
+            "-" +
+            infos[i].dealMonth +
+            "-" +
+            infos[i].dealDay,
+          실거래가: this.$options.filters.price(infos[i].dealAmount),
+          층: infos[i].floor,
+        });
+      }
+      this.avg = Math.round(sum / this.infos.length);
+      this.compare =
+        this.avg - parseInt(this.infos[0].dealAmount.replace(",", ""));
+    },
+    reviewCount(cnt) {
+      this.review = cnt;
+    },
+  },
+
+  filters: {
+    price(value) {
+      // if (!value) return value.toString();
+      value = value + "";
+      return (
+        value
+          .replace(",", "")
+          .toString()
+          .replace(/\B(?=(\d{4})+(?!\d))/g, "억") + "만원"
+      ).replace("0000만원", "원");
+    },
+  },
+};
+</script>

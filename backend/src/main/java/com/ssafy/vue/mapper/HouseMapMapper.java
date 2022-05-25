@@ -42,5 +42,13 @@ public interface HouseMapMapper {
   
   	List<BaseAddressDto> getSidoLatLon(String sido);
 	List<BaseAddressDto> getGugunLatLon(String gugun);
+	
+	
+	// 0524 추가
+	public List<HouseDealDto> getDealsInDong(String dong) throws Exception;
+	public List<HouseDealDto> getHouseDealInRange(String swlat, String swlng, String nelat, String nelng) throws Exception;
+	public List<HouseDealDto> getSearchByLatLng(String lat, String lng) throws Exception;
+	public List<HouseDealDto> getHouseDealInRangeByPrice(String swlat, String swlng, String nelat, String nelng,
+			String price) throws Exception;
 }
 

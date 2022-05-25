@@ -5,38 +5,44 @@
 <mapper namespace="com.ssafy.vue.mapper.QnaMapper">
 	<!-- 05.18 15:26 sql은 dto 만들고 모두 다 수정해야함 -->
 	<!-- 게시글 전체 조회 -->
-	<select id="selectQna" resultType="QnaDto">
-		select qnano, userid, subject, content, hit, regtime
+	<select id="selectQna"  resultType="QnaDto">
+		select *
 		from qna 
 		order by qnano desc
+		<if test="userid">
+            and userid = #{userid}
+         </if>
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectQnaByNo" resultType="QnaDto">
-		select qnano, subject, userid, content, hit, regtime
+		select *
 		from qna 
 		where qnano = #{qnano}
 	</select>
+
 	
 	<!--  게시글 조회 -->
 	<sql id="search">
-      <if test="word != null and word != ''">
-         <if test="key == 'subject'">
-            and subject like concat('%', #{word}, '%')
+	
+	<trim prefixOverrides="AND">
+		<if test="comment!=null and comment!=''">
+            and subject like concat('%', #{content}, '%')
          </if>
-         <if test="key != 'subject'">
-            and ${key} = #{word}
+		<if test="userid!=null and userid!=''">
+            and userid = #{userid}
          </if>
-      </if>
+	</trim>
    </sql>
 	
 	
    <select id="selectQnaByName" parameterType="map" resultType="QnaDto">
-      select q.qnano, q.subject, q.userid, q.content, q.hit, q.regtime, m.userName
-      from qna q, user m
-      where q.userid = m.userId
+      select *
+      from qna
+      <where>
       <include refid="search"></include>
-      order by q.qnano desc
+      </where>
+      order by qnano desc
       limit #{start}, #{spp}
    </select>
 	
@@ -48,6 +54,14 @@
 			#{subject}, #{userid}, #{content}
 		)
 	</insert>
+	
+	<!-- 관리자 답변 추가 -->
+	<update id="insertComment" parameterType="QnaDto">
+		update qna 
+		   set commentid = #{commentid}, 
+		   	   comment = #{comment}
+		 where qnano = #{qnano}
+	</update>
 	
 	<!-- 게시글 수정 -->
 	<update id="updateQna" parameterType="QnaDto">

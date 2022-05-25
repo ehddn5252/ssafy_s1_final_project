@@ -28,7 +28,7 @@ public interface HouseMapService {
    List<HouseInfoDto> getAptInDong2(String dongCode) throws Exception;
 
     List<HouseInfoDto> getAptInName(String aptName, String dong) throws Exception;
-   List<HouseInfoDto> getRecommendList(String dong, String price, String houseSize) throws Exception;
+//   List<HouseInfoDto> getRecommendList(String dong, String price, String houseSize) throws Exception;
 
 //-------- 평균값을 위한 부분 ------------
      List<HouseInfoDto> getDongList(String gugun) throws SQLException;
@@ -45,5 +45,11 @@ public interface HouseMapService {
   
   	  List<BaseAddressDto> getSidoLatLon(String sido);
 	  List<BaseAddressDto> getGugunLatLon(String gugun);
+	  
+	  // 복붙 추가
+	  List<HouseDealDto> getDealsInDong(String dong) throws Exception;
+	  List<HouseDealDto> getHouseDealInRange(String swlat, String swlng, String nelat, String nelng) throws Exception;
+		List<HouseDealDto> getSearchByLatLng(String lat, String lng) throws Exception;
+		List<HouseDealDto> getHouseDealInRangeByPrice(String swlat, String swlng, String nelat, String nelng, String price) throws Exception;
 }
 

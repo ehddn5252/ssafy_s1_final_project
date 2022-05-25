@@ -46,15 +46,6 @@ export default {
   },
   methods: {
     ...mapActions(["getSido"]),
-    // sidoList() {
-    //   this.getSido();
-    // },
-    // gugunList() {
-    //   console.log(this.sidoCode);
-    //   this.CLEAR_GUGUN_LIST();
-    //   this.gugunCode = null;
-    //   if (this.sidoCode) this.getGugun(this.sidoCode);
-    // }
 
     initMap() {
       const container = document.getElementById("map");
@@ -86,7 +77,7 @@ export default {
       const positions = markerPositions.map((position) => {
         return new kakao.maps.LatLng(...position);
       });
-      console.log(positions);
+      // console.log(positions);
       if (positions.length > 0) {
         this.markers = positions.map((position) => {
           return new kakao.maps.Marker({ map: this.map, position });
@@ -99,15 +90,6 @@ export default {
         for (let i = 0; i < positions.length; i++) {
           bounds.extend(positions[i]);
         }
-        //=========
-
-        // const bounds = positions.reduce((bounds, latlng) => {
-        //   console.log("bounds");
-        //   console.log(bounds);
-        //   console.log(latlng);
-
-        //   bounds.extend(latlng);
-        // }, new kakao.maps.LatLngBounds());
 
         this.map.setBounds(bounds);
       }
