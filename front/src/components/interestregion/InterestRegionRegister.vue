@@ -38,6 +38,7 @@ export default {
       //   areaName: this.areaName,
       // };
       if (this.dongCode != null) {
+        let msg = "관심 지역이 등록되었습니다.";
         http
           .post(`/interest/insert`, {
             userId: this.userInfo.userId,
@@ -50,10 +51,13 @@ export default {
             console.log("data?");
             console.log(data);
             this.userInterests = data;
+            alert(msg);
           })
           .catch((e) => {
             console.log("e");
             console.log(e);
+            msg = "지역을 동까지 선택해주세요.";
+            alert(msg);
           });
       } else {
         console.log("dong Code is null");

@@ -12,5 +12,7 @@ public interface HouseAvgService {
 	List<HouseAvgDto> getSidoAvg() throws SQLException;
 	List<HouseAvgDto> getGugunAvg() throws SQLException;
 	List<HouseAvgDto> getDongAvg() throws SQLException;
-
+	List<HouseAvgDto> getGugunAvgSpecific(String sido) throws SQLException;
+	List<HouseAvgDto> getDongAvgSpecific(String gugun) throws SQLException;
+	
 }

@@ -18,6 +18,6 @@ public interface InterestMapMapper {
 	// 리스트
 	public List<RegionDto> searchByUserID(String userId) throws Exception;
 
-
+	public List<RegionDto> popularList() throws Exception;
 
 }

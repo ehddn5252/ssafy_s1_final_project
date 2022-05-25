@@ -507,6 +507,7 @@ export default new Vuex.Store({
           console.log(error);
         });
     },
+
     detailHouse({ commit }, house) {
       // 나중에 house.일련번호를 이용하여 API 호출
       // console.log(commit, house);

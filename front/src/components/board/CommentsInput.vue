@@ -34,7 +34,7 @@ export default {
         articleno: this.$store.state.articleno,
         content: this.content,
         // 나중에 동적으로 이름 바뀌도록 수정
-        userid: "ssafy",
+        userid: this.$store.state.memberStore.userInfo.userId, //"ssafy",
       };
 
       if (comment.content) {
