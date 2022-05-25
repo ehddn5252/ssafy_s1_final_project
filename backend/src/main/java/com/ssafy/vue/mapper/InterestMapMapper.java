@@ -19,5 +19,7 @@ public interface InterestMapMapper {
 	public List<RegionDto> searchByUserID(String userId) throws Exception;
 
 	public List<RegionDto> popularList() throws Exception;
+	
+	public List<RegionDto> selectByIdAndDongCode(String userId, String dongCode) throws Exception;
 
 }

@@ -30,10 +30,10 @@
 	</select>
 	
 	<select id="getDongAvgSpecific" parameterType="string" resultType="HouseAvgDto">
-		select a.dongcode, avg ,lat,lng, b.dongName as name
-		from AVGdong a join dongcode b
-        on b.dongcode = a.dongcode
-        where left(b.dongcode,5)=#{gugun}
+		select a.dongcode, avg ,a.lat,a.lng, b.dongName as name
+		from AVGdong a join bubjungdong b
+        on b.bubJungDongCode = a.dongcode
+        where left(a.dongcode,5)=#{gugun}
 	</select>
 
 	

@@ -16,4 +16,6 @@ public interface InterestMapService {
 	List<RegionDto> searchByUserID(String userId) throws Exception;
 	
 	List<RegionDto> popularList() throws Exception;
+	
+	List<RegionDto> selectByIdAndDongCode(String userId, String dongCode) throws Exception;
 }

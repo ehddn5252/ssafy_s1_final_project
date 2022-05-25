@@ -69,7 +69,11 @@ export default {
       gugunCode: null,
       dongCode: null,
       conditions: [],
-      areaName: "",
+
+      areaName: null,
+
+      //areaName: "",
+
     };
   },
   computed: {
