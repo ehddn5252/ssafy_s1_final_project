@@ -48,6 +48,14 @@ public class UserInterestController {
 //		return "interest";
 //	}
 	
+	@GetMapping("/popular/list")
+	public ResponseEntity<List<RegionDto>> popularList() throws Exception {
+		System.out.println("popularList  들어와짐");
+
+		return new ResponseEntity<List<RegionDto>>(interestService.popularList(),HttpStatus.OK);
+	}
+		
+	
 	@GetMapping("/list")
 	public ResponseEntity<List<RegionDto>> interestList(@RequestParam("userId") String userId) throws Exception {
 		System.out.println("select list 들어와짐");

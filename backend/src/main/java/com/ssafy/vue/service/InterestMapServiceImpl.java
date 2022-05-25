@@ -34,5 +34,11 @@ public class InterestMapServiceImpl implements InterestMapService {
 		return interestMapMapper.searchByUserID(userId);
 	}
 
+	@Override
+	public List<RegionDto> popularList() throws Exception {
+		
+		return interestMapMapper.popularList();
+	}
+
 	
 }

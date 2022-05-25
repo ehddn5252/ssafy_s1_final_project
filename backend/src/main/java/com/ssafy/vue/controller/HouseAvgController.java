@@ -49,5 +49,18 @@ public class HouseAvgController {
 		logger.debug("gugun : {}", houseAvgService.getDongAvg());
 		return new ResponseEntity<List<HouseAvgDto>>(houseAvgService.getDongAvg(), HttpStatus.OK);
 	}
+	
+
+	@GetMapping("/gugun/specific")
+	public ResponseEntity<List<HouseAvgDto>> gugun_specific(@RequestParam("sido") String sido) throws Exception {
+		logger.debug("gugun : {}", houseAvgService.getGugunAvgSpecific(sido));
+		return new ResponseEntity<List<HouseAvgDto>>(houseAvgService.getGugunAvgSpecific(sido), HttpStatus.OK);
+	}
+	
+	@GetMapping("/dong/specific")
+	public ResponseEntity<List<HouseAvgDto>> dong_specific(@RequestParam("gugun") String gugun) throws Exception {
+		logger.debug("gugun : {}", houseAvgService.getDongAvgSpecific(gugun));
+		return new ResponseEntity<List<HouseAvgDto>>(houseAvgService.getDongAvgSpecific(gugun), HttpStatus.OK);
+	}
 
 }

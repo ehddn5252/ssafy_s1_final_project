@@ -40,5 +40,17 @@ public class HouseAvgServiceImpl implements HouseAvgService {
 		return houseAvgMapper.getDongAvg();
 	}
 
+	@Override
+	public List<HouseAvgDto> getGugunAvgSpecific(String sido) throws SQLException {
+		// TODO Auto-generated method stub
+		return houseAvgMapper.getGugunAvgSpecific(sido);
+	}
+
+	@Override
+	public List<HouseAvgDto> getDongAvgSpecific(String gugun) throws SQLException {
+		// TODO Auto-generated method stub
+		return houseAvgMapper.getDongAvgSpecific(gugun);
+	}
+
 	
 }

@@ -9,18 +9,7 @@ public class RegionDto {
 	String sigugunCode;
 	String dongCode;
 	String areaName;
-
-	
-	public RegionDto() {}
-	
-	public RegionDto(String userId, String sidoCode, String sigugunCode, String dongCode, String areaName) {	
-		this.userId = userId;
-		this.sidoCode = sidoCode;
-		this.sigugunCode = sigugunCode;
-		this.dongCode = dongCode;
-		this.areaName = areaName;
-	}
-
+	int interestCount;
 	public int getInterestId() {
 		return interestId;
 	}
@@ -56,6 +45,18 @@ public class RegionDto {
 	}
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
+	}
+	public int getInterestCount() {
+		return interestCount;
+	}
+	public void setInterestCount(int interestCount) {
+		this.interestCount = interestCount;
+	}
+	@Override
+	public String toString() {
+		return "RegionDto [interestId=" + interestId + ", userId=" + userId + ", sidoCode=" + sidoCode
+				+ ", sigugunCode=" + sigugunCode + ", dongCode=" + dongCode + ", areaName=" + areaName
+				+ ", interestCount=" + interestCount + "]";
 	}
 
 }
