@@ -30,6 +30,19 @@ const routes = [
     name: "home",
     component: HomeView,
   },
+
+  {
+    path: "/chart",
+    name: "chart",
+    redirect: "chart/list",
+    component: () => import("@/views/ChartView.vue"),
+    children: [
+      {
+        path: "list",
+        name: "list",
+      },
+    ],
+  },
   {
     path: "/user",
     name: "user",

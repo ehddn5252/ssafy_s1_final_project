@@ -42,6 +42,12 @@
         <b-input-group-append>
           <b-button variant="info" @click="searchApt">아파트 검색</b-button>
         </b-input-group-append>
+        <interest-region-register
+          :sidoCode="sidoCode"
+          :sigugunCode="gugunCode"
+          :dongCode="dongCode"
+          :areaName="areaName"
+        ></interest-region-register>
       </b-input-group>
     </b-row>
     <!-- <b-row>
@@ -53,10 +59,13 @@
 <script>
 import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 // import HouseSearchCondition from "@/components/house/HouseSearchCondition.vue";
+import InterestRegionRegister from "@/components/interestregion/InterestRegionRegister.vue";
+
 export default {
   name: "HouseSearchBar",
   components: {
     // HouseSearchCondition,
+    InterestRegionRegister,
   },
   data() {
     return {
@@ -73,6 +82,15 @@ export default {
     // sidos() {
     //   return this.$store.state.sidos;
     // },
+    sidoValue() {
+      return this.sidos.find((option) => option.value == this.sidoCode);
+    },
+    sigugunValue() {
+      return this.guguns.find((option) => option.value == this.gugunCode);
+    },
+    dongValue() {
+      return this.dongs.find((option) => option.value == this.dongCode);
+    },
   },
   created() {
     // this.$store.dispatch("getSido");
@@ -123,15 +141,6 @@ export default {
       this.CLEAR_DONG_LIST();
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
-    // searchApt() {
-    //   const datas = {
-    //     sidoCode: this.sidoCode,
-    //     gugunCode: this.gugunCode,
-    //     dongCode: this.dongCode,
-    //   };
-
-    //   if (this.dongCode) this.getHouseList(datas);
-    // },
 
     // 검색 버튼 눌렸을 때
     searchApt() {
@@ -141,6 +150,13 @@ export default {
       // if (this.aptName == "") {
       //   alert("모든 목록 조회!!!");
       // }
+
+      this.areaName =
+        this.sidoValue.text +
+        " " +
+        this.sigugunValue.text +
+        " " +
+        this.dongValue.text;
 
       const datas = {
         sidoCode: this.sidoCode,

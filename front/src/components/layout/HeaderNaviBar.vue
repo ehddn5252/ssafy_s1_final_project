@@ -76,6 +76,12 @@
               관심지역조회</router-link
             ></b-nav-item
           >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'chart' }" class="link"
+              ><b-icon icon="calendar-check" font-scale="1.5"></b-icon> 차트
+              조회</router-link
+            ></b-nav-item
+          >
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto" v-if="userInfo">

@@ -42,13 +42,7 @@ export default {
   },
   created() {
     http.get(`/interest/popular/list`).then(({ data }) => {
-      for (let i = 0; i < data.length; ++i) {
-        console.log("data[i]");
-        console.log(data[i].interestId);
-      }
       this.interestRegions = data;
-      console.log("this.interestRegions");
-      console.log(this.interestRegions);
     });
   },
   methods: {},
