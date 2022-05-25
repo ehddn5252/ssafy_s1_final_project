@@ -24,4 +24,5 @@ public interface QnaService {
 	
 	// 네비게이션
 	PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
+	public boolean insertComment(QnaDto qna);
 }

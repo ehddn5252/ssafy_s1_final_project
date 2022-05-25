@@ -10,6 +10,42 @@ public class HouseDealDto {
 	String floor;
 	String cancelDealType;
 	String aptCode;
+	String apartmentName;
+	String lat;
+	String lng;
+	String buildyear;
+	String address;
+
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getApartmentName() {
+		return apartmentName;
+	}
+	public void setApartmentName(String apartmentName) {
+		this.apartmentName = apartmentName;
+	}
+	public String getLat() {
+		return lat;
+	}
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+	public String getLng() {
+		return lng;
+	}
+	public void setLng(String lng) {
+		this.lng = lng;
+	}
+	public String getBuildyear() {
+		return buildyear;
+	}
+	public void setBuildyear(String buildyear) {
+		this.buildyear = buildyear;
+	}
 	public String getNo() {
 		return no;
 	}

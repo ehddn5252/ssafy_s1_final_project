@@ -1,31 +1,21 @@
 <template>
-  <div>
-    <b-row class="mt-4 mb-4 text-center">
-      <!-- <b-col class="sm-3">
-      <b-form-input
-        v-model.trim="dongCode"
-        placeholder="동코드 입력...(예 : 11110)"
-        @keypress.enter="sendKeyword"
-      ></b-form-input>
-    </b-col>
-    <b-col class="sm-3" align="left">
-      <b-button variant="outline-primary" @click="sendKeyword">검색</b-button>
-    </b-col> -->
-      <b-col class="sm-3">
+  <div class="p-3">
+    <b-row class="mb-1 text-center">
+      <b-col class="area-select">
         <b-form-select
           v-model="sidoCode"
           :options="sidos"
           @change="gugunList"
         ></b-form-select>
       </b-col>
-      <b-col class="sm-3">
+      <b-col class="area-select">
         <b-form-select
           v-model="gugunCode"
           :options="guguns"
           @change="dongList"
         ></b-form-select>
       </b-col>
-      <b-col class="sm-3">
+      <b-col class="area-select">
         <b-form-select
           v-model="dongCode"
           :options="dongs"
@@ -34,10 +24,11 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-input-group class="mt-3">
+      <b-input-group>
         <b-form-input
           v-model="aptName"
           @keydown.enter="searchApt"
+          placeholder="검색할 아파트명을 입력해주세요"
         ></b-form-input>
         <b-input-group-append>
           <b-button variant="info" @click="searchApt">아파트 검색</b-button>
@@ -91,10 +82,9 @@ export default {
     dongValue() {
       return this.dongs.find((option) => option.value == this.dongCode);
     },
+
   },
   created() {
-    // this.$store.dispatch("getSido");
-    // this.sidoList();
     this.CLEAR_SIDO_LIST();
     this.getSido();
   },
@@ -131,9 +121,6 @@ export default {
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
-    // searchApt() {
-    //   if (this.gugunCode) this.getHouseList(this.gugunCode);
-    // },
     dongList() {
       let params = { gugun: this.gugunCode };
       if (this.gugunCode) this.getGugunCenter(params);
@@ -146,10 +133,6 @@ export default {
     searchApt() {
       this.SET_DONG(this.dongCode);
       this.SET_PAGE(1);
-      // event.preventDefault();
-      // if (this.aptName == "") {
-      //   alert("모든 목록 조회!!!");
-      // }
 
       this.areaName =
         this.sidoValue.text +
@@ -167,19 +150,14 @@ export default {
       };
 
       if (this.dongCode) this.getHouseList(datas);
-
-      // http.get(`/map/list?pg=1&aptName=${this.aptName}`).then(({ data }) => {
-      //   console.log(data);
-      //   this.SET_HOUSE_LIST(data.aptlist);
-      //   this.SET_NAVIGATOR(data.navigation.navigator);
-      // });
     },
-
-    // linkGen(pageNum) {
-    //   return pageNum === 1 ? "?" : `?page=${pageNum}`;
-    // },
   },
 };
 </script>
 
-<style></style>
+<style>
+.row + .row {
+  margin-top: 0px;
+  padding: 0 1rem 1rem 1rem;
+}
+</style>

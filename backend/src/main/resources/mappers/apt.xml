@@ -13,8 +13,7 @@
 
    
       <select id="selectAptByName" parameterType="map" resultType="HouseInfoDto">
-      select h.aptCode, h.apartmentName, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, si.sidoname, gu.gugunname,
-            (select dealAmount from housedeal where aptCode = h.aptCode and no = (select max(no) from housedeal where aptCode = h.aptCode)) recentPrice
+      select h.aptCode, h.apartmentName, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, si.sidoname, gu.gugunname
       from houseinfo h
       left join sidocode si
       on left(h.dongcode,2) = left(si.sidocode,2)
@@ -143,7 +142,39 @@
 		on left(h.dongcode,9) = left(dong_c.dongcode,9)
 		where h.aptName = #{aptName} and h.dongcode=#{dong}
 	</select> -->
+	
+	<!-- 추가 -->
+		<select id="getHouseDealInRange" parameterType="string" resultType="HouseDealDto">
+		select hd.aptCode, h.apartmentName,hd.dealAmount,hd.dealYear,hd.dealMonth,hd.dealDay,hd.area,hd.floor, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, concat(h.sidoName," ", h.gugunName," ",h.dongName) address
+from housedeal hd join  (select aptCode,h.apartmentName, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, i.sidoName, i.gugunName,i.dongName from houseinfo h  join dongcode i on h.dongCode=i.dongcode) h
+		on hd.aptCode=h.aptCode
+		WHERE (h.lat&gt;=#{swlat} AND h.lng&gt;=#{swlng}) AND (h.lat&lt;=#{nelat} AND h.lng&lt;=#{nelng})
+		and dealYear>=2019
+	</select>
 
+	<select id="getSearchByLatLng" parameterType="string" resultType="HouseDealDto">
+		select hd.aptCode, h.apartmentName,hd.dealAmount,hd.dealYear,hd.dealMonth,hd.dealDay,hd.area,hd.floor, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, concat(h.sidoName," ", h.gugunName," ",h.dongName) address
+from housedeal hd join  (select aptCode,h.apartmentName, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, i.sidoName, i.gugunName,i.dongName from houseinfo h  join dongcode i on h.dongCode=i.dongcode) h
+		on hd.aptCode=h.aptCode
+		WHERE h.lat=#{lat} AND h.lng=#{lng}
+		and dealYear>=2019
+		ORDER BY no DESC;
+	</select>
+	
+	<select id="getHouseDealInRangeByPrice" parameterType="string" resultType="HouseDealDto">
+		select hd.aptCode, h.apartmentName,hd.dealAmount,hd.dealYear,hd.dealMonth,hd.dealDay,hd.area,hd.floor, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, concat(h.sidoName," ", h.gugunName," ",h.dongName) address
+from housedeal hd join  (select aptCode,h.apartmentName, h.buildyear, h.dongCode, h.dong, h.jibun, h.lat, h.lng, i.sidoName, i.gugunName,i.dongName from houseinfo h  join dongcode i on h.dongCode=i.dongcode) h
+		on hd.aptCode=h.aptCode
+		WHERE (dealAmount &lt;= CAST(#{price} AS SIGNED INTEGER)) AND (h.lat&gt;=#{swlat} AND h.lng&gt;=#{swlng}) AND (h.lat&lt;=#{nelat} and h.lng&lt;=#{nelng})
+		and dealYear>=2019
+	</select>
+	
+	<select id="getDealsInDong" parameterType="string" resultType="HouseDealDto">
+		SELECT * FROM housedeal WHERE dong = #{dong}
+		ORDER BY AptName
+	</select>
+	
+	
 	
 
    

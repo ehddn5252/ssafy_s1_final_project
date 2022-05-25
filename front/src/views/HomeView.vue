@@ -12,25 +12,16 @@
           <v-row>
             <v-col class="m-auto" cols="12" sm="6">
               <v-row align-content="center" justify="center">
-                <b-input-group prepend="Username" class="mt-3">
-                  <b-form-input></b-form-input>
-                  <b-input-group-append>
-                    <b-button variant="outline-success">Button</b-button>
-                  </b-input-group-append>
-                </b-input-group>
-                <!-- <v-text-field
-                  v-model="search"
-                  solo
-                  label="Solo"
-                  clearable
-                ></v-text-field>
-                <v-btn depressed color="#d9dea6 " class="white--text m-1">
-                  검색
-                </v-btn> -->
+                <home-input
+                  @search-query="searchQuery"
+                  @result-click="moveToMap"
+                  @result-visible="changeResultVisible"
+                  :resultSearch="resultSearch"
+                  :resultVisible="resultVisible"
+                ></home-input>
               </v-row>
-            </v-col>
-          </v-row></v-container
-        >
+            </v-col> </v-row
+        ></v-container>
       </div>
     </section>
     <!-- End Hero --><!-- p[	1` -->
@@ -231,17 +222,94 @@
 </template>
 
 <script>
+import HomeInput from "@/components/map/HomeInput.vue";
+
 // import NewsView from "@/components/news/App.vue";
 export default {
   name: "HomeView",
+  components: { HomeInput },
+  data() {
+    return {
+      ps: null,
+      resultSearch: {},
+      resultVisible: false,
+    };
+  },
   // components: {
   //   NewsView,
   // },
-  data() {
-    return {
-      search: "",
-    };
+  mounted() {
+    if (!(window.kakao && window.kakao.maps)) {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" +
+        "fdf614748efadd63bf7ce73b5ddad4f1" +
+        "&libraries=services,clusterer";
+      document.head.appendChild(script);
+    } else {
+      this.initMap();
+    }
   },
+  methods: {
+    initMap() {
+      this.ps = new kakao.maps.services.Places();
+    },
+    resultClick(position) {
+      console.log("click!!!");
+      this.query = position.place_name;
+      this.$emit("result-click", {
+        lat: position.y,
+        lng: position.x,
+      });
+    },
+    searchEnter() {
+      if (this.resultSearch == {}) return;
+      this.$emit("result-click", {
+        lat: this.resultSearch.data[0].y,
+        lng: this.resultSearch.data[0].x,
+      });
+    },
+    inputFocus() {
+      this.$emit("result-visible", true);
+      this.query = "";
+    },
+    searchQuery(query) {
+      // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+      if (query) {
+        this.ps.keywordSearch(query, this.placesSearchCB);
+      }
+    },
+    // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+    placesSearchCB(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        // mapinput에 보내기
+        this.resultSearch = {
+          data,
+          pagination,
+        };
+      } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        this.resultSearch = {};
+        return;
+      } else if (status === kakao.maps.services.Status.ERROR) {
+        alert("검색 결과 중 오류가 발생했습니다.");
+        return;
+      }
+    },
+    moveToMap(position) {
+      // this.resultVisible = false;
+      console.log("position", position);
+      this.$router.push({
+        name: "map",
+        params: { lat: position.lat, lng: position.lng },
+      });
+    },
+    changeResultVisible(bool) {
+      this.resultVisible = bool;
+    },
+  },
+
   props: {
     msg: String,
   },

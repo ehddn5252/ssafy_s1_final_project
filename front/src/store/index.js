@@ -3,6 +3,9 @@ import Vuex from "vuex";
 import http from "@/api/http";
 // import tmap from "@/api/tmap";
 import memberStore from "@/store/modules/memberStore.js";
+import mapstore from "@/store/modules/mapstore.js";
+import infrastore from "@/store/modules/infrastore.js";
+import reviewstore from "@/store/modules/reviewstore.js";
 // import { findApt } from "@/api/findApt";
 
 // import axios from "axios";
@@ -14,6 +17,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     memberStore,
+    mapstore,
+    infrastore,
+    reviewstore,
   },
   plugins: [
     createPersistedState({
@@ -204,12 +210,6 @@ export default new Vuex.Store({
     },
 
     SET_HOUSE_LIST(state, houses) {
-      // console.log("SET_HOUSE_LIST 처음", houses);
-      state.houses = [];
-      // console.log("house", houses[0]);
-      // console.log("apartmentName", houses[0]["apartmentName"]);
-      // console.log("aroundStr", houses[0]["aroundStr"]);
-
       state.houses = JSON.parse(JSON.stringify(houses));
       state.houseMapList = JSON.parse(JSON.stringify(houses));
       // console.log("SET_HOUSE_LIST 끝", state.houses);
@@ -321,7 +321,7 @@ export default new Vuex.Store({
           // console.log(commit, response);
           console.log("gugun map/gugun/base data");
           console.log(data);
-          commit("SET_MAP_LEVEL", 8);
+          commit("SET_MAP_LEVEL", 6);
           commit("SET_HOUSE_CENTER_LIST", data);
         })
         .catch((error) => {

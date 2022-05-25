@@ -1,10 +1,6 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show><h3>글보기</h3></b-alert>
-      </b-col>
-    </b-row>
+    \
     <b-row class="mb-1">
       <b-col class="text-left">
         <b-button variant="outline-primary" @click="listQna">목록</b-button>
@@ -15,10 +11,10 @@
           size="sm"
           @click="moveModifyQna"
           class="mr-2"
-          >글수정</b-button
+          >질문수정</b-button
         >
         <b-button variant="outline-danger" size="sm" @click="deleteQna"
-          >글삭제</b-button
+          >질문삭제</b-button
         >
       </b-col>
     </b-row>
@@ -27,48 +23,25 @@
         <b-card
           :header-html="`<h3>${qna.qnano}.
           ${qna.subject} </h3><div><h6>${qna.userid}</div><div>${qna.regtime}<div>조회수: ${qna.hit}</div></h6></div>`"
-          class="mb-2"
+          class="text-left mb-2"
           border-variant="dark"
           no-body
         >
-          <b-card-body class="text-left">
+          <b-card-body class="text-left m-5">
             <div v-html="message"></div>
           </b-card-body>
         </b-card>
       </b-col>
     </b-row>
-
-    <!-- 댓글 -->
-    <b-col v-if="qna.qnano">
-      <b-row>
-        <b-col>
-          <comments-input></comments-input>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <comments-list
-            v-bind="{ qnano: qna.qnano }"
-            ref="CommentsList"
-          ></comments-list>
-        </b-col>
-      </b-row>
-    </b-col>
   </b-container>
 </template>
 
 <script>
 // import moment from "moment";
 import http from "@/api/http";
-import CommentsList from "@/components/qna/CommentsList";
-import CommentsInput from "@/components/qna/CommentsInput";
 
 export default {
   name: "QnaDetail",
-  components: {
-    CommentsInput,
-    CommentsList,
-  },
 
   data() {
     return {
@@ -77,7 +50,7 @@ export default {
   },
   computed: {
     message() {
-      if (this.qna.content) return this.qna.content.split("\n").join("<br>");
+      if (this.qna.comment) return this.qna.comment.split("\n").join("<br>");
       return "";
     },
   },
