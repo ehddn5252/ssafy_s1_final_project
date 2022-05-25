@@ -23,6 +23,12 @@
 		select interestId, userId, sidoCode, sigugunCode, dongCode, areaName, count(areaName) as interestCount
 		from userinterest
 		group by areaName
-		order by interestCount desc;
+		order by interestCount desc
+		limit 5
+	</select>
+	
+	<select id="selectByIdAndDongCode" parameterType="string" resultType="RegionDto">
+		select * from userinterest
+		where userId = #{userId} and dongCode= #{dongCode}
 	</select>
 </mapper>

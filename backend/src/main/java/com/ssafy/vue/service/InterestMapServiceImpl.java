@@ -40,5 +40,11 @@ public class InterestMapServiceImpl implements InterestMapService {
 		return interestMapMapper.popularList();
 	}
 
+	@Override
+	public List<RegionDto> selectByIdAndDongCode(String userId, String dongCode) throws Exception {
+		// TODO Auto-generated method stub
+		return interestMapMapper.selectByIdAndDongCode(userId,dongCode);
+	}
+
 	
 }

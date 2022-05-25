@@ -88,6 +88,16 @@ public class UserInterestController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
+	
+	@GetMapping("/list/check")
+	public ResponseEntity<List<RegionDto>> selectByIdAndDongCode(@RequestParam("userId") String userId,@RequestParam("dongCode") String dongCode) throws Exception {
+		System.out.println("popularList  들어와짐");
+
+		return new ResponseEntity<List<RegionDto>>(interestService.selectByIdAndDongCode(userId,dongCode),HttpStatus.OK);
+	}
+		
+	
+	
 //    @ApiOperation(value = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 //	@PostMapping
 //	public ResponseEntity<String> writeBoard(@RequestBody RegionDto r) throws Exception {
