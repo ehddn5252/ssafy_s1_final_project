@@ -82,6 +82,7 @@ export default {
     ...mapActions(["getSido", "getGugun", "getDong"]),
 
     ...mapMutations([
+      "SET_GUGUN_LIST",
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
@@ -142,18 +143,19 @@ export default {
       }
       this.info.dataKind = "gugun";
       this.info.regionCode = this.sidoCode;
-      this.CLEAR_DONG_LIST();
+
+      this.CLEAR_GUGUN_LIST();
       console.log("gugunchart", this.info);
       if (this.sidoCode) this.getGugun(this.sidoCode);
       this.callAPI();
     },
 
     dongChart() {
-      this.SET_DONG(this.dongCode);
+      // this.CLEAR_DONG_LIST();
       this.info.dataKind = "dong";
       this.info.regionCode = this.gugunCode;
       console.log("dongChart", this.info);
-
+      if (this.gugunCode) this.getDong(this.gugunCode);
       this.callAPI();
     },
   },
