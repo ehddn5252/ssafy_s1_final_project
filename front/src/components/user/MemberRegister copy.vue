@@ -1,123 +1,11 @@
 <template>
   <div class="registercontainer">
-    <v-container fluid>
-      <div
-        style="text-align: center margin: 10px 0px 5px 5px"
-        cols="12"
-        sm="10"
-        md="8"
-        lg="6"
-      >
-        <v-form @submit.stop.prevent @submit="onSubmit" @reset="onReset">
-          <v-text-field
-            class="pl-3 pr-3"
-            required
-            v-model="userInfo.userName"
-            label="이름"
-            type="text"
-            prepend-icon="mdi-account"
-          ></v-text-field>
-          <v-text-field
-            class="pl-3 pr-3"
-            required
-            v-model="userInfo.userId"
-            label="아이디"
-            type="text"
-            prepend-icon="mdi-badge-account-horizontal "
-            @keyup="idCheck"
-          ></v-text-field>
-          <div class="text-left pb-3 pl-5 p">
-            <b-form-invalid-feedback :state="validation">
-              5-12자의 아이디를 입력해주세요.
-            </b-form-invalid-feedback>
-            <b-form-valid-feedback :state="!idcheck && validation">
-              가능한 아이디 입니다.
-            </b-form-valid-feedback>
-            <!-- <b-form-valid-feedback
-              style="color: red"
-              :state="idcheck || !validation"
-            >
-              불가능한 아이디 입니다.
-            </b-form-valid-feedback> -->
-            <b-form-valid-feedback style="color: red" :state="idcheck">
-              중복된 아이디가 있습니다.
-            </b-form-valid-feedback>
-          </div>
-          <v-text-field
-            class="pl-3 pr-3"
-            required
-            v-model="userInfo.userPwd"
-            label="비밀번호"
-            type="password"
-            prepend-icon="mdi-lock"
-          ></v-text-field>
-          <v-text-field
-            class="pl-3 pr-3"
-            required
-            v-model="userInfo.phoneNum"
-            label="전화번호"
-            type="tel"
-            prepend-icon="mdi-phone"
-          ></v-text-field>
-          <v-text-field
-            class="pl-3 pr-3"
-            required
-            v-model="userInfo.userEmail"
-            label="이메일"
-            type="email"
-            prepend-icon="mdi-mail"
-          ></v-text-field>
-          <v-text-field
-            class="pl-3 pr-3"
-            required
-            v-model="userInfo.userBirth"
-            label="생일"
-            type="date"
-            prepend-icon="mdi-cake"
-          ></v-text-field>
-
-          <!-- <v-select
-            id="userGender"
-            v-model="userInfo.userGender"
-            :items="gender"
-            label="Standard"
-            dense
-            prepend-icon="mdi-mail"
-            required
-          ></v-select>
-          <v-select
-            :items="gender"
-            filled
-            label="Filled style"
-            dense
-          ></v-select> -->
-          <b-row>
-            <v-icon>mdi-gender-male-female</v-icon>
-
-            <b-form-select
-              v-model="userInfo.userGender"
-              :options="gender"
-              size="sm"
-              class="m-auto mt-3"
-              style="max-width: 400px; display: inline"
-            ></b-form-select>
-          </b-row>
-          <div>
-            <v-btn class="mt-3 mr-4" color="primary" outlined @click="onSubmit"
-              >회원가입</v-btn
-            >
-            <v-btn
-              class="mt-3"
-              color="error"
-              variant="danger"
-              outlined
-              @click="onReset"
-              >초기화</v-btn
-            >
-          </div>
-        </v-form>
-      </div>
-    </v-container>
+    <v-text-field
+      class="pl-3 pr-3"
+      :rules="emailRules"
+      required
+      v-model="userInfo.userName"
+    ></v-text-field>
   </div>
 </template>
 
@@ -129,14 +17,13 @@ export default {
 
   data() {
     return {
-      gender: [{ text: "성별", value: null }, "남", "여", "비밀"],
       userInfo: {
         userId: "",
         userName: "",
         phoneNum: "",
         userEmail: "",
         userPwd: "",
-        userGender: null,
+        userGender: "",
         userBirth: "",
       },
       type: "",

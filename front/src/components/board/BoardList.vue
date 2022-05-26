@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <board-popular-list></board-popular-list>
+    <!-- <board-popular-list></board-popular-list> -->
     <b-row>
       <b-col>
         <b-alert show><h3>글목록</h3></b-alert>
@@ -40,8 +40,12 @@
               <b-th>작성일</b-th>
             </b-tr>
           </b-thead>
+          <board-popular-list class="popular"></board-popular-list>
+        </b-table-simple>
+        <b-table-simple hover responsive>
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
+
             <board-list-item
               v-for="article in articles"
               :key="article.articleno"
@@ -133,6 +137,9 @@ export default {
 </script>
 
 <style scope>
+.popular tr {
+  background-color: rgb(241, 214, 207);
+}
 .tdClass {
   width: 50px;
   text-align: center;

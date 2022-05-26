@@ -59,6 +59,7 @@ export default {
       circles: [],
     };
   },
+
   created() {
     this.$store.commit("SET_HOUSE_LIST", []);
   },
@@ -171,8 +172,9 @@ export default {
 
       this.ps = new kakao.maps.services.Places();
       // 라우터로 값이 넘어왔으면 맵 이동
-      if (this.$route.params && this.$route.params.length) {
-        console.log("this.$router.params가 있음", this.$router.params);
+      console.log("this.$route.params", this.$route.params);
+      if (this.$route.params) {
+        console.log("this.$route.params가 있음", this.$route.params);
         this.moveMapToPosition(this.$route.params);
       }
     },
@@ -183,20 +185,22 @@ export default {
       console.log("현재 지도 레벨은 " + level + " 입니다");
       // 동이 선택되지 않아서 아무 아파트 리스트가 매핑 되지 않을 때만 동작
 
-      if (!(this.houses && this.houses.length != 0)) {
-        if (level >= 10) {
-          // 시도 시세 출력
-          this.getAvg("sido");
-        } else if (level >= 5) {
-          // 시도 구군 출력
-          this.getAvg("gugun");
-        } else if (level > 7) {
-          // 시도 동 출력
-          this.getAvg("dong");
-        } else {
-          this.$store.commit("SET_AVG", []);
-        }
+      // if (!(this.houses && this.houses.length != 0)) {
+      if (level >= 10) {
+        // 시도 시세 출력
+        this.clusterer.clear();
+        this.getAvg("sido");
+      } else if (level >= 5) {
+        this.clusterer.clear();
+        // 시도 구군 출력
+        this.getAvg("gugun");
+      } else if (level > 7) {
+        // 시도 동 출력
+        this.getAvg("dong");
+      } else {
+        this.$store.commit("SET_AVG", []);
       }
+      // }
     },
 
     searchQuery(query) {

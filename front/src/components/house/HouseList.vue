@@ -10,6 +10,7 @@
       class="mx-3 mt-3 row justify-content-center"
       @click="clickPage"
       v-html="`${navigator}`"
+      v-if="naviSize > 1"
     ></div>
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
@@ -32,7 +33,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["houses", "navigator", "page", "dongCode"]),
+    ...mapState(["houses", "navigator", "page", "dongCode", "naviSize"]),
     // houses() {
     //   return this.$store.state.houses;
     // },

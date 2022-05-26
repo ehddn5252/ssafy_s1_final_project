@@ -33,7 +33,7 @@
       >
       </a> -->
     </li>
-    <div class="p-2 mt-1 ml-5">
+    <div class="p-2 mt-1 ml-3">
       <!-- <v-text-field
         label="아파트 찾기"
         prepend-inner-icon="mdi-magnify"
@@ -52,24 +52,27 @@
         :resultVisible="resultVisible"
       ></nav-search>
     </div>
-    <b-navbar-nav class="ml-auto p-2" v-if="userInfo">
-      <b-nav-item class="align-self-center"
-        ><b-avatar
-          variant="primary"
-          v-text="userInfo ? userInfo.userId.charAt(0).toUpperCase() : ''"
-        ></b-avatar
-        >{{ userInfo.username }}({{ userInfo.userId }})님
-        환영합니다.</b-nav-item
-      >
 
-      <b-nav-item class="align-self-center"
-        ><router-link :to="{ name: 'mypage' }" class="link align-self-center"
-          >내정보보기</router-link
-        ></b-nav-item
-      >
-      <b-nav-item class="link align-self-center" @click.prevent="onClickLogout"
-        >로그아웃</b-nav-item
-      >
+    <b-navbar-nav class="p-2 mr-3" v-if="userInfo">
+      <b-nav-item-dropdown right>
+        <template #button-content>
+          <v-icon v-if="userInfo.manager == 'admin'">mdi-shield-crown</v-icon>
+          <v-icon v-if="userInfo.manager == 'user'">mdi-account</v-icon>
+          <v-icon v-if="userInfo.manager == 'vip'">mdi-account-star</v-icon>
+
+          {{ userInfo.userName }}님
+        </template>
+        <b-dropdown-item href="#"
+          ><router-link :to="{ name: 'mypage' }" class="link align-self-center"
+            >내정보보기</router-link
+          ></b-dropdown-item
+        >
+        <b-dropdown-item href="#"
+          ><span @click.prevent="onClickLogout"
+            ><b-icon icon="key"></b-icon> 로그아웃</span
+          ></b-dropdown-item
+        >
+      </b-nav-item-dropdown>
     </b-navbar-nav>
     <b-navbar-nav class="p-2 mr-3" v-else>
       <b-nav-item-dropdown right>

@@ -1,6 +1,6 @@
 <template>
   <div class="p-3">
-    <b-row class="mb-1 text-center">
+    <b-row class="mb-1 text-center align-items-center">
       <b-col class="area-select">
         <b-form-select
           v-model="sidoCode"
@@ -22,6 +22,15 @@
           @change="searchApt"
         ></b-form-select>
       </b-col>
+      <div v-if="dongCode" style="width: 25px">
+        <interest-region-register
+          class="p-0 pr-2"
+          :sidoCode="sidoCode"
+          :sigugunCode="gugunCode"
+          :dongCode="dongCode"
+          :areaName="areaName"
+        ></interest-region-register>
+      </div>
     </b-row>
     <b-row>
       <b-input-group>
@@ -33,12 +42,6 @@
         <b-input-group-append>
           <b-button variant="info" @click="searchApt">아파트 검색</b-button>
         </b-input-group-append>
-        <interest-region-register
-          :sidoCode="sidoCode"
-          :sigugunCode="gugunCode"
-          :dongCode="dongCode"
-          :areaName="areaName"
-        ></interest-region-register>
       </b-input-group>
       <b-row v-show="this.noSearchApt"
         >조건에 부합하는 아파트가 존재하지 않습니다.</b-row
@@ -73,7 +76,6 @@ export default {
       areaName: null,
 
       //areaName: "",
-
     };
   },
   computed: {

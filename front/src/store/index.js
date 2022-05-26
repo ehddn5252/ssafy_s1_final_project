@@ -28,6 +28,20 @@ export default new Vuex.Store({
     }),
   ],
   state: {
+    emailRules: [
+      (v) => !!v || "이메일을 작성해주세요.",
+      (v) => /.+@.+\..+/.test(v) || "이메일 형식으로 작성해주세요.",
+    ],
+    nameRules: [
+      (v) => !!v || "이름을 작성해주세요.",
+      // (v) => !!this.idCheck(v) || "중복된 아이디가 있습니다.",
+    ],
+    idRules: [(v) => !!v || "아이디를 작성해주세요."],
+    telRules: [(v) => !!v || "전화번호를 작성해주세요."],
+    // 전화번호: [
+    //   (v) => !!v || "전화번호를 작성해주세요.",
+    // ],
+    pwdRules: [(v) => !!v || "비밀번호을 작성해주세요."],
     sidos: [{ value: null, text: "시도 선택" }],
     guguns: [{ value: null, text: "구군 선택" }],
     dongs: [{ value: null, text: "동 선택" }],
@@ -66,6 +80,7 @@ export default new Vuex.Store({
     houseDeals: [],
 
     // 아파트 검색
+    naviSize: 0,
     navigator: "",
     page: 1,
     dongCode: null,
@@ -141,6 +156,9 @@ export default new Vuex.Store({
     },
     SET_DONG(state, dong) {
       state.dongCode = dong;
+    },
+    SET_NAVISIZE(state, naviSize) {
+      state.naviSize = naviSize;
     },
     SET_NAVIGATOR(state, navigator) {
       state.navigator = navigator;
@@ -252,10 +270,10 @@ export default new Vuex.Store({
       state.sidos = [{ value: null, text: "시도 선택" }];
     },
     CLEAR_GUGUN_LIST(state) {
-      state.guguns = [{ value: null, text: "선택하세요" }];
+      state.guguns = [{ value: null, text: "구군 선택" }];
     },
     CLEAR_DONG_LIST(state) {
-      state.dongs = [{ value: null, text: "선택하세요" }];
+      state.dongs = [{ value: null, text: "동 선택" }];
     },
     SET_MAP_LEVEL(state, level) {
       state.mapLevel = level;
@@ -386,7 +404,7 @@ export default new Vuex.Store({
       http
         .get(`/map/gugun`, { params })
         .then(({ data }) => {
-          // console.log(commit, response);
+          console.log("getGuguncommit", data);
           commit("SET_GUGUN_LIST", data);
         })
         .catch((error) => {
@@ -503,7 +521,9 @@ export default new Vuex.Store({
           // console.log("3. result 출력");
           console.log(data);
           if (data) {
+            commit("SET_NAVISIZE", data.navigation.naviSize);
             commit("SET_NAVIGATOR", data.navigation.navigator);
+            commit("SET_HOUSE_LIST", data.aptlist);
             commit("SET_HOUSE_LIST", data.aptlist);
             commit("SET_noSearchApt", false);
           } else {

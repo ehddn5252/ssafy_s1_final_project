@@ -1,8 +1,12 @@
 <template>
   <b-container>
     <span @click="checkIsIn">
-      <b-icon icon="star-fill" v-if="!displayByValue"></b-icon>
-      <b-icon icon="star" v-else></b-icon>
+      <b-icon
+        icon="star-fill"
+        style="color: rgb(163, 163, 60)"
+        v-if="!this.isLike"
+      ></b-icon>
+      <b-icon icon="star" style="color: rgb(163, 163, 60)" v-else></b-icon>
     </span>
   </b-container>
 </template>
@@ -36,10 +40,10 @@ export default {
           this.interestLength = data.length;
           if (data.length == 0) {
             console.log("data.length == 0");
-            this.isLike = false;
+            this.isLike = true;
           } else {
             console.log("data.length == 1");
-            this.isLike = true;
+            this.isLike = false;
           }
         })
         .catch((e) => {
@@ -50,7 +54,7 @@ export default {
   },
 
   data() {
-    return { interestLength: 1, isLike: false };
+    return { interestLength: 1, isLike: true };
   },
   props: {
     sidoCode: String,

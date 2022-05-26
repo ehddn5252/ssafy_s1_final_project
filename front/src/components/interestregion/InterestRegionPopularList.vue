@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row><h4>인기 지역 순위</h4></b-row>
+    <b-row><h4 class="font-weight-bold">인기 지역 순위</h4></b-row>
     <b-row>
       <b-col v-if="interestRegions.length">
         <b-table-simple hover responsive>

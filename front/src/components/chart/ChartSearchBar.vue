@@ -16,7 +16,7 @@
         ></b-form-select>
       </b-col>
     </b-row>
-    <b-row sm="9">
+    <b-row sm="9" class="m-auto" style="max-width: 800px">
       <b-container fluid="lg">
         <chart-Example :avgs="avgs" :names="names" :lats="lats" :lngs="lngs" />
       </b-container>
@@ -137,10 +137,6 @@ export default {
     },
 
     gugunChart() {
-      if (this.$store.state.memberStore.userInfo.manager != "VIP") {
-        alert("VIP 멤버십 가입 후 이용 가능합니다.");
-        this.$router.replace({ name: "home" });
-      }
       this.info.dataKind = "gugun";
       this.info.regionCode = this.sidoCode;
 

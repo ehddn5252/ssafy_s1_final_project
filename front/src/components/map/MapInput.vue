@@ -106,7 +106,7 @@
         </b-card>
       </b-collapse>
     </b-container> -->
-    <b-container id="search-result" class="p-1" v-show="resultVisible">
+    <b-container id="search-result" class="p-1" v-show="resultVisible && query">
       <b-list-group>
         <b-list-group-item v-if="resultSearch == ''">
           <b-row class="px-2 pb-1" align-h="center"
