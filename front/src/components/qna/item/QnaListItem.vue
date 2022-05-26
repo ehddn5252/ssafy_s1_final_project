@@ -36,7 +36,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .yesComment {
   background: rgb(33, 168, 33);
   color: white;

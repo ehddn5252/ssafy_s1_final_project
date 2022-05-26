@@ -51,6 +51,22 @@
                 </p>
               </div>
             </div>
+            <div
+              onclick="location.replace('/interestinfo/env')"
+              class="company-button col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
+            >
+              <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon">
+                  <v-icon large color="green darken-2">mdi-store</v-icon>
+                </div>
+                <h4 class="title">
+                  <a href="/interestinfo/env">주변상권 조회</a>
+                </h4>
+                <p class="description">
+                  동네 주변의 상권 정보를 조회할 수 있습니다.
+                </p>
+              </div>
+            </div>
 
             <div
               onclick="location.replace('/interest/list')"
@@ -58,7 +74,7 @@
             >
               <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
                 <div class="icon">
-                  <b-icon icon="icon file" aria-hidden="true"></b-icon>
+                  <v-icon large color="green darken-2">mdi-home-heart</v-icon>
                 </div>
                 <h4 class="title"><a href="/interest/list">관심지역조회</a></h4>
                 <p class="description">
@@ -72,27 +88,17 @@
               class="company-button col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
             >
               <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-                <div class="icon"><i class="bx bx-tachometer"></i></div>
+                <div class="icon">
+                  <v-icon large color="green darken-2"
+                    >mdi-chart-box-outline</v-icon
+                  >
+                </div>
                 <h4 class="title">
-                  <a href="/interestinfo/store">주변탐방 업종 정보 조회</a>
+                  <a href="/interestinfo/store">지역별 시세 차트 조회</a>
                 </h4>
                 <p class="description">
-                  관련 동네 업종 정보를 지도를 통해 제공합니다.
-                </p>
-              </div>
-            </div>
-
-            <div
-              onclick="location.replace('/interestinfo/env')"
-              class="company-button col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-                <div class="icon"><i class="bx bx-world"></i></div>
-                <h4 class="title">
-                  <a href="/interestinfo/env">주변환경 정보 조회</a>
-                </h4>
-                <p class="description">
-                  동네 주변의 환경 정보를 조회할 수 있습니다.
+                  시구군 지역별 시세 현황을 한눈에 확인할 수 있습니다. (VIP
+                  멤버십 전용)
                 </p>
               </div>
             </div>
@@ -113,38 +119,27 @@
                   aria-hidden="true"
                 ></b-icon>
                 <!-- <i class="bi bi-emoji-smile"></i> -->
-                <span
-                  data-purecounter-start="0"
-                  data-purecounter-end="232"
-                  data-purecounter-duration="1"
-                  class="purecounter"
-                ></span>
+                <span>232</span>
                 <p><strong>가입자수</strong></p>
               </div>
             </div>
 
             <div class="col-lg-4 col-md-6 d-md-flex align-items-md-stretch">
               <div class="count-box text-center">
-                <i class="bi bi-headset"></i>
-                <span
-                  data-purecounter-start="0"
-                  data-purecounter-end="1463"
-                  data-purecounter-duration="1"
-                  class="purecounter"
-                ></span>
+                <v-icon class="icon" large color="green darken-2"
+                  >mdi-clock-outline</v-icon
+                >
+                <span>1463</span>
                 <p><strong>운영 시간</strong></p>
               </div>
             </div>
 
             <div class="col-lg-4 col-md-6 d-md-flex align-items-md-stretch">
               <div class="count-box text-center">
-                <i class="bi bi-people"></i>
-                <span
-                  data-purecounter-start="0"
-                  data-purecounter-end="2"
-                  data-purecounter-duration="1"
-                  class="purecounter"
-                ></span>
+                <v-icon class="icon" large color="green darken-2"
+                  >mdi-account-group</v-icon
+                >
+                <span>2</span>
                 <p><strong>직원수</strong></p>
               </div>
             </div>
@@ -191,7 +186,7 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="info-box mb-4">
-                <i class="bx bx-map"></i>
+                <v-icon>mdi-map-marker</v-icon>
                 <h3>회사 주소</h3>
                 <p>싸피광역시 싸피동 11-11, 대한민국</p>
               </div>
@@ -199,7 +194,7 @@
 
             <div class="col-lg-3 col-md-6">
               <div class="info-box mb-4">
-                <i class="bx bx-envelope"></i>
+                <v-icon>mdi-email</v-icon>
                 <h3>이메일</h3>
                 <p>contact@happyhouse.co.kr</p>
               </div>
@@ -207,7 +202,7 @@
 
             <div class="col-lg-3 col-md-6">
               <div class="info-box mb-4">
-                <i class="bx bx-phone-call"></i>
+                <v-icon>mdi-phone</v-icon>
                 <h3>콜센터</h3>
                 <p>5959-5959</p>
               </div>
@@ -256,6 +251,14 @@ export default {
     initMap() {
       this.ps = new kakao.maps.services.Places();
     },
+    moveToMap(position) {
+      // this.resultVisible = false;
+      console.log("position", position);
+      this.$router.push({
+        name: "map",
+        params: { lat: position.lat, lng: position.lng },
+      });
+    },
     resultClick(position) {
       console.log("click!!!");
       this.query = position.place_name;
@@ -296,14 +299,6 @@ export default {
         alert("검색 결과 중 오류가 발생했습니다.");
         return;
       }
-    },
-    moveToMap(position) {
-      // this.resultVisible = false;
-      console.log("position", position);
-      this.$router.push({
-        name: "map",
-        params: { lat: position.lat, lng: position.lng },
-      });
     },
     changeResultVisible(bool) {
       this.resultVisible = bool;

@@ -8,10 +8,9 @@
           alt="Image 1"
         ></b-img>
       </b-col>
-      <b-col cols="10" class="align-self-center">
+      <b-col cols="10" class="align-self-center font-weight-bold">
         <!-- 이걸 누르면 상호 추가 -->
-        [{{ userInterest.userId }}] {{ userInterest.sidoCode }}
-        {{ userInterest.sigugunCode }} {{ userInterest.dongCode }}
+
         {{ userInterest.areaName }}
       </b-col>
     </b-col>

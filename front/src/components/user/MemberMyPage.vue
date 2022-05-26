@@ -1,11 +1,6 @@
 <template>
   <b-container class="mt-4" v-if="userInfo">
     <b-row>
-      <b-col>
-        <b-alert variant="secondary" show><h3>내정보</h3></b-alert>
-      </b-col>
-    </b-row>
-    <b-row>
       <b-col></b-col>
       <b-col cols="8">
         <b-jumbotron>
@@ -70,14 +65,14 @@
               }}</b-col>
               <b-col cols="2"></b-col>
             </b-row>
-            <b-row>
+            <!-- <b-row>
               <b-col cols="2"></b-col>
               <b-col cols="2" align-self="end">생년월일</b-col
               ><b-col cols="4" align-self="start">{{
                 userInfo.userBirth
               }}</b-col>
               <b-col cols="2"></b-col>
-            </b-row>
+            </b-row> -->
             <b-row>
               <b-col cols="2"></b-col>
               <b-col cols="2" align-self="end"

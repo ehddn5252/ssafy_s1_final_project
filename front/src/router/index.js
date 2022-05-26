@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import store from "@/store/index.js";
+// import { Store } from "vuex";
 
 Vue.use(VueRouter);
 
@@ -18,9 +19,27 @@ const onlyAuthUser = async (to, from, next) => {
     alert("로그인이 필요한 페이지입니다..");
     next({ name: "signIn" });
     // router.push({ name: "signIn" });
+    return Promise.reject();
   } else {
     // console.log("로그인 했다.");
     next();
+    // return Promise.resolve();
+  }
+};
+const onlyVip = (to, from, next) => {
+  const checkUserInfo = store.getters["memberStore/checkUserInfo"];
+  if (!checkUserInfo) {
+    alert("로그인이 필요한 페이지입니다..");
+    next({ name: "signIn" });
+  } else {
+    if (checkUserInfo.manager != "vip") {
+      alert("VIP 멤버십 가입 후 이용 가능합니다.");
+      next({ name: "home" });
+      // router.push({ name: "signIn" });
+    } else {
+      // console.log("로그인 했다.");
+      next();
+    }
   }
 };
 
@@ -35,17 +54,19 @@ const routes = [
     path: "/chart",
     name: "chart",
     redirect: "chart/list",
+    beforeEnter: onlyVip,
     component: () => import("@/views/ChartView.vue"),
     children: [
       {
         path: "list",
-        name: "list",
+        name: "listChart",
       },
     ],
   },
   {
     path: "/map",
     name: "map",
+    beforeEnter: onlyAuthUser,
     component: () => import("@/views/MapView.vue"),
   },
   {
@@ -86,7 +107,7 @@ const routes = [
     name: "board",
     component: () => import("@/views/BoardView.vue"),
     redirect: "/board/list",
-    // beforeEnter: onlyAuthUser,
+    beforeEnter: onlyAuthUser,
     children: [
       {
         path: "list",
@@ -120,11 +141,12 @@ const routes = [
     path: "/interestregion",
     name: "interestregion",
     redirect: "/interestregion/list",
+    beforeEnter: onlyAuthUser,
     component: () => import("@/views/InterestRegionView.vue"),
     children: [
       {
         path: "list",
-        name: "list",
+        name: "listInterestregion",
         component: () =>
           import("@/components/interestregion/InterestRegionList.vue"),
       },
@@ -136,7 +158,7 @@ const routes = [
     name: "interestinfo",
     component: () => import("@/views/AroundStoreView.vue"),
     redirect: "/interestinfo/store",
-    // beforeEnter: onlyAuthUser,
+    beforeEnter: onlyAuthUser,
     children: [
       {
         path: "store",
@@ -149,6 +171,7 @@ const routes = [
     path: "/qna",
     name: "qna",
     component: () => import("@/views/QnaView.vue"),
+    beforeEnter: onlyAuthUser,
     redirect: "/qna/list",
     children: [
       {
@@ -178,29 +201,29 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/instagram",
-    name: "instagram",
-    component: () => import("@/views/InstagramView.vue"),
-  },
+  // {
+  //   path: "/instagram",
+  //   name: "instagram",
+  //   component: () => import("@/views/InstagramView.vue"),
+  // },
   {
     path: "/house",
     name: "house",
-    // beforeEnter: onlyAuthUser,
+    beforeEnter: onlyAuthUser,
     component: () => import("@/views/HouseView.vue"),
   },
-  {
-    path: "/environ",
-    name: "environ",
-    beforeEnter: onlyAuthUser,
-    component: () => import("@/views/EnvironView.vue"),
-  },
-  {
-    path: "/todo",
-    name: "todo",
-    beforeEnter: onlyAuthUser,
-    component: () => import("@/views/TodoView.vue"),
-  },
+  // {
+  //   path: "/environ",
+  //   name: "environ",
+  //   beforeEnter: onlyAuthUser,
+  //   component: () => import("@/views/EnvironView.vue"),
+  // },
+  // {
+  //   path: "/todo",
+  //   name: "todo",
+  //   beforeEnter: onlyAuthUser,
+  //   component: () => import("@/views/TodoView.vue"),
+  // },
 ];
 
 const router = new VueRouter({

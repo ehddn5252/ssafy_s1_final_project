@@ -84,7 +84,7 @@ export default {
       });
     },
     searchEnter() {
-      if (this.resultSearch == "") return;
+      if (!this.resultSearch || this.resultSearch.length == 0) return;
       this.$emit("result-click", {
         lat: this.resultSearch.data[0].y,
         lng: this.resultSearch.data[0].x,

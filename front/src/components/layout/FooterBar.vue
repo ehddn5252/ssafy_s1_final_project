@@ -15,13 +15,29 @@
                 <strong>Email:</strong> contact@happyhouse.co.kr<br />
               </p>
               <div class="social-links mt-3">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="twitter"
+                  ><v-icon style="color: white">mdi-twitter</v-icon></a
+                >
+                <a href="#" class="facebook"
+                  ><i class="bx bxl-facebook"
+                    ><v-icon style="color: white">mdi-facebook</v-icon></i
+                  ></a
+                >
                 <a href="#" class="instagram"
-                  ><i class="bx bxl-instagram"></i
-                ></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                  ><i class="bx bxl-instagram"
+                    ><v-icon style="color: white">mdi-instagram</v-icon></i
+                  ></a
+                >
+                <a href="#" class="google-plus"
+                  ><i class="bx bxl-skype"
+                    ><v-icon style="color: white">mdi-skype</v-icon></i
+                  ></a
+                >
+                <a href="#" class="linkedin"
+                  ><i class="bx bxl-linkedin"
+                    ><v-icon style="color: white">mdi-linkedin</v-icon></i
+                  ></a
+                >
               </div>
             </div>
           </div>

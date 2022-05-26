@@ -6,7 +6,7 @@
     <b-row class="mb-1">
       <b-col class="text-right">
         <b-button variant="outline-primary" @click="moveWrite()"
-          >글쓰기</b-button
+          >질문등록</b-button
         >
       </b-col>
     </b-row>

@@ -10,23 +10,11 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="6" align="left">
-        <interest-region-list></interest-region-list>
-      </b-col>
-      <b-col>
+      <b-col align="center">
         <interest-region-popular-list />
       </b-col>
-      <b-col>
-        <b-row>
-          <!-- <interest-region-map></interest-region-map> -->
-        </b-row>
-        <b-row>
-          <interest-region-detail></interest-region-detail>
-        </b-row>
-      </b-col>
-
-      <b-col>
-        <chart-template :dataKind="dataKind" :regionCode="regionCode" />
+      <b-col style="margin: 0px 0px 0px 200px">
+        <interest-region-list></interest-region-list>
       </b-col>
     </b-row>
   </b-container>
@@ -35,18 +23,16 @@
 <script>
 import InterestRegionList from "@/components/interestregion/InterestRegionList.vue";
 // import InterestRegionMap from "@/components/interestregion/InterestRegionMap.vue";
-import InterestRegionDetail from "@/components/interestregion/InterestRegionDetail.vue";
+// import InterestRegionDetail from "@/components/interestregion/InterestRegionDetail.vue";
 import InterestRegionPopularList from "@/components/interestregion/InterestRegionPopularList.vue";
-import ChartTemplate from "@/components/chart/ChartTemplate.vue";
 import { mapMutations } from "vuex";
 export default {
   name: "InterestRegionView",
   components: {
     InterestRegionList,
     // InterestRegionMap,
-    InterestRegionDetail,
+    // InterestRegionDetail,
     InterestRegionPopularList,
-    ChartTemplate,
   },
   datas: {
     dataKind: null,
